@@ -93,7 +93,7 @@ The six `style_output_mode` values and hybrid protocol are defined only in [refe
 
 Polished final comps, production wireframes, logo-only exploration, photoreal hero shots, unstructured “just generate an image” without a storyboard phase.
 
-## Optional deep references (Claude folder)
+## Optional deep references
 
 If present alongside this skill, you may still use: `references/composition-templates.md`, `references/visual-grammar.md`, `references/prompt-templates.md`, `references/evaluation-rubric.md`, `references/failure-modes.md` for extra craft detail. **Style locks and A–F mapping** still come from `reference.md` in this directory first.
 

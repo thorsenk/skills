@@ -1,8 +1,8 @@
 # skills
 
-A public monorepo of [Claude Code](https://claude.com/claude-code) agent skills. Each
-top-level directory is a self-contained skill: a `SKILL.md` (with YAML frontmatter that
-Claude reads to decide when to trigger it) plus any supporting reference files.
+A public monorepo of agent skills for hosts that can load folder-based `SKILL.md`
+packages, including Claude Code and Codex. Each top-level skill directory is
+self-contained: a `SKILL.md` with YAML frontmatter plus any supporting reference files.
 
 ## Skills
 
@@ -12,29 +12,39 @@ Claude reads to decide when to trigger it) plus any supporting reference files.
 
 ## Install
 
-Claude Code discovers skills under `~/.claude/skills/`. Symlink the skills you want from
-this repo into that directory so updates here are picked up automatically.
+Clone the repo once, then symlink the skills you want into the host-specific skills
+directory so updates here are picked up automatically.
 
 ```sh
 # from anywhere
 git clone https://github.com/thorsenk/skills.git
 cd skills
 
-# symlink a single skill
+# Claude Code
+mkdir -p ~/.claude/skills
 ln -s "$PWD/storyboard-sketch" ~/.claude/skills/storyboard-sketch
+
+# Codex
+mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
+ln -s "$PWD/storyboard-sketch" "${CODEX_HOME:-$HOME/.codex}/skills/storyboard-sketch"
 ```
 
-To install every skill in the repo:
+To install every skill in the repo for both hosts:
 
 ```sh
-mkdir -p ~/.claude/skills
-for d in */; do
-  ln -s "$PWD/${d%/}" ~/.claude/skills/"${d%/}"
+for target in ~/.claude/skills "${CODEX_HOME:-$HOME/.codex}/skills"; do
+  mkdir -p "$target"
+  for d in */; do
+    [ -f "$d/SKILL.md" ] || continue
+    ln -s "$PWD/${d%/}" "$target/${d%/}"
+  done
 done
 ```
 
-Remove a skill by deleting its symlink (`rm ~/.claude/skills/storyboard-sketch`); the source
-in this repo is untouched.
+Remove a skill by deleting its symlink; the source in this repo is untouched.
+
+Codex-specific display metadata can live in `agents/openai.yaml` inside a skill folder.
+Keep host-specific metadata there rather than forking the skill instructions.
 
 ## License
 
