@@ -10,6 +10,9 @@ self-contained: a `SKILL.md` with YAML frontmatter plus any supporting reference
 |-------|-------------|
 | [storyboard-sketch](storyboard-sketch/) | Structured concept visualization for external image-capable AI: mandatory storyboard script, six locked `style_output_mode` contracts, anti-drift rules, optional image or prompt output, and a one-shot post-run rerun menu (R0–R5). |
 
+`concept-storyboard-sketch` is preserved as a legacy trigger alias inside the skill
+metadata; install the canonical `storyboard-sketch` package.
+
 ## Install
 
 Clone the repo once, then symlink the skills you want into the host-specific skills
