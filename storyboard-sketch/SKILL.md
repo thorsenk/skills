@@ -1,9 +1,9 @@
 ---
 name: storyboard-sketch
 description: >-
-  Structured concept visualization for external image-capable AI: mandatory
-  storyboard script, six locked style_output_mode contracts, anti-drift rules,
-  optional image or prompt output, and a one-shot post-run rerun menu (R0–R5).
+  Storyboard Prompt-Orchestration Skill for external image-capable AI: context
+  scoping, mandatory storyboard script, six locked style_output_mode contracts,
+  prompt generation, optional rendering, and a controlled rerun menu (R0–R5).
   Aliases and related triggers: visual-concept, concept-storyboard-sketch,
   visualize-the-concept, storyboard script, locked style, principal-designer
   sketches, colored-pencil UX boards, design-review sketch pages, hybrid
@@ -11,7 +11,9 @@ description: >-
   requests, or unstructured one-shot prompts without a storyboard phase.
 ---
 
-# Storyboard sketch
+# Storyboard Prompt-Orchestration Skill
+
+Package id: `storyboard-sketch`.
 
 **Main files:** This file plus sibling [reference.md](reference.md) in this folder. Do not fetch external wikis for style definitions.
 

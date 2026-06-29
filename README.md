@@ -9,7 +9,7 @@ plus any supporting reference files.
 
 | Skill | Description |
 |-------|-------------|
-| [storyboard-sketch](storyboard-sketch/) | Structured concept visualization for external image-capable AI: mandatory storyboard script, six locked `style_output_mode` contracts, anti-drift rules, optional image or prompt output, and a one-shot post-run rerun menu (R0–R5). |
+| [storyboard-sketch](storyboard-sketch/) | Storyboard Prompt-Orchestration Skill for external image-capable AI: context scoping, mandatory storyboard script, six locked `style_output_mode` contracts, prompt generation, optional rendering, and a controlled rerun menu (R0–R5). |
 
 `concept-storyboard-sketch` is preserved as a legacy trigger alias inside the
 skill metadata; install the primary `storyboard-sketch` package.

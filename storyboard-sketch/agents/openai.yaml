@@ -1,4 +1,4 @@
 interface:
-  display_name: "Storyboard Sketch"
-  short_description: "Turn concepts into locked-style storyboard prompts"
+  display_name: "Storyboard Prompt-Orchestration"
+  short_description: "Scope context, script storyboards, lock style, and generate prompts"
   default_prompt: "Use $storyboard-sketch to turn this product idea into a storyboard script and generation-ready prompts."
