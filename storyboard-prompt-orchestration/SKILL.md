@@ -1,19 +1,20 @@
 ---
-name: storyboard-sketch
+name: storyboard-prompt-orchestration
 description: >-
   Storyboard Prompt-Orchestration Skill for external image-capable AI: context
   scoping, mandatory storyboard script, six locked style_output_mode contracts,
   prompt generation, optional rendering, and a controlled rerun menu (R0–R5).
-  Aliases and related triggers: visual-concept, concept-storyboard-sketch,
-  visualize-the-concept, storyboard script, locked style, principal-designer
-  sketches, colored-pencil UX boards, design-review sketch pages, hybrid
-  brand-UI-flow ideation. Not for final production mockups, photoreal-only
-  requests, or unstructured one-shot prompts without a storyboard phase.
+  Aliases and related triggers: storyboard-sketch, visual-concept,
+  concept-storyboard-sketch, visualize-the-concept, storyboard script, locked
+  style, principal-designer sketches, colored-pencil UX boards, design-review
+  sketch pages, hybrid brand-UI-flow ideation. Not for final production mockups,
+  photoreal-only requests, or unstructured one-shot prompts without a storyboard
+  phase.
 ---
 
 # Storyboard Prompt-Orchestration Skill
 
-Package id: `storyboard-sketch`.
+Package id: `storyboard-prompt-orchestration`.
 
 **Main files:** This file plus sibling [reference.md](reference.md) in this folder. Do not fetch external wikis for style definitions.
 

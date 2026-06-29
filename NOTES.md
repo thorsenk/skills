@@ -2,9 +2,9 @@
 
 ## Known limitations
 
-- **storyboard-sketch has deeper craft support for style A only.** The prefixed
+- **storyboard-prompt-orchestration has deeper craft support for style A only.** The prefixed
   `references/style-a-*.md` files elaborate `rough_notebook_storyboard`. Styles B–F
-  currently rely on their locked contracts in `storyboard-sketch/reference.md`.
+  currently rely on their locked contracts in `storyboard-prompt-orchestration/reference.md`.
 
 ## Backlog
 

@@ -1,11 +1,11 @@
 {
   "skills": [
     {
-      "id": "storyboard-sketch",
-      "path": "storyboard-sketch",
+      "id": "storyboard-prompt-orchestration",
+      "path": "storyboard-prompt-orchestration",
       "status": "v1",
       "support_level": "portable",
-      "aliases": ["concept-storyboard-sketch", "visual-concept", "visualize-the-concept"],
+      "aliases": ["storyboard-sketch", "concept-storyboard-sketch", "visual-concept", "visualize-the-concept"],
       "hosts": ["claude-code", "codex"],
       "entrypoint": "SKILL.md",
       "support_files": [

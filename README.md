@@ -9,10 +9,11 @@ plus any supporting reference files.
 
 | Skill | Description |
 |-------|-------------|
-| [storyboard-sketch](storyboard-sketch/) | Storyboard Prompt-Orchestration Skill for external image-capable AI: context scoping, mandatory storyboard script, six locked `style_output_mode` contracts, prompt generation, optional rendering, and a controlled rerun menu (R0–R5). |
+| [storyboard-prompt-orchestration](storyboard-prompt-orchestration/) | Storyboard Prompt-Orchestration Skill for external image-capable AI: context scoping, mandatory storyboard script, six locked `style_output_mode` contracts, prompt generation, optional rendering, and a controlled rerun menu (R0–R5). |
 
-`concept-storyboard-sketch` is preserved as a legacy trigger alias inside the
-skill metadata; install the primary `storyboard-sketch` package.
+`storyboard-sketch` and `concept-storyboard-sketch` are preserved as legacy
+trigger aliases inside the skill metadata; install the primary
+`storyboard-prompt-orchestration` package.
 
 ## Package layout
 
@@ -44,11 +45,11 @@ cd skills
 
 # Claude Code
 mkdir -p ~/.claude/skills
-ln -s "$PWD/storyboard-sketch" ~/.claude/skills/storyboard-sketch
+ln -s "$PWD/storyboard-prompt-orchestration" ~/.claude/skills/storyboard-prompt-orchestration
 
 # Codex
 mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-ln -s "$PWD/storyboard-sketch" "${CODEX_HOME:-$HOME/.codex}/skills/storyboard-sketch"
+ln -s "$PWD/storyboard-prompt-orchestration" "${CODEX_HOME:-$HOME/.codex}/skills/storyboard-prompt-orchestration"
 ```
 
 To install every skill in the repo for both hosts:
@@ -66,6 +67,8 @@ done
 Remove a skill by deleting its symlink; the source in this repo is untouched.
 If an old install path is a copied folder instead of a symlink, move or remove that
 folder before linking the repo package.
+If `storyboard-sketch` is already installed as an old symlink, remove that
+symlink and install `storyboard-prompt-orchestration`.
 
 Codex-specific display metadata can live in `agents/openai.yaml` inside a skill folder.
 Keep host-specific metadata there rather than forking the skill instructions.
