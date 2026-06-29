@@ -16,6 +16,7 @@ const skills = Array.isArray(registry.skills) ? registry.skills : [];
 const ids = new Set();
 const readme = read(path.join(root, "README.md"));
 const bannedCorePhrases = ["Claude folder", "Codex folder", "Claude skill", "Codex skill"];
+const allowedSupportLevels = new Set(["portable", "host-adapted", "host-specific"]);
 
 if (!skills.length) fail("skills.registry.json must list at least one skill");
 
@@ -50,6 +51,9 @@ for (const skill of skills) {
   if (!/^[a-z0-9-]+$/.test(id)) fail(`${id}: id must be lowercase letters, digits, or hyphens`);
   if (ids.has(id)) fail(`${id}: duplicate registry id`);
   if (skillPath !== id) fail(`${id}: path must match id for top-level skill packages`);
+  if (!allowedSupportLevels.has(skill.support_level)) {
+    fail(`${id}: support_level must be portable, host-adapted, or host-specific`);
+  }
   ids.add(id);
 
   const dir = path.join(root, skillPath);

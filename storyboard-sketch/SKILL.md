@@ -13,7 +13,7 @@ description: >-
 
 # Storyboard sketch
 
-**Source of truth:** This file plus sibling [reference.md](reference.md) in this folder. Do not fetch external wikis for style definitions.
+**Main files:** This file plus sibling [reference.md](reference.md) in this folder. Do not fetch external wikis for style definitions.
 
 ## Purpose
 

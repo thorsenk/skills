@@ -4,7 +4,7 @@
       "id": "storyboard-sketch",
       "path": "storyboard-sketch",
       "status": "v1",
-      "canonical": true,
+      "support_level": "portable",
       "aliases": ["concept-storyboard-sketch", "visual-concept", "visualize-the-concept"],
       "hosts": ["claude-code", "codex"],
       "entrypoint": "SKILL.md",

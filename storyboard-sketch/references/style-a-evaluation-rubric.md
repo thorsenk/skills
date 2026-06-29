@@ -71,7 +71,7 @@ Does the output resist drift toward production aesthetics?
 | 5 | Uncompromising notebook energy — every element is sketchy, no polish anywhere |
 
 ### 7. Transparency & Background (1-5)
-Does the output handle background correctly per doctrine?
+Does the output handle background correctly per guidance?
 
 | Score | Description |
 |-------|-------------|
@@ -79,7 +79,7 @@ Does the output handle background correctly per doctrine?
 | 2 | Mentions background but defaults to white canvas |
 | 3 | Transparent background mentioned but no feathered edges or organic boundary |
 | 4 | Transparent background with feathered edges specified |
-| 5 | Full transparency doctrine — alpha channel, feathered edges, organic cutout, no white slab |
+| 5 | Full transparency guidance — alpha channel, feathered edges, organic cutout, no white slab |
 
 ## Thresholds
 
@@ -99,4 +99,4 @@ Before finalizing any output, verify:
 - [ ] Is color used semantically, not decoratively? (Criterion 4)
 - [ ] Is the diagrammatic/spatial blend right for this concept? (Criterion 5)
 - [ ] Would a designer say "that's rough and real" not "that's clean and polished"? (Criterion 6)
-- [ ] Is the background handled per doctrine? (Criterion 7)
+- [ ] Is the background handled per guidance? (Criterion 7)

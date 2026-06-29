@@ -1,8 +1,9 @@
 # skills
 
-A public monorepo of agent skills for hosts that can load folder-based `SKILL.md`
-packages, including Claude Code and Codex. Each top-level skill directory is
-self-contained: a `SKILL.md` with YAML frontmatter plus any supporting reference files.
+Kyle's personal public library of agent skills for hosts that can load
+folder-based `SKILL.md` packages, including Claude Code and Codex. Each
+top-level skill directory is self-contained: a `SKILL.md` with YAML frontmatter
+plus any supporting reference files.
 
 ## Skills
 
@@ -10,18 +11,26 @@ self-contained: a `SKILL.md` with YAML frontmatter plus any supporting reference
 |-------|-------------|
 | [storyboard-sketch](storyboard-sketch/) | Structured concept visualization for external image-capable AI: mandatory storyboard script, six locked `style_output_mode` contracts, anti-drift rules, optional image or prompt output, and a one-shot post-run rerun menu (R0–R5). |
 
-`concept-storyboard-sketch` is preserved as a legacy trigger alias inside the skill
-metadata; install the canonical `storyboard-sketch` package.
+`concept-storyboard-sketch` is preserved as a legacy trigger alias inside the
+skill metadata; install the primary `storyboard-sketch` package.
 
-## Repo contract
+## Package layout
 
 Each top-level skill directory must include:
 
-- `SKILL.md` — canonical skill instructions with YAML frontmatter
-- Optional `reference.md` — canonical local reference for the skill
+- `SKILL.md` — main skill instructions with YAML frontmatter
+- Optional `reference.md` — main local reference for the skill
 - Optional `references/` — deeper craft references
 - Optional `agents/openai.yaml` — Codex/OpenAI display metadata
 - No host-specific fork of the core skill instructions
+
+Each package entry in `skills.registry.json` must declare one `support_level`:
+
+- `portable` — same core behavior expected in Claude Code and Codex
+- `host-adapted` — shared core with small host-specific metadata or notes
+- `host-specific` — intentionally built for one host only
+
+Keep `SKILL.md` host-neutral unless host-specific behavior is unavoidable.
 
 ## Install
 
@@ -61,14 +70,14 @@ folder before linking the repo package.
 Codex-specific display metadata can live in `agents/openai.yaml` inside a skill folder.
 Keep host-specific metadata there rather than forking the skill instructions.
 
-## Validation
+## Sanity check
 
 ```sh
 node scripts/validate-skills.mjs
 ```
 
-The validator checks `skills.registry.json`, each package entrypoint, listed support
-files, README coverage, and Codex display metadata when present.
+The sanity check covers the package index, each package entrypoint, listed
+support files, README coverage, and Codex display metadata when present.
 
 ## License
 

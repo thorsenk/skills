@@ -142,4 +142,4 @@ DO NOT produce: polished UI mockups, clean vector graphics, symmetrical producti
 - Output explicitly includes: transparent background, alpha transparency, feathered transparent edges
 - "Isolated sketch composition" and "no solid white rectangular canvas" present
 - Organic boundary, not hard rectangle
-- Prompt language matches transparency doctrine verbatim
+- Prompt language matches transparency guidance verbatim

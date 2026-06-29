@@ -48,7 +48,7 @@ When a failure mode is detected, follow these steps:
 1. **Identify** which failure mode(s) are present (A-G)
 2. **Score** the output against the evaluation rubric (see `style-a-evaluation-rubric.md`)
 3. **Locate** the specific language or omission causing the failure
-4. **Reassert** the correct doctrine from the relevant reference file
+4. **Reassert** the correct guidance from the relevant reference file
 5. **Rewrite** only the affected sections — don't regenerate everything
 6. **Re-score** against the rubric to confirm improvement
 7. **Verify** no new failure modes were introduced by the revision
