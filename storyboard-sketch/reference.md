@@ -19,6 +19,17 @@ Selection letters **A–F** (fixed mapping):
 
 Accepted `style_output_mode` values are exactly the six ids above.
 
+Use these selection heuristics when the user gives intent but not a letter:
+
+| User intent | Recommended mode |
+|-------------|------------------|
+| Messy UX or product ideation | A |
+| Clean explanatory product/system image | B |
+| Physical device or product form | C |
+| System architecture or UX logic | D |
+| Executive concept board | E |
+| Workshop, service map, or operating model | F |
+
 If a style is selected:
 
 - **Lock** it for the entire run (all panels use the same contract unless the user starts a new run).

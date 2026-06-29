@@ -37,7 +37,15 @@ Do not skip the storyboard. Do not apply rendering adjectives before zones are m
 - **Prompt only** — User already has a storyboard; supply final prompts only.
 - **Storyboard + prompt** — Default when not specified.
 
-When the user wants **images**: after storyboard + style lock, generate prompts then use the available **image tool** if present; otherwise output prompts for an external generator.
+Defaults when unspecified:
+
+- `context_mode`: last user message unless files, session scope, or pasted material are explicitly mentioned.
+- `panel_count`: 4, unless the user requests 1–6 panels.
+- `style_output_mode`: ask when unclear; default to A only when the user asks for a rough sketch, notebook storyboard, or "just make it."
+- `output`: storyboard + prompt.
+- `render`: only when the user explicitly asks for an image or render.
+
+When the user wants **images**: after storyboard + style lock, use the available **image tool** if present and host policy allows it. If no renderer is available, output prompts for an external generator. If the host requires direct image generation, do not expose the internal prompt unless the user asks. If the user asks for prompt-only output, never invoke a renderer.
 
 ## Post-run rerun (once per pass)
 
@@ -52,14 +60,15 @@ After delivering the storyboard and prompts/images, offer a **single** follow-up
 
 Wait for explicit choice; do not auto-rerun.
 
-## Interactive gate (recommended)
+## Context/style gate
 
-Before drafting the storyboard, confirm minimally:
+Before drafting the storyboard:
 
-1. **Source** — What context is in scope (last message, full session, specific files, or user paste)? When multiple files are in play, number them **C1, C2, …**, offer **C-all** and **C-inline** (inline-only plan), and use structured choice UI if the host supports it so the user does not retype paths.
-2. **Style** — Which letter **A–F** maps to which `style_output_mode` (see table in [reference.md](reference.md) header)?
-
-If the user already stated both clearly, you may proceed without re-asking.
+- If source + style are clear, proceed without re-asking.
+- If source is unclear, ask one source-scope question.
+- If style is unclear, ask for A–F unless the user asked for rough sketch/storyboard language; then default to A and state that assumption.
+- If the user says "just make it," use storyboard + prompt, 4 panels, default A, and state assumptions.
+- When multiple files are in play, number them **C1, C2, …**, offer **C-all** and **C-inline** (inline-only plan), and use structured choice UI if the host supports it so the user does not retype paths.
 
 ## Storyboard script structure
 

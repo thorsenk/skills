@@ -13,6 +13,16 @@ self-contained: a `SKILL.md` with YAML frontmatter plus any supporting reference
 `concept-storyboard-sketch` is preserved as a legacy trigger alias inside the skill
 metadata; install the canonical `storyboard-sketch` package.
 
+## Repo contract
+
+Each top-level skill directory must include:
+
+- `SKILL.md` — canonical skill instructions with YAML frontmatter
+- Optional `reference.md` — canonical local reference for the skill
+- Optional `references/` — deeper craft references
+- Optional `agents/openai.yaml` — Codex/OpenAI display metadata
+- No host-specific fork of the core skill instructions
+
 ## Install
 
 Clone the repo once, then symlink the skills you want into the host-specific skills
@@ -48,6 +58,15 @@ Remove a skill by deleting its symlink; the source in this repo is untouched.
 
 Codex-specific display metadata can live in `agents/openai.yaml` inside a skill folder.
 Keep host-specific metadata there rather than forking the skill instructions.
+
+## Validation
+
+```sh
+node scripts/validate-skills.mjs
+```
+
+The validator checks `skills.registry.json`, each package entrypoint, listed support
+files, README coverage, and Codex display metadata when present.
 
 ## License
 

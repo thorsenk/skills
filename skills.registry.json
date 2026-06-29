@@ -1,0 +1,23 @@
+{
+  "skills": [
+    {
+      "id": "storyboard-sketch",
+      "path": "storyboard-sketch",
+      "status": "v1",
+      "canonical": true,
+      "aliases": ["concept-storyboard-sketch", "visual-concept"],
+      "hosts": ["claude-code", "codex"],
+      "entrypoint": "SKILL.md",
+      "support_files": [
+        "reference.md",
+        "references/composition-templates.md",
+        "references/visual-grammar.md",
+        "references/prompt-templates.md",
+        "references/evaluation-rubric.md",
+        "references/failure-modes.md",
+        "references/examples.md",
+        "agents/openai.yaml"
+      ]
+    }
+  ]
+}
