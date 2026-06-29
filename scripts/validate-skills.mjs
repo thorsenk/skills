@@ -15,11 +15,41 @@ const registry = JSON.parse(read(registryPath));
 const skills = Array.isArray(registry.skills) ? registry.skills : [];
 const ids = new Set();
 const readme = read(path.join(root, "README.md"));
+const bannedCorePhrases = ["Claude folder", "Codex folder", "Claude skill", "Codex skill"];
+
+if (!skills.length) fail("skills.registry.json must list at least one skill");
+
+function walkFiles(dir) {
+  const out = [];
+  for (const item of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (item.name === ".DS_Store") continue;
+    const full = path.join(dir, item.name);
+    if (item.isDirectory()) out.push(...walkFiles(full));
+    else out.push(full);
+  }
+  return out;
+}
+
+function checkMarkdownLinks(file) {
+  const body = read(file);
+  const linkPattern = /!?\[[^\]]*]\(([^)]+)\)/g;
+  for (const match of body.matchAll(linkPattern)) {
+    const target = match[1].trim();
+    if (!target || target.startsWith("#") || /^[a-z]+:/i.test(target)) continue;
+    const cleanTarget = decodeURIComponent(target.split("#")[0]);
+    if (!cleanTarget) continue;
+    const resolved = path.resolve(path.dirname(file), cleanTarget);
+    if (!exists(resolved)) {
+      fail(`${path.relative(root, file)}: broken markdown link: ${target}`);
+    }
+  }
+}
 
 for (const skill of skills) {
   const { id, path: skillPath, entrypoint = "SKILL.md", support_files = [], aliases = [] } = skill;
   if (!/^[a-z0-9-]+$/.test(id)) fail(`${id}: id must be lowercase letters, digits, or hyphens`);
   if (ids.has(id)) fail(`${id}: duplicate registry id`);
+  if (skillPath !== id) fail(`${id}: path must match id for top-level skill packages`);
   ids.add(id);
 
   const dir = path.join(root, skillPath);
@@ -48,12 +78,32 @@ for (const skill of skills) {
     if (!exists(path.join(dir, file))) fail(`${id}: listed support file is missing: ${file}`);
   }
 
+  const registeredFiles = new Set([entrypoint, ...support_files]);
+  for (const file of walkFiles(dir)) {
+    const rel = path.relative(dir, file);
+    if (!registeredFiles.has(rel)) fail(`${id}: support file is not listed in registry: ${rel}`);
+  }
+
+  for (const file of [entrypoint, ...support_files].filter((name) => name.endsWith(".md"))) {
+    const full = path.join(dir, file);
+    if (!exists(full)) continue;
+    const body = read(full);
+    for (const phrase of bannedCorePhrases) {
+      if (body.includes(phrase)) fail(`${id}: host-specific phrase in ${file}: ${phrase}`);
+    }
+    checkMarkdownLinks(full);
+  }
+
   const openaiYaml = path.join(dir, "agents/openai.yaml");
   if (exists(openaiYaml) && !read(openaiYaml).includes(`$${id}`)) {
     fail(`${id}: agents/openai.yaml default_prompt should mention $${id}`);
   }
 
   if (!readme.includes(`[${id}](${skillPath}/)`)) fail(`${id}: README skill table is missing entry`);
+}
+
+for (const file of ["README.md", "NOTES.md"]) {
+  if (exists(path.join(root, file))) checkMarkdownLinks(path.join(root, file));
 }
 
 for (const item of fs.readdirSync(root, { withFileTypes: true })) {

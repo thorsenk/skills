@@ -104,7 +104,17 @@ Polished final comps, production wireframes, logo-only exploration, photoreal he
 
 ## Optional deep references
 
-If present alongside this skill, you may still use: `references/composition-templates.md`, `references/visual-grammar.md`, `references/prompt-templates.md`, `references/evaluation-rubric.md`, `references/failure-modes.md` for extra craft detail. **Style locks and A–F mapping** still come from `reference.md` in this directory first.
+For style A (`rough_notebook_storyboard`) craft detail, use:
+`references/style-a-composition-templates.md`,
+`references/style-a-visual-grammar.md`,
+`references/style-a-prompt-templates.md`,
+`references/style-a-evaluation-rubric.md`,
+`references/style-a-failure-modes.md`, and
+`references/style-a-examples.md`.
+
+For styles B–F, rely on the locked contracts in `reference.md` unless a future
+style-specific reference file exists. **Style locks and A–F mapping** still come
+from `reference.md` in this directory first.
 
 ## Revision loop
 

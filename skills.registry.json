@@ -5,17 +5,17 @@
       "path": "storyboard-sketch",
       "status": "v1",
       "canonical": true,
-      "aliases": ["concept-storyboard-sketch", "visual-concept"],
+      "aliases": ["concept-storyboard-sketch", "visual-concept", "visualize-the-concept"],
       "hosts": ["claude-code", "codex"],
       "entrypoint": "SKILL.md",
       "support_files": [
         "reference.md",
-        "references/composition-templates.md",
-        "references/visual-grammar.md",
-        "references/prompt-templates.md",
-        "references/evaluation-rubric.md",
-        "references/failure-modes.md",
-        "references/examples.md",
+        "references/style-a-composition-templates.md",
+        "references/style-a-visual-grammar.md",
+        "references/style-a-prompt-templates.md",
+        "references/style-a-evaluation-rubric.md",
+        "references/style-a-failure-modes.md",
+        "references/style-a-examples.md",
         "agents/openai.yaml"
       ]
     }

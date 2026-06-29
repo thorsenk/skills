@@ -1,4 +1,4 @@
-# Failure Modes
+# Style A Failure Modes
 
 > Scope: this file elaborates craft for **style A** (`rough_notebook_storyboard`) only. Styles B–F follow their locked contracts in [../reference.md](../reference.md).
 
@@ -46,7 +46,7 @@
 When a failure mode is detected, follow these steps:
 
 1. **Identify** which failure mode(s) are present (A-G)
-2. **Score** the output against the evaluation rubric (see `evaluation-rubric.md`)
+2. **Score** the output against the evaluation rubric (see `style-a-evaluation-rubric.md`)
 3. **Locate** the specific language or omission causing the failure
 4. **Reassert** the correct doctrine from the relevant reference file
 5. **Rewrite** only the affected sections — don't regenerate everything
@@ -59,13 +59,13 @@ When a failure mode is detected, follow these steps:
 
 | Failure Mode | Primary Fix | Reference |
 |-------------|-------------|-----------|
-| A. Polish Drift | Replace production language with sketch language. Add anti-polish terms. | `visual-grammar.md` Anti-Polish Discipline |
-| B. Single-Object Collapse | Add missing zones. Redistribute content across 4+ zones. | `composition-templates.md` Zone Model |
-| C. Annotation Starvation | Add Zone D content — callouts, labels, arrows, design rationale. | `composition-templates.md` Zone D |
-| D. Color Decoration | Map colors to semantic roles. Remove decorative color mentions. | `visual-grammar.md` Colored-Pencil Semantics |
-| E. Spatial Neglect | Add Zone E if concept is product/device/environment. Rebalance to 50/50 or 40/60. | `composition-templates.md` Template C |
-| F. White Canvas Default | Add transparency directive. Specify feathered edges, alpha channel, organic boundary. | `prompt-templates.md` + SKILL.md Transparency Doctrine |
-| G. Brand Zone Omission | Add Zone C content — logo roughs, swatches, tone adjectives, identity fragments. | `composition-templates.md` Zone C |
+| A. Polish Drift | Replace production language with sketch language. Add anti-polish terms. | `style-a-visual-grammar.md` Anti-Polish Discipline |
+| B. Single-Object Collapse | Add missing zones. Redistribute content across 4+ zones. | `style-a-composition-templates.md` Zone Model |
+| C. Annotation Starvation | Add Zone D content — callouts, labels, arrows, design rationale. | `style-a-composition-templates.md` Zone D |
+| D. Color Decoration | Map colors to semantic roles. Remove decorative color mentions. | `style-a-visual-grammar.md` Colored-Pencil Semantics |
+| E. Spatial Neglect | Add Zone E if concept is product/device/environment. Rebalance to 50/50 or 40/60. | `style-a-composition-templates.md` Template C |
+| F. White Canvas Default | Add transparency directive. Specify feathered edges, alpha channel, organic boundary. | `style-a-prompt-templates.md` + SKILL.md Transparency Doctrine |
+| G. Brand Zone Omission | Add Zone C content — logo roughs, swatches, tone adjectives, identity fragments. | `style-a-composition-templates.md` Zone C |
 
 ---
 

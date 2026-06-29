@@ -1,4 +1,4 @@
-# Evaluation Rubric
+# Style A Evaluation Rubric
 
 > Scope: this file elaborates craft for **style A** (`rough_notebook_storyboard`) only. Styles B–F follow their locked contracts in [../reference.md](../reference.md).
 

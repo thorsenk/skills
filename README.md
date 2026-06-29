@@ -55,6 +55,8 @@ done
 ```
 
 Remove a skill by deleting its symlink; the source in this repo is untouched.
+If an old install path is a copied folder instead of a symlink, move or remove that
+folder before linking the repo package.
 
 Codex-specific display metadata can live in `agents/openai.yaml` inside a skill folder.
 Keep host-specific metadata there rather than forking the skill instructions.
