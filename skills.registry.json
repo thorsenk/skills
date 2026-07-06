@@ -18,6 +18,30 @@
         "references/style-a-examples.md",
         "agents/openai.yaml"
       ]
+    },
+    {
+      "id": "tot-adaptable",
+      "path": "tot-adaptable",
+      "status": "v1",
+      "support_level": "portable",
+      "aliases": ["tot", "tree-of-thought", "multi-lens", "reframing-lens"],
+      "hosts": ["claude-code", "codex"],
+      "entrypoint": "SKILL.md",
+      "support_files": [
+        "agents/openai.yaml"
+      ]
+    },
+    {
+      "id": "agent-skill-mechanics",
+      "path": "agent-skill-mechanics",
+      "status": "v1",
+      "support_level": "portable",
+      "aliases": [],
+      "hosts": ["claude-code", "codex"],
+      "entrypoint": "SKILL.md",
+      "support_files": [
+        "agents/openai.yaml"
+      ]
     }
   ]
 }

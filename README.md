@@ -10,6 +10,8 @@ plus any supporting reference files.
 | Skill | Description |
 |-------|-------------|
 | [storyboard-prompt-orchestration](storyboard-prompt-orchestration/) | Storyboard Prompt-Orchestration Skill for external image-capable AI: context scoping, mandatory storyboard script, six locked `style_output_mode` contracts, prompt generation, optional rendering, and a controlled rerun menu (R0–R5). |
+| [tot-adaptable](tot-adaptable/) | Tree-of-Thought-inspired internal branching for multi-lens critique, discovery, planning, and review without process theater. |
+| [agent-skill-mechanics](agent-skill-mechanics/) | Design predictable agent skills through triggers, structure, steering, and pruning. |
 
 `storyboard-sketch` and `concept-storyboard-sketch` are preserved as legacy
 trigger aliases inside the skill metadata; install the primary

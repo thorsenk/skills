@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agent Skill Mechanics"
+  short_description: "Design small predictable agent skills"
+  default_prompt: "Use $agent-skill-mechanics to shape this skill idea into a small, predictable package."

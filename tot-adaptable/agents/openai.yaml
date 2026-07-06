@@ -1,0 +1,4 @@
+interface:
+  display_name: "ToT Adaptable"
+  short_description: "Branch internally to reduce anchoring"
+  default_prompt: "Use $tot-adaptable to analyze this with multiple internal lenses before recommending the smallest useful next step."
