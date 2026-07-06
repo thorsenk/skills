@@ -41,6 +41,8 @@
       "entrypoint": "SKILL.md",
       "support_files": [
         "reference.md",
+        "references/visual-report.md",
+        "report-template.html",
         "agents/openai.yaml"
       ]
     },

@@ -1,11 +1,11 @@
 ---
 name: prompt-maestro
-description: Use when a user wants a prompt classified, evaluated, hardened, rewritten, or checked before it is run. Applies to audit prompts, implementation prompts, research prompts, extraction prompts, creative prompts, agent prompts, skill prompts, handoff prompts, and prompt-quality reviews; classify the prompt first, then audit clarity, context, risk, output contract, and validation without executing the target prompt unless explicitly asked afterward.
+description: Use when a user wants a prompt classified, evaluated, hardened, rewritten, or checked before it is run. Applies to audit prompts, implementation prompts, research prompts, extraction prompts, creative prompts, agent prompts, skill prompts, handoff prompts, and prompt-quality reviews; classify the prompt first, then produce a visual HTML scorecard report that explains the scoring rubric, findings, risks, and exact fixes without executing the target prompt unless explicitly asked afterward.
 ---
 
 # Prompt Maestro
 
-Evaluate prompts before execution. The agent is the prompt reviewer, not the executor, unless the user explicitly asks to run the prompt after the review.
+Evaluate prompts before execution. The agent is the prompt reviewer and report producer, not the executor, unless the user explicitly asks to run the prompt after the review.
 
 Alias triggers: `prompt-audit`, `prompt-qa`, `prompt-evaluator`, `prompt-review`, `evaluate prompt`, `review this prompt`, `harden this prompt`, `harden-this-prompt`.
 
@@ -38,28 +38,21 @@ Alias triggers: `prompt-audit`, `prompt-qa`, `prompt-evaluator`, `prompt-review`
    - If the user asked for multiple versions, provide short and expanded variants.
    - Done when the user can either run the prompt, revise it, or decide not to use it.
 
+6. Produce a visual report artifact.
+   - When file creation is available, create a standalone long-scroll HTML report.
+   - Use [references/visual-report.md](references/visual-report.md) for visual and content requirements.
+   - Use [report-template.html](report-template.html) as the starting structure unless the user supplied a stricter design direction.
+   - If file creation is unavailable, return complete standalone HTML in a fenced block plus a short plain-language summary.
+   - Done when the report explains the score through visible rubric rows, score rings, severity indicators, findings, exact edits, and open questions.
+
 ## Default Output
 
-Use this shape unless the user asks for something shorter:
+Default to an artifact-first response:
 
-```text
-Verdict: Ready / Needs edits / Hold
-Classification: <primary type>; <secondary types if useful>
-Risk level: Low / Medium / High / Critical
-Best use: <what this prompt is suited for>
-
-Findings
-- <severity>: <issue> -> <specific fix>
-
-Suggested edits
-- Replace/Add/Delete: <exact language>
-
-Revised prompt
-<only when requested or clearly useful>
-
-Open questions
-- <only blockers or high-value unknowns>
-```
+- Create or provide a standalone HTML report.
+- In chat, return only the report path or HTML block, verdict, score, and the next concrete step.
+- Do not reduce the review to a bare score. The user must be able to see how each rubric dimension affected the score.
+- If the user explicitly asks for text only, use the compact text fallback in [references/visual-report.md](references/visual-report.md).
 
 ## Operating Rules
 
@@ -70,6 +63,8 @@ Open questions
 - Prefer evidence receipts for high-risk workspace, legal, financial, medical, privacy, publication, destructive, or external-system prompts.
 - Keep the answer direct. Name the flaw, why it matters, and the smallest useful fix.
 - If a prompt is intentionally minimal, identify the likely intent before calling the omission a defect.
+- Use restrained visual design: long scroll, generous whitespace, compact typography, visible hierarchy, scoring rings, finding severity chips, light animation, and parallax only where it clarifies report structure.
+- Respect reduced-motion preferences in generated HTML.
 
 ## When Not To Use
 

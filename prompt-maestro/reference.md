@@ -72,6 +72,12 @@ Score caps:
 - Cap at **74** if a high-risk action lacks clear boundaries or verification.
 - Cap at **89** if the output contract or acceptance criteria are incomplete.
 
+## Report Requirements
+
+Prompt Maestro reports should explain scoring visually. Use
+[references/visual-report.md](references/visual-report.md) for the artifact
+format and [report-template.html](report-template.html) for a starter template.
+
 ## Common Failure Modes
 
 - The prompt asks for "best" or "top" results without a ranking method.
