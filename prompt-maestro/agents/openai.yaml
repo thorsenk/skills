@@ -1,0 +1,4 @@
+interface:
+  display_name: "Prompt Maestro"
+  short_description: "Classify and QA prompts before execution"
+  default_prompt: "Use $prompt-maestro to classify and evaluate this prompt before anyone runs it."

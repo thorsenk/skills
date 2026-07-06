@@ -32,6 +32,19 @@
       ]
     },
     {
+      "id": "prompt-maestro",
+      "path": "prompt-maestro",
+      "status": "v1",
+      "support_level": "portable",
+      "aliases": ["prompt-audit", "prompt-qa", "prompt-evaluator", "prompt-review", "harden-this-prompt"],
+      "hosts": ["claude-code", "codex"],
+      "entrypoint": "SKILL.md",
+      "support_files": [
+        "reference.md",
+        "agents/openai.yaml"
+      ]
+    },
+    {
       "id": "agent-skill-mechanics",
       "path": "agent-skill-mechanics",
       "status": "v1",
