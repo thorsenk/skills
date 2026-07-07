@@ -15,6 +15,7 @@ The visual report is complete only when it has:
 - Motion with restraint: scroll reveals and subtle parallax are allowed, but they must not block reading.
 - Reduced-motion support through `prefers-reduced-motion`.
 - A clear next step at the end.
+- Direct-open safety: `report-template.html` must render as a meaningful sample report when opened directly, including classification, rubric rows, representative findings, and copy-ready edits. Do not leave visible raw placeholder tokens such as `{{field_name}}` in the page.
 
 ## Required Sections
 

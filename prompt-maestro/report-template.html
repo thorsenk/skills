@@ -6,17 +6,18 @@
   <title>Prompt Maestro Report</title>
   <style>
     :root {
-      --paper: #f7f4ed;
-      --panel: #fffdf8;
-      --ink: #202124;
-      --muted: #6b6760;
-      --line: #ded7ca;
-      --blue: #3267a8;
+      --paper: #f4f6f8;
+      --panel: #ffffff;
+      --ink: #17202c;
+      --muted: #647084;
+      --line: #dbe2ea;
+      --blue: #285fce;
+      --teal: #28786d;
       --green: #3c7a57;
-      --amber: #b7791f;
+      --amber: #b87514;
       --orange: #b45309;
       --red: #b33a3a;
-      --shadow: 0 18px 50px rgba(38, 31, 22, 0.08);
+      --shadow: 0 18px 48px rgba(23, 32, 44, 0.09);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
@@ -26,8 +27,8 @@
       margin: 0;
       color: var(--ink);
       background:
-        radial-gradient(circle at 16% 8%, rgba(50, 103, 168, 0.12), transparent 28rem),
-        radial-gradient(circle at 90% 18%, rgba(183, 121, 31, 0.14), transparent 24rem),
+        linear-gradient(90deg, rgba(40, 95, 206, 0.08), transparent 42%),
+        radial-gradient(circle at 92% 12%, rgba(40, 120, 109, 0.12), transparent 24rem),
         var(--paper);
       line-height: 1.58;
       font-size: 16px;
@@ -38,27 +39,44 @@
     .report-shell {
       width: min(1120px, calc(100% - 32px));
       margin: 0 auto;
-      padding: 56px 0 88px;
+      padding: 34px 0 88px;
     }
 
     .report-header {
-      min-height: 70vh;
+      min-height: 55vh;
       display: grid;
       align-items: center;
-      padding: 48px 0 72px;
+      padding: 32px 0 46px;
       position: relative;
+      border-bottom: 1px solid rgba(219, 226, 234, 0.8);
     }
 
     .parallax-mark {
       position: absolute;
-      inset: 12% 0 auto auto;
-      width: min(34vw, 340px);
-      height: min(34vw, 340px);
+      inset: 4% 2% auto auto;
+      width: min(22vw, 230px);
+      height: min(22vw, 230px);
       border: 1px solid rgba(32, 33, 36, 0.08);
       border-radius: 50%;
       transform: translateY(calc(var(--scroll, 0) * -0.04px));
-      background: radial-gradient(circle, rgba(255,255,255,0.6), rgba(50,103,168,0.06) 60%, transparent 61%);
+      background: radial-gradient(circle, rgba(255,255,255,0.75), rgba(40,120,109,0.08) 60%, transparent 61%);
       pointer-events: none;
+      opacity: 0.64;
+      z-index: 0;
+    }
+
+    .header-stack {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 22px;
+    }
+
+    .title-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 220px;
+      gap: 32px;
+      align-items: end;
     }
 
     .eyebrow {
@@ -71,38 +89,38 @@
     }
 
     h1 {
-      max-width: 760px;
+      max-width: 680px;
       margin: 0;
-      font-size: clamp(1.85rem, 3vw, 2.8rem);
+      font-size: clamp(1.75rem, 2.6vw, 2.55rem);
       line-height: 1.08;
       letter-spacing: 0;
     }
 
     .summary {
-      max-width: 680px;
-      margin: 22px 0 0;
+      max-width: 620px;
+      margin: 18px 0 0;
       color: var(--muted);
-      font-size: 1.02rem;
+      font-size: 1rem;
     }
 
     .verdict-strip {
       display: grid;
-      grid-template-columns: minmax(190px, 260px) 1fr;
-      gap: 28px;
-      margin-top: 36px;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 18px;
+      margin-top: 0;
       align-items: center;
     }
 
     .score-ring {
       --score: 74;
       --ring: var(--amber);
-      width: 168px;
+      width: 136px;
       aspect-ratio: 1;
       display: grid;
       place-items: center;
       border-radius: 50%;
       background: conic-gradient(var(--ring) calc(var(--score) * 1%), rgba(32,33,36,0.1) 0);
-      box-shadow: var(--shadow);
+      box-shadow: 0 18px 42px rgba(184, 117, 20, 0.18);
       position: relative;
     }
 
@@ -116,7 +134,7 @@
 
     .score-ring span {
       position: relative;
-      font-size: 2.3rem;
+      font-size: 2rem;
       font-weight: 780;
       line-height: 1;
     }
@@ -140,7 +158,7 @@
     }
 
     .verdict-card {
-      padding: 24px;
+      padding: 20px;
     }
 
     .status-row {
@@ -167,12 +185,12 @@
     .chip.ready { color: var(--green); border-color: rgba(60,122,87,0.32); }
 
     .section {
-      padding: 72px 0;
+      padding: 56px 0;
     }
 
     .section-grid {
       display: grid;
-      grid-template-columns: 0.56fr 1fr;
+      grid-template-columns: minmax(220px, 0.42fr) 1fr;
       gap: 48px;
       align-items: start;
     }
@@ -235,6 +253,11 @@
       border-bottom: 1px solid var(--line);
     }
 
+    .rubric-row p {
+      margin: 8px 0 0;
+      color: var(--muted);
+    }
+
     .rubric-row:last-child {
       border-bottom: 0;
       padding-bottom: 0;
@@ -291,9 +314,9 @@
 
     .finding-card {
       display: grid;
-      grid-template-columns: 74px 1fr;
-      gap: 18px;
-      padding: 20px;
+      grid-template-columns: 56px 1fr;
+      gap: 16px;
+      padding: 18px;
     }
 
     .severity-dot {
@@ -331,10 +354,24 @@
       white-space: pre-wrap;
       color: #292622;
       background: rgba(32,33,36,0.05);
-      border-radius: 12px;
+      border-radius: 8px;
       padding: 14px;
       font-size: 0.92rem;
       overflow-x: auto;
+    }
+
+    .score-panel {
+      display: grid;
+      justify-items: end;
+      gap: 12px;
+    }
+
+    .score-caption {
+      max-width: 210px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.86rem;
+      text-align: right;
     }
 
     .reveal {
@@ -351,12 +388,15 @@
     @media (max-width: 760px) {
       .report-shell { width: min(100% - 22px, 1120px); }
       .report-header { min-height: auto; padding-top: 36px; }
+      .title-row,
       .verdict-strip,
       .section-grid,
       .finding-card {
         grid-template-columns: 1fr;
       }
-      .score-ring { width: 142px; }
+      .score-panel { justify-items: start; }
+      .score-caption { text-align: left; }
+      .score-ring { width: 128px; }
       .meta-grid { grid-template-columns: 1fr; }
       .parallax-mark { display: none; }
     }
@@ -382,21 +422,28 @@
   <main class="report-shell">
     <header class="report-header">
       <div class="parallax-mark" aria-hidden="true"></div>
-      <div>
-        <p class="eyebrow">Prompt Maestro Report</p>
-        <h1>{{report_title}}</h1>
-        <p class="summary">{{executive_summary}}</p>
-        <div class="verdict-strip">
-          <div class="score-ring" style="--score: {{overall_score}}; --ring: {{overall_color}};" aria-label="Overall score {{overall_score}} out of 100">
-            <div><span>{{overall_score}}</span><small>overall score</small></div>
+      <div class="header-stack">
+        <div class="title-row">
+          <div>
+            <p class="eyebrow">Prompt Maestro Report</p>
+            <h1 data-field="report_title">Prompt readiness scorecard</h1>
+            <p class="summary" data-field="executive_summary">A visual review that classifies the prompt, shows how each rubric dimension affects the score, and turns findings into copy-ready edits.</p>
           </div>
+          <div class="score-panel">
+          <div class="score-ring" style="--score: 74; --ring: var(--amber);" aria-label="Overall score 74 out of 100" data-field="overall_score_ring">
+            <div><span data-field="overall_score">74</span><small>overall score</small></div>
+          </div>
+            <p class="score-caption">Capped by search-boundary and evidence-receipt gaps.</p>
+          </div>
+        </div>
+        <div class="verdict-strip">
           <section class="verdict-card">
             <div class="status-row">
-              <span class="chip {{verdict_class}}">{{verdict}}</span>
-              <span class="chip {{risk_class}}">{{risk_level}} risk</span>
-              <span class="chip">{{classification_primary}}</span>
+              <span class="chip medium" data-field="verdict">Needs edits</span>
+              <span class="chip high" data-field="risk_level">High risk</span>
+              <span class="chip" data-field="classification_primary">Research / synthesis</span>
             </div>
-            <p>{{verdict_reason}}</p>
+            <p data-field="verdict_reason">The prompt is structurally strong, but the search boundary is too loose to run without privacy and relevance risk.</p>
           </section>
         </div>
       </div>
@@ -409,8 +456,13 @@
           <h2>What kind of prompt is this?</h2>
           <p class="section-note">Classify the prompt before scoring it so the rubric matches the job it is meant to do.</p>
         </div>
-        <div class="section-card meta-grid">
-          {{classification_items}}
+        <div class="section-card meta-grid" data-template="classification_items">
+          <div class="meta-item"><span class="meta-label">Primary type</span><span class="meta-value">Research / synthesis prompt</span></div>
+          <div class="meta-item"><span class="meta-label">Secondary types</span><span class="meta-value">Extraction, audit/review, handoff</span></div>
+          <div class="meta-item"><span class="meta-label">Context dependency</span><span class="meta-value">Workspace-bound</span></div>
+          <div class="meta-item"><span class="meta-label">Lifecycle</span><span class="meta-value">One-shot context scout</span></div>
+          <div class="meta-item"><span class="meta-label">Target executor</span><span class="meta-value">Read-only local agent</span></div>
+          <div class="meta-item"><span class="meta-label">Expected output</span><span class="meta-value">Context pack and exact edits</span></div>
         </div>
       </div>
     </section>
@@ -422,8 +474,97 @@
           <h2>Rubric breakdown</h2>
           <p class="section-note">Each row explains the score impact. The final score should never stand alone.</p>
         </div>
-        <div class="section-card rubric-list">
-          {{rubric_rows}}
+        <div class="section-card rubric-list" data-template="rubric_rows">
+          <div class="rubric-row">
+            <div>
+              <span class="rubric-label">Objective clarity</span>
+              <strong>88/100</strong>
+              <div class="meter"><span style="--value:88%;--tone:var(--blue)"></span></div>
+              <p>The prompt states a clear goal and describes what success should enable.</p>
+            </div>
+            <div class="mini-ring" style="--score:88;--ring:var(--blue)"><span>88</span></div>
+          </div>
+          <div class="rubric-row">
+            <div>
+              <span class="rubric-label">Target clarity</span>
+              <strong>68/100</strong>
+              <div class="meter"><span style="--value:68%;--tone:var(--amber)"></span></div>
+              <p>The target system is named, but the exact root or fallback path is not defined.</p>
+            </div>
+            <div class="mini-ring" style="--score:68;--ring:var(--amber)"><span>68</span></div>
+          </div>
+          <div class="rubric-row">
+            <div>
+              <span class="rubric-label">Context grounding</span>
+              <strong>76/100</strong>
+              <div class="meter"><span style="--value:76%;--tone:var(--blue)"></span></div>
+              <p>The prompt asks for local discovery first, but should name the allowed roots before widening.</p>
+            </div>
+            <div class="mini-ring" style="--score:76;--ring:var(--blue)"><span>76</span></div>
+          </div>
+          <div class="rubric-row">
+            <div>
+              <span class="rubric-label">Scope boundaries</span>
+              <strong>62/100</strong>
+              <div class="meter"><span style="--value:62%;--tone:var(--amber)"></span></div>
+              <p>Sibling and parent folder discovery needs a stop rule to avoid unrelated private material.</p>
+            </div>
+            <div class="mini-ring" style="--score:62;--ring:var(--amber)"><span>62</span></div>
+          </div>
+          <div class="rubric-row">
+            <div>
+              <span class="rubric-label">Autonomy boundaries</span>
+              <strong>84/100</strong>
+              <div class="meter"><span style="--value:84%;--tone:var(--blue)"></span></div>
+              <p>Read-only, no-web, and no-artifact rules are explicit and easy to follow.</p>
+            </div>
+            <div class="mini-ring" style="--score:84;--ring:var(--blue)"><span>84</span></div>
+          </div>
+          <div class="rubric-row">
+            <div>
+              <span class="rubric-label">Output contract</span>
+              <strong>90/100</strong>
+              <div class="meter"><span style="--value:90%;--tone:var(--green)"></span></div>
+              <p>The requested report sections are clear and useful for a later handoff.</p>
+            </div>
+            <div class="mini-ring" style="--score:90;--ring:var(--green)"><span>90</span></div>
+          </div>
+          <div class="rubric-row">
+            <div>
+              <span class="rubric-label">Evidence and verification</span>
+              <strong>72/100</strong>
+              <div class="meter"><span style="--value:72%;--tone:var(--amber)"></span></div>
+              <p>Path evidence is required, but the report also needs roots searched, skipped paths, and coverage limits.</p>
+            </div>
+            <div class="mini-ring" style="--score:72;--ring:var(--amber)"><span>72</span></div>
+          </div>
+          <div class="rubric-row">
+            <div>
+              <span class="rubric-label">Risk handling</span>
+              <strong>60/100</strong>
+              <div class="meter"><span style="--value:60%;--tone:var(--orange)"></span></div>
+              <p>Read-only rules are strong, but local search boundaries need explicit allowed roots.</p>
+            </div>
+            <div class="mini-ring" style="--score:60;--ring:var(--orange)"><span>60</span></div>
+          </div>
+          <div class="rubric-row">
+            <div>
+              <span class="rubric-label">Model and tool fit</span>
+              <strong>80/100</strong>
+              <div class="meter"><span style="--value:80%;--tone:var(--blue)"></span></div>
+              <p>Local search tools, readable file types, and read-only behavior match the task well.</p>
+            </div>
+            <div class="mini-ring" style="--score:80;--ring:var(--blue)"><span>80</span></div>
+          </div>
+          <div class="rubric-row">
+            <div>
+              <span class="rubric-label">Ambiguity control</span>
+              <strong>70/100</strong>
+              <div class="meter"><span style="--value:70%;--tone:var(--amber)"></span></div>
+              <p>"Semantic search" needs a local-only definition so the executor does not infer external lookup.</p>
+            </div>
+            <div class="mini-ring" style="--score:70;--ring:var(--amber)"><span>70</span></div>
+          </div>
         </div>
       </div>
     </section>
@@ -435,8 +576,35 @@
           <h2>What blocks readiness?</h2>
           <p class="section-note">Findings are ranked by execution risk and rework potential, not wording preference.</p>
         </div>
-        <div class="finding-list">
-          {{finding_cards}}
+        <div class="finding-list" data-template="finding_cards">
+          <article class="finding-card">
+            <div class="severity-dot">H</div>
+            <div>
+              <h3>Search scope is too broad</h3>
+              <p>Broad local-machine and sibling-folder language can pull in unrelated private material. Add allowed roots and a stop rule.</p>
+            </div>
+          </article>
+          <article class="finding-card">
+            <div class="severity-dot">H</div>
+            <div>
+              <h3>No search receipt</h3>
+              <p>The prompt requires sourced claims, but the output should also show searched roots, skipped roots, methods, and coverage limits.</p>
+            </div>
+          </article>
+          <article class="finding-card">
+            <div class="severity-dot medium">M</div>
+            <div>
+              <h3>Missing target fallback</h3>
+              <p>If the named target cannot be found, the executor should stop and report the missing path instead of inferring it.</p>
+            </div>
+          </article>
+          <article class="finding-card">
+            <div class="severity-dot medium">M</div>
+            <div>
+              <h3>Score needs evidence</h3>
+              <p>A visible score is only useful when every rubric row explains its reason and score impact.</p>
+            </div>
+          </article>
         </div>
       </div>
     </section>
@@ -448,8 +616,21 @@
           <h2>Copy-ready fixes</h2>
           <p class="section-note">Every major critique should resolve into language the user can apply.</p>
         </div>
-        <div class="edit-list">
-          {{edit_blocks}}
+        <div class="edit-list" data-template="edit_blocks">
+          <article class="edit-block">
+            <strong>Add under Search Scope</strong>
+            <pre>Before searching, identify the active working directory and list the exact roots you will inspect. Do not search unrelated private folders, credentials, environment files, browser profiles, or personal documents.</pre>
+          </article>
+          <article class="edit-block">
+            <strong>Add after Executive Summary</strong>
+            <pre>## Search Receipt
+
+Include working directory, roots searched, roots skipped, search methods used, file types inspected, and inaccessible relevant paths.</pre>
+          </article>
+          <article class="edit-block">
+            <strong>Add under Discovery Method</strong>
+            <pre>For semantic search, use only local filenames, nearby terminology, local indexes already available in the environment, or manual inspection of likely files. Do not call web or external services.</pre>
+          </article>
         </div>
       </div>
     </section>
@@ -461,7 +642,7 @@
           <h2>Smallest useful move</h2>
         </div>
         <div class="section-card">
-          <p>{{next_step}}</p>
+          <p data-field="next_step">Add allowed roots, a search receipt, and a missing-target fallback, then run the prompt.</p>
         </div>
       </div>
     </section>
