@@ -9,6 +9,7 @@ The visual report is complete only when it has:
 - A long-scroll structure with separate sections for verdict, classification, scorecard, findings, suggested edits, revised prompt, and open questions.
 - A visible scoring model: every scored rubric dimension has a label, score, rationale, and impact on the overall verdict.
 - Visual indicators beyond text: at minimum one overall score ring, rubric bars or mini-rings, and severity markers for findings.
+- The overall score must be integrated into the verdict band or a clearly connected assessment component. Do not place it as a detached floating tile.
 - Scoring explanation: the reader can tell why the prompt got its score and which edit would raise it.
 - Professional spacing: do not cram all content into one viewport or one dashboard.
 - Compact typography: no oversized hero headline; keep report headings modest and readable.

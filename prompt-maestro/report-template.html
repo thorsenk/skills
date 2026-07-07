@@ -59,10 +59,7 @@
     }
 
     .title-row {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 210px;
-      gap: 40px;
-      align-items: start;
+      max-width: 720px;
     }
 
     .eyebrow {
@@ -100,7 +97,7 @@
     .score-ring {
       --score: 74;
       --ring: var(--amber);
-      width: 136px;
+      width: 112px;
       aspect-ratio: 1;
       display: grid;
       place-items: center;
@@ -144,7 +141,11 @@
     }
 
     .verdict-card {
-      padding: 20px;
+      display: grid;
+      grid-template-columns: 118px minmax(0, 1fr);
+      gap: 24px;
+      align-items: center;
+      padding: 22px;
     }
 
     .status-row {
@@ -346,23 +347,17 @@
       overflow-x: auto;
     }
 
-    .score-panel {
+    .score-cell {
       display: grid;
       justify-items: center;
-      gap: 12px;
-      padding: 16px;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      box-shadow: var(--shadow);
     }
 
     .score-caption {
-      max-width: 168px;
-      margin: 0;
+      max-width: 620px;
+      margin: 10px 0 0;
       color: var(--muted);
       font-size: 0.86rem;
-      text-align: center;
+      text-align: left;
     }
 
     .reveal {
@@ -379,22 +374,22 @@
     @media (max-width: 760px) {
       .report-shell { width: min(100% - 22px, 1120px); }
       .report-header { min-height: auto; padding-top: 36px; }
-      .title-row,
       .verdict-strip,
       .section-grid,
+      .verdict-card,
       .finding-card {
         grid-template-columns: 1fr;
       }
-      .score-panel { justify-items: start; }
-      .score-panel {
+      .score-cell {
         grid-template-columns: auto minmax(0, 1fr);
         align-items: center;
+        justify-items: start;
       }
       .score-caption {
         max-width: none;
         text-align: left;
       }
-      .score-ring { width: 128px; }
+      .score-ring { width: 112px; }
       .meta-grid { grid-template-columns: 1fr; }
     }
 
@@ -422,21 +417,23 @@
             <h1 data-field="report_title">Prompt readiness scorecard</h1>
             <p class="summary" data-field="executive_summary">A visual review that classifies the prompt, shows how each rubric dimension affects the score, and turns findings into copy-ready edits.</p>
           </div>
-          <aside class="score-panel" aria-label="Overall score summary">
-            <div class="score-ring" style="--score: 74; --ring: var(--amber);" aria-label="Overall score 74 out of 100" data-field="overall_score_ring">
-              <div><span data-field="overall_score">74</span><small>overall score</small></div>
-            </div>
-            <p class="score-caption">Capped by search-boundary and evidence-receipt gaps.</p>
-          </aside>
         </div>
         <div class="verdict-strip">
           <section class="verdict-card">
-            <div class="status-row">
-              <span class="chip medium" data-field="verdict">Needs edits</span>
-              <span class="chip high" data-field="risk_level">High risk</span>
-              <span class="chip" data-field="classification_primary">Research / synthesis</span>
+            <div class="score-cell" aria-label="Overall score summary">
+              <div class="score-ring" style="--score: 74; --ring: var(--amber);" aria-label="Overall score 74 out of 100" data-field="overall_score_ring">
+                <div><span data-field="overall_score">74</span><small>overall score</small></div>
+              </div>
             </div>
-            <p data-field="verdict_reason">The prompt is structurally strong, but the search boundary is too loose to run without privacy and relevance risk.</p>
+            <div>
+              <div class="status-row">
+                <span class="chip medium" data-field="verdict">Needs edits</span>
+                <span class="chip high" data-field="risk_level">High risk</span>
+                <span class="chip" data-field="classification_primary">Research / synthesis</span>
+              </div>
+              <p data-field="verdict_reason">The prompt is structurally strong, but the search boundary is too loose to run without privacy and relevance risk.</p>
+              <p class="score-caption">Score cap: search-boundary and evidence-receipt gaps keep this below the ready range.</p>
+            </div>
           </section>
         </div>
       </div>
