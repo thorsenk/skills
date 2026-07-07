@@ -12,7 +12,7 @@ The visual report is complete only when it has:
 - Scoring explanation: the reader can tell why the prompt got its score and which edit would raise it.
 - Professional spacing: do not cram all content into one viewport or one dashboard.
 - Compact typography: no oversized hero headline; keep report headings modest and readable.
-- Motion with restraint: scroll reveals and subtle parallax are allowed, but they must not block reading.
+- Motion with restraint: scroll reveals are allowed, but decorative motion must never sit behind score rings, cards, or report text.
 - Reduced-motion support through `prefers-reduced-motion`.
 - A clear next step at the end.
 - Direct-open safety: `report-template.html` must render as a meaningful sample report when opened directly, including classification, rubric rows, representative findings, and copy-ready edits. Do not leave visible raw placeholder tokens such as `{{field_name}}` in the page.
@@ -68,7 +68,7 @@ The report should feel like a professional review document, not a chat transcrip
 - Palette: neutral paper, ink, muted blue, amber, and red accents. Avoid one-color monotony.
 - Typography: small-to-medium report scale. Body text around 15-17px, section heads around 22-34px, no huge hero type.
 - Components: score rings, rubric rows, evidence callouts, finding cards, edit blocks, sticky local navigation when useful.
-- Animation: fade/slide reveals and subtle parallax background layers. Do not animate every element.
+- Animation: fade/slide reveals and structural scroll accents are acceptable. Do not animate every element, and do not place decorative shapes behind scoring content.
 - Accessibility: strong contrast, visible focus states, reduced-motion support, no content hidden behind hover-only controls.
 
 ## Score Ring Rules
