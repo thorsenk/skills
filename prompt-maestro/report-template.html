@@ -3,655 +3,1383 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
   <title>Prompt Maestro Report</title>
+  <script>
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+  </script>
   <style>
     :root {
-      --paper: #f4f6f8;
-      --panel: #ffffff;
-      --ink: #17202c;
-      --muted: #647084;
-      --line: #dbe2ea;
-      --blue: #285fce;
-      --teal: #28786d;
-      --green: #3c7a57;
-      --amber: #b87514;
-      --orange: #b45309;
-      --red: #b33a3a;
-      --shadow: 0 18px 48px rgba(23, 32, 44, 0.09);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --paper: #f1f3ef;
+      --paper-deep: #e4e8e3;
+      --sheet: #fffefa;
+      --sheet-soft: #f9faf6;
+      --ink: #151a21;
+      --muted: #5d6674;
+      --muted-strong: #3f4754;
+      --line: #d3d8d0;
+      --line-strong: #aab4aa;
+      --blue: #315f9b;
+      --blue-soft: #e8eef7;
+      --green: #28724f;
+      --green-soft: #e6f1ea;
+      --amber: #aa6718;
+      --amber-soft: #f7ecdc;
+      --orange: #b55322;
+      --orange-soft: #f7e7df;
+      --red: #a93636;
+      --red-soft: #f4e2e1;
+      --font-display: "Avenir Next", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+      --font-body: Inter, "Segoe UI", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", ui-monospace, monospace;
+      --content: min(1180px, calc(100% - 40px));
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       margin: 0;
       color: var(--ink);
       background:
-        linear-gradient(90deg, rgba(40, 95, 206, 0.08), transparent 42%),
-        radial-gradient(circle at 92% 12%, rgba(40, 120, 109, 0.12), transparent 24rem),
-        var(--paper);
-      line-height: 1.58;
+        linear-gradient(90deg, rgba(21, 26, 33, 0.035) 0 1px, transparent 1px) 0 0 / 64px 64px,
+        linear-gradient(0deg, rgba(21, 26, 33, 0.026) 0 1px, transparent 1px) 0 0 / 64px 64px,
+        linear-gradient(180deg, var(--paper), #f7f8f4 45%, var(--paper-deep));
+      font-family: var(--font-body);
       font-size: 16px;
+      line-height: 1.55;
+      min-height: 100vh;
     }
 
-    a { color: inherit; }
+    a {
+      color: inherit;
+    }
+
+    button {
+      font: inherit;
+    }
 
     .report-shell {
-      width: min(1120px, calc(100% - 32px));
+      width: var(--content);
       margin: 0 auto;
-      padding: 34px 0 88px;
+      padding: 28px 0 72px;
     }
 
-    .report-header {
-      min-height: 55vh;
-      display: grid;
+    .topline {
+      display: flex;
       align-items: center;
-      padding: 32px 0 46px;
-      position: relative;
-      border-bottom: 1px solid rgba(219, 226, 234, 0.8);
+      justify-content: space-between;
+      gap: 18px;
+      padding: 10px 0 18px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.82rem;
     }
 
-    .header-stack {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      gap: 22px;
-    }
-
-    .title-row {
-      max-width: 720px;
-    }
-
-    .eyebrow {
-      margin: 0 0 18px;
-      color: var(--blue);
-      font-size: 0.78rem;
-      font-weight: 760;
-      letter-spacing: 0.08em;
+    .report-id,
+    .report-date {
+      font-family: var(--font-mono);
+      letter-spacing: 0.04em;
       text-transform: uppercase;
     }
 
-    h1 {
-      max-width: 680px;
-      margin: 0;
-      font-size: clamp(1.75rem, 2.6vw, 2.55rem);
-      line-height: 1.08;
+    .quick-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .quick-nav a,
+    .filter-button,
+    .copy-button {
+      min-height: 34px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--sheet);
+      color: var(--muted-strong);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .quick-nav a {
+      padding: 7px 11px;
+    }
+
+    .quick-nav a:hover,
+    .filter-button:hover,
+    .copy-button:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    .quick-nav a:focus-visible,
+    .filter-button:focus-visible,
+    .copy-button:focus-visible,
+    .copy-target:focus-visible {
+      outline: 3px solid rgba(49, 95, 155, 0.28);
+      outline-offset: 3px;
+    }
+
+    .report-header {
+      display: grid;
+      grid-template-columns: minmax(260px, 0.36fr) minmax(0, 1fr);
+      gap: 56px;
+      align-items: start;
+      padding: 34px 0 38px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--blue);
+      font-family: var(--font-mono);
+      font-size: 0.73rem;
+      font-weight: 800;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: var(--font-display);
       letter-spacing: 0;
     }
 
+    h1 {
+      max-width: 650px;
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3.1rem);
+      line-height: 1.02;
+    }
+
     .summary {
-      max-width: 620px;
+      max-width: 570px;
       margin: 18px 0 0;
       color: var(--muted);
-      font-size: 1rem;
+      font-size: 1.01rem;
     }
 
-    .verdict-strip {
+    .verdict-panel,
+    .report-panel,
+    .edit-sheet,
+    .revised-prompt {
+      background: var(--sheet);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .verdict-panel {
       display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: 18px;
-      margin-top: 0;
-      align-items: center;
+      grid-template-columns: minmax(170px, 0.28fr) minmax(0, 1fr);
+      overflow: hidden;
     }
 
-    .score-ring {
-      --score: 74;
-      --ring: var(--amber);
-      width: 112px;
-      aspect-ratio: 1;
+    .score-block {
       display: grid;
-      place-items: center;
-      border-radius: 50%;
-      background: conic-gradient(var(--ring) calc(var(--score) * 1%), rgba(32,33,36,0.1) 0);
-      box-shadow: none;
-      position: relative;
+      align-content: center;
+      padding: 24px;
+      background: var(--ink);
+      color: white;
     }
 
-    .score-ring::before {
-      content: "";
-      position: absolute;
-      inset: 14px;
-      border-radius: 50%;
-      background: var(--panel);
+    .score-label {
+      margin: 0 0 10px;
+      color: rgba(255, 255, 255, 0.68);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
     }
 
-    .score-ring span {
-      position: relative;
-      font-size: 2rem;
-      font-weight: 780;
+    .score-number {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      font-family: var(--font-mono);
       line-height: 1;
     }
 
-    .score-ring small {
-      display: block;
-      color: var(--muted);
-      font-size: 0.76rem;
-      font-weight: 650;
-      text-align: center;
+    .score-number strong {
+      font-size: clamp(3rem, 7vw, 5.1rem);
+      font-weight: 850;
     }
 
-    .verdict-card,
-    .section-card,
-    .finding-card,
-    .edit-block {
-      background: rgba(255, 253, 248, 0.86);
-      border: 1px solid rgba(222, 215, 202, 0.9);
-      border-radius: 8px;
-      box-shadow: var(--shadow);
+    .score-number span {
+      color: rgba(255, 255, 255, 0.68);
+      font-size: 1rem;
+      font-weight: 700;
     }
 
-    .verdict-card {
-      display: grid;
-      grid-template-columns: 118px minmax(0, 1fr);
-      gap: 24px;
-      align-items: center;
-      padding: 22px;
+    .score-note {
+      margin: 14px 0 0;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 0.86rem;
+    }
+
+    .verdict-body {
+      padding: 24px 26px;
     }
 
     .status-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 16px;
+      gap: 8px;
+      margin: 0 0 18px;
     }
 
-    .chip {
+    .status-chip,
+    .severity-chip,
+    .action-label {
       display: inline-flex;
       align-items: center;
       gap: 8px;
       border: 1px solid var(--line);
       border-radius: 999px;
-      padding: 7px 11px;
-      font-size: 0.82rem;
-      font-weight: 700;
-      background: rgba(255,255,255,0.66);
+      padding: 6px 10px;
+      background: var(--sheet-soft);
+      color: var(--muted-strong);
+      font-size: 0.8rem;
+      font-weight: 800;
+      white-space: nowrap;
     }
 
-    .chip.high { color: var(--red); border-color: rgba(179,58,58,0.32); }
-    .chip.medium { color: var(--amber); border-color: rgba(183,121,31,0.32); }
-    .chip.ready { color: var(--green); border-color: rgba(60,122,87,0.32); }
+    .status-chip.medium,
+    .severity-chip.medium {
+      background: var(--amber-soft);
+      border-color: #e1c497;
+      color: var(--amber);
+    }
+
+    .status-chip.high,
+    .severity-chip.high {
+      background: var(--red-soft);
+      border-color: #e0aaa6;
+      color: var(--red);
+    }
+
+    .status-chip.ready,
+    .severity-chip.ready {
+      background: var(--green-soft);
+      border-color: #b8d5bf;
+      color: var(--green);
+    }
+
+    .status-chip.neutral {
+      background: var(--blue-soft);
+      border-color: #c3d2e8;
+      color: var(--blue);
+    }
+
+    .verdict-body p {
+      margin: 0;
+    }
+
+    .score-ruler {
+      margin-top: 22px;
+    }
+
+    .ruler-track {
+      position: relative;
+      display: grid;
+      grid-template-columns: 39fr 20fr 15fr 15fr 11fr;
+      height: 12px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: var(--line);
+    }
+
+    .ruler-track span:nth-child(1) { background: var(--red); }
+    .ruler-track span:nth-child(2) { background: var(--orange); }
+    .ruler-track span:nth-child(3) { background: var(--amber); }
+    .ruler-track span:nth-child(4) { background: var(--blue); }
+    .ruler-track span:nth-child(5) { background: var(--green); }
+
+    .ruler-marker {
+      position: relative;
+      left: 74%;
+      width: max-content;
+      transform: translateX(-50%);
+      margin-top: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--amber);
+    }
+
+    .ruler-marker::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 100%;
+      width: 1px;
+      height: 18px;
+      background: var(--amber);
+    }
+
+    .signal-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .signal {
+      border-top: 2px solid var(--line-strong);
+      padding-top: 10px;
+    }
+
+    .signal strong {
+      display: block;
+      font-size: 0.88rem;
+    }
+
+    .signal span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
 
     .section {
-      padding: 56px 0;
+      padding: 54px 0;
+      scroll-margin-top: 20px;
+      border-bottom: 1px solid rgba(170, 180, 170, 0.55);
     }
 
     .section-grid {
       display: grid;
-      grid-template-columns: minmax(220px, 0.42fr) 1fr;
-      gap: 48px;
+      grid-template-columns: minmax(230px, 0.34fr) minmax(0, 1fr);
+      gap: 56px;
       align-items: start;
     }
 
-    .section h2 {
+    .section-grid[id] {
+      scroll-margin-top: 18px;
+    }
+
+    .section-heading {
+      position: sticky;
+      top: 20px;
+    }
+
+    .section-heading h2 {
       margin: 0;
-      font-size: clamp(1.35rem, 2vw, 2rem);
-      line-height: 1.12;
-      letter-spacing: 0;
+      font-size: clamp(1.45rem, 2.1vw, 2.15rem);
+      line-height: 1.08;
     }
 
     .section-note {
-      margin-top: 14px;
-      color: var(--muted);
+      margin: 14px 0 0;
       max-width: 360px;
-    }
-
-    .section-card {
-      padding: 26px;
-    }
-
-    .meta-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .meta-item {
-      border-top: 1px solid var(--line);
-      padding-top: 12px;
-    }
-
-    .meta-label,
-    .rubric-label {
-      display: block;
       color: var(--muted);
-      font-size: 0.78rem;
-      font-weight: 750;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
     }
 
-    .meta-value {
-      display: block;
-      margin-top: 5px;
-      font-weight: 720;
+    .report-panel {
+      overflow: hidden;
     }
 
-    .rubric-list {
-      display: grid;
-      gap: 18px;
+    .metadata-table,
+    .rubric-table,
+    .question-list {
+      width: 100%;
+      border-collapse: collapse;
     }
 
-    .rubric-row {
-      display: grid;
-      grid-template-columns: 1fr 72px;
-      gap: 18px;
-      align-items: center;
-      padding-bottom: 18px;
+    .metadata-table th,
+    .metadata-table td,
+    .rubric-table th,
+    .rubric-table td,
+    .question-list th,
+    .question-list td {
+      padding: 15px 18px;
       border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
     }
 
-    .rubric-row p {
-      margin: 8px 0 0;
-      color: var(--muted);
-    }
-
-    .rubric-row:last-child {
+    .metadata-table tr:last-child th,
+    .metadata-table tr:last-child td,
+    .rubric-table tr:last-child td,
+    .question-list tr:last-child th,
+    .question-list tr:last-child td {
       border-bottom: 0;
-      padding-bottom: 0;
+    }
+
+    .metadata-table th,
+    .rubric-table th,
+    .question-list th {
+      width: 30%;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .metadata-table td,
+    .question-list td {
+      font-weight: 700;
+    }
+
+    .rubric-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+      background: var(--sheet-soft);
+    }
+
+    .rubric-controls p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .filter-button {
+      cursor: pointer;
+      padding: 6px 12px;
+    }
+
+    .filter-button[aria-pressed="true"] {
+      border-color: var(--ink);
+      background: var(--ink);
+      color: white;
+    }
+
+    .score-cell {
+      width: 96px;
+      font-family: var(--font-mono);
+      font-weight: 850;
+    }
+
+    .score-value {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 1.02rem;
     }
 
     .meter {
-      height: 8px;
-      margin-top: 9px;
+      width: min(180px, 100%);
+      height: 7px;
       overflow: hidden;
       border-radius: 999px;
-      background: rgba(32,33,36,0.09);
+      background: #e6e8e2;
     }
 
     .meter span {
       display: block;
       width: var(--value);
       height: 100%;
-      border-radius: inherit;
       background: var(--tone, var(--blue));
     }
 
-    .mini-ring {
-      --score: 72;
-      --ring: var(--amber);
-      width: 58px;
-      aspect-ratio: 1;
-      display: grid;
-      place-items: center;
-      border-radius: 50%;
-      background: conic-gradient(var(--ring) calc(var(--score) * 1%), rgba(32,33,36,0.1) 0);
-      font-size: 0.86rem;
-      font-weight: 800;
-      position: relative;
-      justify-self: end;
-    }
-
-    .mini-ring::before {
-      content: "";
-      position: absolute;
-      inset: 7px;
-      background: var(--panel);
-      border-radius: 50%;
-    }
-
-    .mini-ring span {
-      position: relative;
-    }
-
-    .finding-list,
-    .edit-list {
-      display: grid;
-      gap: 18px;
-    }
-
-    .finding-card {
-      display: grid;
-      grid-template-columns: 56px 1fr;
-      gap: 16px;
-      padding: 18px;
-    }
-
-    .severity-dot {
-      display: grid;
-      place-items: center;
-      width: 56px;
-      aspect-ratio: 1;
-      border-radius: 50%;
-      color: white;
-      font-weight: 820;
-      background: var(--red);
-    }
-
-    .severity-dot.medium { background: var(--amber); }
-    .severity-dot.low { background: var(--blue); }
-
-    .finding-card h3 {
-      margin: 0 0 6px;
-      font-size: 1rem;
-      line-height: 1.25;
-    }
-
-    .finding-card p {
+    .rubric-table p {
       margin: 0;
       color: var(--muted);
     }
 
-    .edit-block {
-      padding: 20px;
-      border-left: 4px solid var(--blue);
+    .impact {
+      width: 136px;
+      color: var(--muted-strong);
+      font-size: 0.88rem;
+      font-weight: 750;
+    }
+
+    .impact.attention {
+      color: var(--amber);
+    }
+
+    .impact.blocker {
+      color: var(--red);
+    }
+
+    .rubric-row.is-hidden {
+      display: none;
+    }
+
+    .summary-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      border-bottom: 1px solid var(--line);
+      background: var(--sheet-soft);
+    }
+
+    .summary-item {
+      padding: 16px 18px;
+      border-right: 1px solid var(--line);
+    }
+
+    .summary-item:last-child {
+      border-right: 0;
+    }
+
+    .summary-item span {
+      display: block;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .summary-item strong {
+      display: block;
+      margin-top: 7px;
+      font-size: 1rem;
+    }
+
+    .finding-stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .finding-row {
+      display: grid;
+      grid-template-columns: 12px minmax(0, 1fr);
+      background: var(--sheet);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .severity-rail {
+      background: var(--severity, var(--amber));
+    }
+
+    .finding-body {
+      padding: 18px 20px 20px;
+    }
+
+    .finding-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .finding-title h3 {
+      margin: 0;
+      font-size: 1.08rem;
+      line-height: 1.25;
+    }
+
+    .finding-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .finding-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .finding-grid div {
+      min-height: 118px;
+      padding: 14px;
+      background: var(--sheet-soft);
+    }
+
+    .finding-grid strong {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--muted-strong);
+      font-family: var(--font-mono);
+      font-size: 0.73rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .finding-grid p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .edit-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .edit-sheet {
+      overflow: hidden;
+    }
+
+    .edit-header {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+      padding: 15px 18px;
+      border-bottom: 1px solid var(--line);
+      background: var(--sheet-soft);
+    }
+
+    .action-label {
+      min-width: 76px;
+      justify-content: center;
+      border-radius: 6px;
+      background: var(--blue-soft);
+      color: var(--blue);
+    }
+
+    .action-label.replace {
+      background: var(--amber-soft);
+      color: var(--amber);
+      border-color: #e1c497;
+    }
+
+    .edit-header h3 {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.25;
+    }
+
+    .edit-header p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .copy-button {
+      cursor: pointer;
+      padding: 6px 10px;
     }
 
     pre {
-      margin: 12px 0 0;
+      margin: 0;
       white-space: pre-wrap;
-      color: #292622;
-      background: rgba(32,33,36,0.05);
-      border-radius: 8px;
-      padding: 14px;
-      font-size: 0.92rem;
+      color: #252923;
+      background: #f4f5ef;
+      border: 0;
+      padding: 18px;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      line-height: 1.55;
       overflow-x: auto;
     }
 
-    .score-cell {
+    .revised-prompt {
+      overflow: hidden;
+    }
+
+    .revised-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 15px 18px;
+      border-bottom: 1px solid var(--line);
+      background: var(--sheet-soft);
+    }
+
+    .revised-header h3 {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    .next-panel {
       display: grid;
-      justify-items: center;
+      grid-template-columns: minmax(0, 1fr) minmax(220px, 0.34fr);
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
     }
 
-    .score-caption {
-      max-width: 620px;
-      margin: 10px 0 0;
+    .next-panel > div {
+      padding: 20px;
+      background: var(--sheet);
+    }
+
+    .next-panel h3 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+    }
+
+    .next-panel p {
+      margin: 0;
       color: var(--muted);
-      font-size: 0.86rem;
-      text-align: left;
     }
 
-    .reveal {
-      opacity: 0;
-      transform: translateY(22px);
-      transition: opacity 600ms ease, transform 600ms ease;
+    .copy-target {
+      position: relative;
     }
 
-    .reveal.is-visible {
-      opacity: 1;
-      transform: translateY(0);
+    .copy-button.is-copied {
+      border-color: var(--green);
+      color: var(--green);
     }
 
-    @media (max-width: 760px) {
-      .report-shell { width: min(100% - 22px, 1120px); }
-      .report-header { min-height: auto; padding-top: 36px; }
-      .verdict-strip,
+    @media (max-width: 880px) {
+      :root {
+        --content: min(100% - 26px, 1180px);
+      }
+
+      .topline {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .quick-nav {
+        justify-content: flex-start;
+      }
+
+      .report-header,
       .section-grid,
-      .verdict-card,
-      .finding-card {
+      .verdict-panel,
+      .next-panel {
         grid-template-columns: 1fr;
       }
-      .score-cell {
-        grid-template-columns: auto minmax(0, 1fr);
-        align-items: center;
-        justify-items: start;
+
+      .report-header {
+        gap: 24px;
+        padding-top: 26px;
       }
-      .score-caption {
-        max-width: none;
-        text-align: left;
+
+      .section {
+        padding: 42px 0;
       }
-      .score-ring { width: 112px; }
-      .meta-grid { grid-template-columns: 1fr; }
+
+      .section-heading {
+        position: static;
+      }
+
+      .summary-strip,
+      .signal-grid,
+      .finding-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .summary-item,
+      .summary-item:last-child {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .summary-item:last-child {
+        border-bottom: 0;
+      }
+
+      .metadata-table th,
+      .metadata-table td,
+      .rubric-table th,
+      .rubric-table td,
+      .question-list th,
+      .question-list td {
+        display: block;
+        width: auto;
+        padding: 12px 14px;
+      }
+
+      .metadata-table th,
+      .rubric-table th,
+      .question-list th {
+        padding-bottom: 2px;
+        border-bottom: 0;
+      }
+
+      .metadata-table td,
+      .rubric-table td,
+      .question-list td {
+        padding-top: 4px;
+      }
+
+      .rubric-table tr {
+        display: block;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .rubric-table tr:last-child {
+        border-bottom: 0;
+      }
+
+      .score-cell,
+      .impact {
+        width: auto;
+      }
+
+      .edit-header {
+        grid-template-columns: 1fr;
+        align-items: start;
+      }
+
+      .action-label {
+        width: max-content;
+      }
+
+      .copy-button {
+        width: max-content;
+      }
+    }
+
+    @media (max-width: 520px) {
+      body {
+        font-size: 15px;
+      }
+
+      .report-shell {
+        padding-top: 18px;
+      }
+
+      .score-block,
+      .verdict-body {
+        padding: 20px;
+      }
+
+      .finding-body {
+        padding: 16px;
+      }
+
+      pre {
+        font-size: 0.84rem;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
+      *,
+      *::before,
+      *::after {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         scroll-behavior: auto !important;
         transition-duration: 0.01ms !important;
-      }
-      .reveal {
-        opacity: 1;
-        transform: none;
       }
     }
   </style>
 </head>
 <body>
   <main class="report-shell">
+    <div class="topline" aria-label="Report navigation">
+      <span class="report-id">Prompt Maestro Report</span>
+      <nav class="quick-nav" aria-label="Report sections">
+        <a href="#classification">Classification</a>
+        <a href="#scorecard">Scorecard</a>
+        <a href="#findings">Findings</a>
+        <a href="#edits">Edits</a>
+        <a href="#revised-prompt">Revision</a>
+        <a href="#open-questions">Questions</a>
+        <a href="#next-step">Next step</a>
+      </nav>
+    </div>
+
     <header class="report-header">
-      <div class="header-stack">
-        <div class="title-row">
-          <div>
-            <p class="eyebrow">Prompt Maestro Report</p>
-            <h1 data-field="report_title">Prompt readiness scorecard</h1>
-            <p class="summary" data-field="executive_summary">A visual review that classifies the prompt, shows how each rubric dimension affects the score, and turns findings into copy-ready edits.</p>
+      <div>
+        <p class="eyebrow">Prompt evaluation</p>
+        <h1 data-field="report_title">Prompt readiness scorecard</h1>
+        <p class="summary" data-field="executive_summary">A structured review that classifies the prompt, shows the score logic, and turns the highest-impact findings into copy-ready edits.</p>
+      </div>
+
+      <section class="verdict-panel" aria-label="Verdict summary">
+        <div class="score-block">
+          <p class="score-label">Overall score</p>
+          <div class="score-number" data-field="overall_score"><strong>74</strong><span>/100</span></div>
+          <p class="score-note">Below ready because search boundaries and evidence receipts need tightening.</p>
+        </div>
+        <div class="verdict-body">
+          <div class="status-row">
+            <span class="status-chip medium" data-field="verdict">Needs edits</span>
+            <span class="status-chip high" data-field="risk_level">High risk</span>
+            <span class="status-chip neutral" data-field="classification_primary">Research / synthesis</span>
+          </div>
+          <p data-field="verdict_reason">The prompt is structurally strong, but the search boundary is too loose to run without privacy and relevance risk.</p>
+
+          <div class="score-ruler" aria-label="Score band">
+            <div class="ruler-track" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="ruler-marker">74 needs edits</div>
+          </div>
+
+          <div class="signal-grid" aria-label="Key score signals">
+            <div class="signal">
+              <strong>Strongest signal</strong>
+              <span>Output contract is clear enough to support a useful handoff.</span>
+            </div>
+            <div class="signal">
+              <strong>Main blocker</strong>
+              <span>Allowed roots and local search limits are not explicit.</span>
+            </div>
+            <div class="signal">
+              <strong>Fastest lift</strong>
+              <span>Add a search receipt and missing-target fallback.</span>
+            </div>
           </div>
         </div>
-        <div class="verdict-strip">
-          <section class="verdict-card">
-            <div class="score-cell" aria-label="Overall score summary">
-              <div class="score-ring" style="--score: 74; --ring: var(--amber);" aria-label="Overall score 74 out of 100" data-field="overall_score_ring">
-                <div><span data-field="overall_score">74</span><small>overall score</small></div>
-              </div>
-            </div>
-            <div>
-              <div class="status-row">
-                <span class="chip medium" data-field="verdict">Needs edits</span>
-                <span class="chip high" data-field="risk_level">High risk</span>
-                <span class="chip" data-field="classification_primary">Research / synthesis</span>
-              </div>
-              <p data-field="verdict_reason">The prompt is structurally strong, but the search boundary is too loose to run without privacy and relevance risk.</p>
-              <p class="score-caption">Score cap: search-boundary and evidence-receipt gaps keep this below the ready range.</p>
-            </div>
-          </section>
-        </div>
-      </div>
+      </section>
     </header>
 
-    <section class="section reveal" id="classification">
-      <div class="section-grid">
-        <div>
+    <section class="section">
+      <div class="section-grid" id="classification">
+        <div class="section-heading">
           <p class="eyebrow">Classification</p>
           <h2>What kind of prompt is this?</h2>
-          <p class="section-note">Classify the prompt before scoring it so the rubric matches the job it is meant to do.</p>
+          <p class="section-note">The prompt is scored against the job it is meant to do, not against a generic writing checklist.</p>
         </div>
-        <div class="section-card meta-grid" data-template="classification_items">
-          <div class="meta-item"><span class="meta-label">Primary type</span><span class="meta-value">Research / synthesis prompt</span></div>
-          <div class="meta-item"><span class="meta-label">Secondary types</span><span class="meta-value">Extraction, audit/review, handoff</span></div>
-          <div class="meta-item"><span class="meta-label">Context dependency</span><span class="meta-value">Workspace-bound</span></div>
-          <div class="meta-item"><span class="meta-label">Lifecycle</span><span class="meta-value">One-shot context scout</span></div>
-          <div class="meta-item"><span class="meta-label">Target executor</span><span class="meta-value">Read-only local agent</span></div>
-          <div class="meta-item"><span class="meta-label">Expected output</span><span class="meta-value">Context pack and exact edits</span></div>
+        <div class="report-panel">
+          <table class="metadata-table" data-template="classification_items">
+            <tbody>
+              <tr>
+                <th scope="row">Primary type</th>
+                <td>Research / synthesis prompt</td>
+              </tr>
+              <tr>
+                <th scope="row">Secondary types</th>
+                <td>Extraction, audit/review, handoff</td>
+              </tr>
+              <tr>
+                <th scope="row">Context dependency</th>
+                <td>Workspace-bound</td>
+              </tr>
+              <tr>
+                <th scope="row">Lifecycle</th>
+                <td>One-shot context scout</td>
+              </tr>
+              <tr>
+                <th scope="row">Target executor</th>
+                <td>Read-only local agent</td>
+              </tr>
+              <tr>
+                <th scope="row">Expected output</th>
+                <td>Context pack and exact edits</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </section>
 
-    <section class="section reveal" id="scorecard">
-      <div class="section-grid">
-        <div>
+    <section class="section">
+      <div class="section-grid" id="scorecard">
+        <div class="section-heading">
           <p class="eyebrow">Scorecard</p>
           <h2>Rubric breakdown</h2>
-          <p class="section-note">Each row explains the score impact. The final score should never stand alone.</p>
+          <p class="section-note">Each scored dimension includes a rationale and score impact so the final number can be audited.</p>
         </div>
-        <div class="section-card rubric-list" data-template="rubric_rows">
-          <div class="rubric-row">
-            <div>
-              <span class="rubric-label">Objective clarity</span>
-              <strong>88/100</strong>
-              <div class="meter"><span style="--value:88%;--tone:var(--blue)"></span></div>
-              <p>The prompt states a clear goal and describes what success should enable.</p>
+        <div class="report-panel">
+          <div class="summary-strip">
+            <div class="summary-item">
+              <span>Highest score</span>
+              <strong>Output contract, 90</strong>
             </div>
-            <div class="mini-ring" style="--score:88;--ring:var(--blue)"><span>88</span></div>
-          </div>
-          <div class="rubric-row">
-            <div>
-              <span class="rubric-label">Target clarity</span>
-              <strong>68/100</strong>
-              <div class="meter"><span style="--value:68%;--tone:var(--amber)"></span></div>
-              <p>The target system is named, but the exact root or fallback path is not defined.</p>
+            <div class="summary-item">
+              <span>Lowest score</span>
+              <strong>Risk handling, 60</strong>
             </div>
-            <div class="mini-ring" style="--score:68;--ring:var(--amber)"><span>68</span></div>
-          </div>
-          <div class="rubric-row">
-            <div>
-              <span class="rubric-label">Context grounding</span>
-              <strong>76/100</strong>
-              <div class="meter"><span style="--value:76%;--tone:var(--blue)"></span></div>
-              <p>The prompt asks for local discovery first, but should name the allowed roots before widening.</p>
+            <div class="summary-item">
+              <span>Score cap</span>
+              <strong>Boundary gaps cap readiness</strong>
             </div>
-            <div class="mini-ring" style="--score:76;--ring:var(--blue)"><span>76</span></div>
           </div>
-          <div class="rubric-row">
-            <div>
-              <span class="rubric-label">Scope boundaries</span>
-              <strong>62/100</strong>
-              <div class="meter"><span style="--value:62%;--tone:var(--amber)"></span></div>
-              <p>Sibling and parent folder discovery needs a stop rule to avoid unrelated private material.</p>
+
+          <div class="rubric-controls">
+            <p>Filter the ledger by score signal.</p>
+            <div class="filter-group" aria-label="Rubric filters">
+              <button class="filter-button" type="button" data-filter="all" aria-pressed="true">All rows</button>
+              <button class="filter-button" type="button" data-filter="attention" aria-pressed="false">Needs work</button>
+              <button class="filter-button" type="button" data-filter="strength" aria-pressed="false">Strengths</button>
             </div>
-            <div class="mini-ring" style="--score:62;--ring:var(--amber)"><span>62</span></div>
           </div>
-          <div class="rubric-row">
-            <div>
-              <span class="rubric-label">Autonomy boundaries</span>
-              <strong>84/100</strong>
-              <div class="meter"><span style="--value:84%;--tone:var(--blue)"></span></div>
-              <p>Read-only, no-web, and no-artifact rules are explicit and easy to follow.</p>
-            </div>
-            <div class="mini-ring" style="--score:84;--ring:var(--blue)"><span>84</span></div>
-          </div>
-          <div class="rubric-row">
-            <div>
-              <span class="rubric-label">Output contract</span>
-              <strong>90/100</strong>
-              <div class="meter"><span style="--value:90%;--tone:var(--green)"></span></div>
-              <p>The requested report sections are clear and useful for a later handoff.</p>
-            </div>
-            <div class="mini-ring" style="--score:90;--ring:var(--green)"><span>90</span></div>
-          </div>
-          <div class="rubric-row">
-            <div>
-              <span class="rubric-label">Evidence and verification</span>
-              <strong>72/100</strong>
-              <div class="meter"><span style="--value:72%;--tone:var(--amber)"></span></div>
-              <p>Path evidence is required, but the report also needs roots searched, skipped paths, and coverage limits.</p>
-            </div>
-            <div class="mini-ring" style="--score:72;--ring:var(--amber)"><span>72</span></div>
-          </div>
-          <div class="rubric-row">
-            <div>
-              <span class="rubric-label">Risk handling</span>
-              <strong>60/100</strong>
-              <div class="meter"><span style="--value:60%;--tone:var(--orange)"></span></div>
-              <p>Read-only rules are strong, but local search boundaries need explicit allowed roots.</p>
-            </div>
-            <div class="mini-ring" style="--score:60;--ring:var(--orange)"><span>60</span></div>
-          </div>
-          <div class="rubric-row">
-            <div>
-              <span class="rubric-label">Model and tool fit</span>
-              <strong>80/100</strong>
-              <div class="meter"><span style="--value:80%;--tone:var(--blue)"></span></div>
-              <p>Local search tools, readable file types, and read-only behavior match the task well.</p>
-            </div>
-            <div class="mini-ring" style="--score:80;--ring:var(--blue)"><span>80</span></div>
-          </div>
-          <div class="rubric-row">
-            <div>
-              <span class="rubric-label">Ambiguity control</span>
-              <strong>70/100</strong>
-              <div class="meter"><span style="--value:70%;--tone:var(--amber)"></span></div>
-              <p>"Semantic search" needs a local-only definition so the executor does not infer external lookup.</p>
-            </div>
-            <div class="mini-ring" style="--score:70;--ring:var(--amber)"><span>70</span></div>
-          </div>
+
+          <table class="rubric-table" data-template="rubric_rows">
+            <tbody>
+              <tr class="rubric-row" data-band="strength">
+                <th scope="row">Objective clarity</th>
+                <td class="score-cell"><span class="score-value">88/100</span><div class="meter"><span style="--value: 88%; --tone: var(--blue);"></span></div></td>
+                <td><p>The prompt states a clear goal and describes what success should enable.</p></td>
+                <td class="impact">Supports readiness</td>
+              </tr>
+              <tr class="rubric-row" data-band="attention">
+                <th scope="row">Target clarity</th>
+                <td class="score-cell"><span class="score-value">68/100</span><div class="meter"><span style="--value: 68%; --tone: var(--amber);"></span></div></td>
+                <td><p>The target system is named, but the exact root or fallback path is not defined.</p></td>
+                <td class="impact attention">-6 pts</td>
+              </tr>
+              <tr class="rubric-row" data-band="strength">
+                <th scope="row">Context grounding</th>
+                <td class="score-cell"><span class="score-value">76/100</span><div class="meter"><span style="--value: 76%; --tone: var(--blue);"></span></div></td>
+                <td><p>The prompt asks for local discovery first, but should name the allowed roots before widening.</p></td>
+                <td class="impact">Mostly sound</td>
+              </tr>
+              <tr class="rubric-row" data-band="attention">
+                <th scope="row">Scope boundaries</th>
+                <td class="score-cell"><span class="score-value">62/100</span><div class="meter"><span style="--value: 62%; --tone: var(--amber);"></span></div></td>
+                <td><p>Sibling and parent folder discovery needs a stop rule to avoid unrelated private material.</p></td>
+                <td class="impact blocker">-10 pts</td>
+              </tr>
+              <tr class="rubric-row" data-band="strength">
+                <th scope="row">Autonomy boundaries</th>
+                <td class="score-cell"><span class="score-value">84/100</span><div class="meter"><span style="--value: 84%; --tone: var(--blue);"></span></div></td>
+                <td><p>Read-only, no-web, and no-artifact rules are explicit and easy to follow.</p></td>
+                <td class="impact">Supports readiness</td>
+              </tr>
+              <tr class="rubric-row" data-band="strength">
+                <th scope="row">Output contract</th>
+                <td class="score-cell"><span class="score-value">90/100</span><div class="meter"><span style="--value: 90%; --tone: var(--green);"></span></div></td>
+                <td><p>The requested report sections are clear and useful for a later handoff.</p></td>
+                <td class="impact">Ready signal</td>
+              </tr>
+              <tr class="rubric-row" data-band="attention">
+                <th scope="row">Evidence and verification</th>
+                <td class="score-cell"><span class="score-value">72/100</span><div class="meter"><span style="--value: 72%; --tone: var(--amber);"></span></div></td>
+                <td><p>Path evidence is required, but the report also needs roots searched, skipped paths, and coverage limits.</p></td>
+                <td class="impact attention">-7 pts</td>
+              </tr>
+              <tr class="rubric-row" data-band="attention">
+                <th scope="row">Risk handling</th>
+                <td class="score-cell"><span class="score-value">60/100</span><div class="meter"><span style="--value: 60%; --tone: var(--orange);"></span></div></td>
+                <td><p>Read-only rules are strong, but local search boundaries need explicit allowed roots.</p></td>
+                <td class="impact blocker">-12 pts</td>
+              </tr>
+              <tr class="rubric-row" data-band="strength">
+                <th scope="row">Model and tool fit</th>
+                <td class="score-cell"><span class="score-value">80/100</span><div class="meter"><span style="--value: 80%; --tone: var(--blue);"></span></div></td>
+                <td><p>Local search tools, readable file types, and read-only behavior match the task well.</p></td>
+                <td class="impact">Appropriate fit</td>
+              </tr>
+              <tr class="rubric-row" data-band="attention">
+                <th scope="row">Ambiguity control</th>
+                <td class="score-cell"><span class="score-value">70/100</span><div class="meter"><span style="--value: 70%; --tone: var(--amber);"></span></div></td>
+                <td><p>"Semantic search" needs a local-only definition so the executor does not infer external lookup.</p></td>
+                <td class="impact attention">-5 pts</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </section>
 
-    <section class="section reveal" id="findings">
-      <div class="section-grid">
-        <div>
+    <section class="section">
+      <div class="section-grid" id="findings">
+        <div class="section-heading">
           <p class="eyebrow">Findings</p>
           <h2>What blocks readiness?</h2>
           <p class="section-note">Findings are ranked by execution risk and rework potential, not wording preference.</p>
         </div>
-        <div class="finding-list" data-template="finding_cards">
-          <article class="finding-card">
-            <div class="severity-dot">H</div>
-            <div>
-              <h3>Search scope is too broad</h3>
-              <p>Broad local-machine and sibling-folder language can pull in unrelated private material. Add allowed roots and a stop rule.</p>
+        <div class="finding-stack" data-template="finding_cards">
+          <article class="finding-row" style="--severity: var(--red);">
+            <div class="severity-rail" aria-hidden="true"></div>
+            <div class="finding-body">
+              <div class="finding-top">
+                <div class="finding-title">
+                  <h3>Search scope is too broad</h3>
+                  <div class="finding-meta"><span class="severity-chip high">High</span><span class="severity-chip">-12 pts</span></div>
+                </div>
+              </div>
+              <div class="finding-grid">
+                <div>
+                  <strong>Evidence</strong>
+                  <p>Broad local-machine and sibling-folder language can pull in unrelated private material.</p>
+                </div>
+                <div>
+                  <strong>Why it matters</strong>
+                  <p>The executor could waste time in irrelevant folders or surface material outside the intended review boundary.</p>
+                </div>
+                <div>
+                  <strong>Exact fix</strong>
+                  <p>Require explicit allowed roots and a stop rule before any local discovery begins.</p>
+                </div>
+              </div>
             </div>
           </article>
-          <article class="finding-card">
-            <div class="severity-dot">H</div>
-            <div>
-              <h3>No search receipt</h3>
-              <p>The prompt requires sourced claims, but the output should also show searched roots, skipped roots, methods, and coverage limits.</p>
+
+          <article class="finding-row" style="--severity: var(--red);">
+            <div class="severity-rail" aria-hidden="true"></div>
+            <div class="finding-body">
+              <div class="finding-top">
+                <div class="finding-title">
+                  <h3>No search receipt</h3>
+                  <div class="finding-meta"><span class="severity-chip high">High</span><span class="severity-chip">-8 pts</span></div>
+                </div>
+              </div>
+              <div class="finding-grid">
+                <div>
+                  <strong>Evidence</strong>
+                  <p>The prompt requires sourced claims, but not roots searched, skipped roots, methods, or coverage limits.</p>
+                </div>
+                <div>
+                  <strong>Why it matters</strong>
+                  <p>A later reader cannot tell whether the review was broad enough or whether relevant paths were missed.</p>
+                </div>
+                <div>
+                  <strong>Exact fix</strong>
+                  <p>Add a required Search Receipt section immediately after the executive summary.</p>
+                </div>
+              </div>
             </div>
           </article>
-          <article class="finding-card">
-            <div class="severity-dot medium">M</div>
-            <div>
-              <h3>Missing target fallback</h3>
-              <p>If the named target cannot be found, the executor should stop and report the missing path instead of inferring it.</p>
+
+          <article class="finding-row" style="--severity: var(--amber);">
+            <div class="severity-rail" aria-hidden="true"></div>
+            <div class="finding-body">
+              <div class="finding-top">
+                <div class="finding-title">
+                  <h3>Missing target fallback</h3>
+                  <div class="finding-meta"><span class="severity-chip medium">Medium</span><span class="severity-chip">-4 pts</span></div>
+                </div>
+              </div>
+              <div class="finding-grid">
+                <div>
+                  <strong>Evidence</strong>
+                  <p>The target system is named, but the prompt does not define what happens if it cannot be found.</p>
+                </div>
+                <div>
+                  <strong>Why it matters</strong>
+                  <p>Without a fallback rule, the executor may infer a nearby target and produce confident but misplaced work.</p>
+                </div>
+                <div>
+                  <strong>Exact fix</strong>
+                  <p>Tell the executor to stop and report the missing path instead of inventing a replacement target.</p>
+                </div>
+              </div>
             </div>
           </article>
-          <article class="finding-card">
-            <div class="severity-dot medium">M</div>
-            <div>
-              <h3>Score needs evidence</h3>
-              <p>A visible score is only useful when every rubric row explains its reason and score impact.</p>
+
+          <article class="finding-row" style="--severity: var(--amber);">
+            <div class="severity-rail" aria-hidden="true"></div>
+            <div class="finding-body">
+              <div class="finding-top">
+                <div class="finding-title">
+                  <h3>Score needs evidence</h3>
+                  <div class="finding-meta"><span class="severity-chip medium">Medium</span><span class="severity-chip">-3 pts</span></div>
+                </div>
+              </div>
+              <div class="finding-grid">
+                <div>
+                  <strong>Evidence</strong>
+                  <p>A visible score is useful only when every rubric row explains the reason and impact.</p>
+                </div>
+                <div>
+                  <strong>Why it matters</strong>
+                  <p>A bare score can look precise while hiding the edits that would actually raise it.</p>
+                </div>
+                <div>
+                  <strong>Exact fix</strong>
+                  <p>Keep the scorecard tied to scored rubric rows, severity, evidence, and copy-ready edits.</p>
+                </div>
+              </div>
             </div>
           </article>
         </div>
       </div>
     </section>
 
-    <section class="section reveal" id="edits">
-      <div class="section-grid">
-        <div>
+    <section class="section">
+      <div class="section-grid" id="edits">
+        <div class="section-heading">
           <p class="eyebrow">Suggested edits</p>
           <h2>Copy-ready fixes</h2>
-          <p class="section-note">Every major critique should resolve into language the user can apply.</p>
+          <p class="section-note">Every major critique resolves into language the user can apply without translating the finding.</p>
         </div>
         <div class="edit-list" data-template="edit_blocks">
-          <article class="edit-block">
-            <strong>Add under Search Scope</strong>
-            <pre>Before searching, identify the active working directory and list the exact roots you will inspect. Do not search unrelated private folders, credentials, environment files, browser profiles, or personal documents.</pre>
+          <article class="edit-sheet">
+            <div class="edit-header">
+              <span class="action-label">Add</span>
+              <div>
+                <h3>Under Search Scope</h3>
+                <p>Define allowed roots before discovery starts.</p>
+              </div>
+              <button class="copy-button" type="button" data-copy-target="edit-search-scope">Copy edit</button>
+            </div>
+            <pre id="edit-search-scope" class="copy-target">Before searching, identify the active working directory and list the exact roots you will inspect. Do not search unrelated private folders, credentials, environment files, browser profiles, or personal documents.</pre>
           </article>
-          <article class="edit-block">
-            <strong>Add after Executive Summary</strong>
-            <pre>## Search Receipt
+
+          <article class="edit-sheet">
+            <div class="edit-header">
+              <span class="action-label">Add</span>
+              <div>
+                <h3>After Executive Summary</h3>
+                <p>Make search coverage auditable.</p>
+              </div>
+              <button class="copy-button" type="button" data-copy-target="edit-search-receipt">Copy edit</button>
+            </div>
+            <pre id="edit-search-receipt" class="copy-target">## Search Receipt
 
 Include working directory, roots searched, roots skipped, search methods used, file types inspected, and inaccessible relevant paths.</pre>
           </article>
-          <article class="edit-block">
-            <strong>Add under Discovery Method</strong>
-            <pre>For semantic search, use only local filenames, nearby terminology, local indexes already available in the environment, or manual inspection of likely files. Do not call web or external services.</pre>
+
+          <article class="edit-sheet">
+            <div class="edit-header">
+              <span class="action-label">Add</span>
+              <div>
+                <h3>Under Discovery Method</h3>
+                <p>Constrain semantic search to local sources.</p>
+              </div>
+              <button class="copy-button" type="button" data-copy-target="edit-discovery-method">Copy edit</button>
+            </div>
+            <pre id="edit-discovery-method" class="copy-target">For semantic search, use only local filenames, nearby terminology, local indexes already available in the environment, or manual inspection of likely files. Do not call web or external services.</pre>
           </article>
         </div>
       </div>
     </section>
 
-    <section class="section reveal" id="next-step">
-      <div class="section-grid">
-        <div>
+    <section class="section">
+      <div class="section-grid" id="revised-prompt">
+        <div class="section-heading">
+          <p class="eyebrow">Revised prompt</p>
+          <h2>A safer runnable version</h2>
+          <p class="section-note">This sample keeps the prompt close to the original while closing the main execution risks.</p>
+        </div>
+        <div class="revised-prompt">
+          <div class="revised-header">
+            <h3>Patched prompt excerpt</h3>
+            <button class="copy-button" type="button" data-copy-target="revised-copy">Copy revision</button>
+          </div>
+          <pre id="revised-copy" class="copy-target">Review the target workspace in read-only mode and produce a concise context pack with exact file references.
+
+Before searching, identify the active working directory and list the exact roots you will inspect. Do not search unrelated private folders, credentials, environment files, browser profiles, or personal documents.
+
+If the named target cannot be found, stop and report the missing path instead of inferring a replacement target.
+
+Use only local filenames, nearby terminology, local indexes already available in the environment, or manual inspection of likely files. Do not call web or external services.
+
+After the executive summary, include a Search Receipt with working directory, roots searched, roots skipped, search methods used, file types inspected, and inaccessible relevant paths.</pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-grid" id="open-questions">
+        <div class="section-heading">
+          <p class="eyebrow">Open questions</p>
+          <h2>What remains unknown?</h2>
+          <p class="section-note">Only blockers and high-value unknowns belong here.</p>
+        </div>
+        <div class="report-panel">
+          <table class="question-list">
+            <tbody>
+              <tr>
+                <th scope="row">Allowed roots</th>
+                <td>Which exact workspace roots should the executor inspect?</td>
+              </tr>
+              <tr>
+                <th scope="row">Skipped paths</th>
+                <td>Should the prompt name specific folders that are always out of scope?</td>
+              </tr>
+              <tr>
+                <th scope="row">Output length</th>
+                <td>Does the final context pack need a maximum length or priority order?</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-grid" id="next-step">
+        <div class="section-heading">
           <p class="eyebrow">Next step</p>
           <h2>Smallest useful move</h2>
         </div>
-        <div class="section-card">
-          <p data-field="next_step">Add allowed roots, a search receipt, and a missing-target fallback, then run the prompt.</p>
+        <div class="next-panel">
+          <div>
+            <h3 data-field="next_step">Patch the boundary language, then run the prompt.</h3>
+            <p>Add allowed roots, a search receipt, and a missing-target fallback before handing this to an execution agent.</p>
+          </div>
+          <div>
+            <h3>Readiness target</h3>
+            <p>These changes should move the prompt into the 80s if the allowed roots are specific.</p>
+          </div>
         </div>
       </div>
     </section>
   </main>
 
   <script>
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const filterButtons = document.querySelectorAll("[data-filter]");
+    const rubricRows = document.querySelectorAll(".rubric-row");
 
-    if (!reduceMotion) {
-      const reveal = new IntersectionObserver((entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) entry.target.classList.add("is-visible");
-        }
-      }, { threshold: 0.14 });
-      document.querySelectorAll(".reveal").forEach((node) => reveal.observe(node));
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const filter = button.dataset.filter;
+        filterButtons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+        rubricRows.forEach((row) => {
+          row.classList.toggle("is-hidden", filter !== "all" && row.dataset.band !== filter);
+        });
+      });
+    });
 
-    } else {
-      document.querySelectorAll(".reveal").forEach((node) => node.classList.add("is-visible"));
+    async function copyText(targetId, button) {
+      const target = document.getElementById(targetId);
+      if (!target) return;
+      const text = target.textContent.trim();
+
+      try {
+        await navigator.clipboard.writeText(text);
+        const original = button.textContent;
+        button.textContent = "Copied";
+        button.classList.add("is-copied");
+        window.setTimeout(() => {
+          button.textContent = original;
+          button.classList.remove("is-copied");
+        }, 1400);
+      } catch {
+        target.setAttribute("tabindex", "-1");
+        target.focus();
+      }
     }
+
+    document.querySelectorAll("[data-copy-target]").forEach((button) => {
+      button.addEventListener("click", () => copyText(button.dataset.copyTarget, button));
+    });
+
+    function scrollToHashTarget() {
+      if (!window.location.hash) return;
+      const target = document.getElementById(window.location.hash.slice(1));
+      if (!target) return;
+
+      window.requestAnimationFrame(() => {
+        const top = target.getBoundingClientRect().top + window.scrollY - 18;
+        window.scrollTo({ top, behavior: "auto" });
+        document.documentElement.dataset.anchorReady = window.location.hash.slice(1);
+      });
+    }
+
+    window.addEventListener("load", scrollToHashTarget);
+    window.addEventListener("hashchange", scrollToHashTarget);
+    window.setTimeout(scrollToHashTarget, 80);
+    window.setTimeout(scrollToHashTarget, 260);
+    window.setTimeout(scrollToHashTarget, 620);
+    if (document.fonts) document.fonts.ready.then(scrollToHashTarget);
+    let anchorAttempts = 0;
+    const anchorTimer = window.setInterval(() => {
+      scrollToHashTarget();
+      anchorAttempts += 1;
+      if (anchorAttempts > 8) window.clearInterval(anchorTimer);
+    }, 160);
   </script>
 </body>
 </html>

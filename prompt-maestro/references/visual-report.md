@@ -9,11 +9,21 @@ The visual report is complete only when it has:
 - A long-scroll structure with separate sections for verdict, classification, scorecard, findings, suggested edits, revised prompt, and open questions.
 - A visible scoring model: every scored rubric dimension has a label, score, rationale, and impact on the overall verdict.
 - Visual indicators beyond text: at minimum one overall score ring, rubric bars or mini-rings, and severity markers for findings.
+- The overall score ring must be inline SVG. Animate its `stroke-dashoffset` with CSS so the ring fills to the score on page load.
 - The overall score must be integrated into the verdict band or a clearly connected assessment component. Do not place it as a detached floating tile.
 - Scoring explanation: the reader can tell why the prompt got its score and which edit would raise it.
 - Professional spacing: do not cram all content into one viewport or one dashboard.
+- Anchor behavior: direct links such as `#findings` and `#edits` must land near useful section content, not at the top of a blank band or another section.
 - Compact typography: no oversized hero headline; keep report headings modest and readable.
-- Motion with restraint: scroll reveals are allowed, but decorative motion must never sit behind score rings, cards, or report text.
+- Motion with restraint: scroll reveals are allowed, including staggered fade-and-slide rubric rows as they enter view, but decorative motion must never sit behind score rings, cards, or report text.
+- Progressive disclosure: findings and suggested edits should use native collapsible controls or equivalent accessible accordions so the report scans before details expand.
+- Visual language: use glass-like report surfaces with translucent backgrounds, 1px low-opacity borders, subtle shadows, and backdrop blur over a quiet textured or gradient background.
+- Structure: connect classification metadata to the scorecard with a node-and-line grid pattern so the reader can follow the review from prompt type to score.
+- Routing: include an explicit score-to-findings-to-edits route using CSS Grid plus 1px tracking lines drawn with pseudo-elements or inline SVG.
+- Gestalt proximity: keep each section heading and its related cards in the same constrained section container so headings are not orphaned from content.
+- Iconography: use inline flat SVG icons for classification, risk, severity, and action states. Do not use emoji for visual styling or report content.
+- Risk icon containers must use a 10% opacity tint of the root risk color plus a 1px solid border; do not use solid-fill risk circles.
+- Typography: use a geometric sans-serif heading stack and a monospace stack for numerical scores and technical paths.
 - Reduced-motion support through `prefers-reduced-motion`.
 - A clear next step at the end.
 - Direct-open safety: `report-template.html` must render as a meaningful sample report when opened directly, including classification, rubric rows, representative findings, and copy-ready edits. Do not leave visible raw placeholder tokens such as `{{field_name}}` in the page.

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Storyboard Prompt-Orchestration Test"
+  short_description: "Test gated storyboards with locked visual modules"
+  default_prompt: "Use $storyboard-prompt-orchestration-test to choose a visual style, load its full module, approve the storyboard, and generate the selected output."
+policy:
+  allow_implicit_invocation: false

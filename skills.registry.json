@@ -20,6 +20,24 @@
       ]
     },
     {
+      "id": "storyboard-prompt-orchestration-test",
+      "path": "storyboard-prompt-orchestration-test",
+      "status": "test",
+      "support_level": "portable",
+      "aliases": [],
+      "hosts": ["codex"],
+      "entrypoint": "SKILL.md",
+      "support_files": [
+        "references/style-a-rough-notebook.md",
+        "references/style-b-editorial-systems.md",
+        "references/style-c-industrial-concept.md",
+        "references/style-d-blueprint-ux.md",
+        "references/style-e-product-keynote.md",
+        "references/style-f-whiteboard-strategy.md",
+        "agents/openai.yaml"
+      ]
+    },
+    {
       "id": "tot-adaptable",
       "path": "tot-adaptable",
       "status": "v1",

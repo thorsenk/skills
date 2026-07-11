@@ -46,6 +46,68 @@ function checkMarkdownLinks(file) {
   }
 }
 
+function markdownSection(body, title) {
+  const marker = `## ${title}\n`;
+  const start = body.indexOf(marker);
+  if (start === -1) return "";
+  const contentStart = start + marker.length;
+  const nextHeading = body.slice(contentStart).search(/^## /m);
+  return nextHeading === -1
+    ? body.slice(contentStart)
+    : body.slice(contentStart, contentStart + nextHeading);
+}
+
+function checkStoryboardStyleModules(id, dir, supportFiles, skillMd) {
+  const modules = supportFiles
+    .filter((file) => /^references\/style-[a-f]-.*\.md$/.test(file))
+    .sort();
+  const sectionMinimums = new Map([
+    ["Non-negotiable signature", 7],
+    ["Composition grammar", 5],
+    ["Mark-making and material", 4],
+    ["Color system", 5],
+    ["Lettering and annotations", 4],
+    ["Drift exclusions", 6],
+    ["Style-specific QA gate", 8],
+  ]);
+  const promptLocks = new Set();
+
+  if (modules.length !== 6) {
+    fail(`${id}: expected six registered style modules`);
+  }
+
+  for (const letter of ["a", "b", "c", "d", "e", "f"]) {
+    if (!modules.some((file) => file.startsWith(`references/style-${letter}-`))) {
+      fail(`${id}: missing Style ${letter.toUpperCase()} module`);
+    }
+  }
+
+  for (const file of modules) {
+    const body = read(path.join(dir, file));
+    for (const title of ["Contents", "Visual goal", ...sectionMinimums.keys(), "Prompt lock"]) {
+      if (!markdownSection(body, title)) fail(`${file}: missing section: ${title}`);
+    }
+    for (const [title, minimum] of sectionMinimums) {
+      const count = (markdownSection(body, title).match(/^- /gm) || []).length;
+      if (count < minimum) fail(`${file}: ${title} needs at least ${minimum} concrete checks or rules`);
+    }
+
+    const promptBlock = markdownSection(body, "Prompt lock").match(/```text\n([\s\S]*?)\n```/)?.[1] || "";
+    const promptWords = promptBlock.trim().split(/\s+/).filter(Boolean).length;
+    const promptName = promptBlock.split("\n")[0];
+    if (!promptName.startsWith("STYLE LOCK — ")) fail(`${file}: prompt lock needs a named STYLE LOCK block`);
+    if (promptWords < 120) fail(`${file}: prompt lock is too thin to preserve visual fidelity`);
+    if (promptLocks.has(promptName)) fail(`${file}: prompt lock name must be unique`);
+    promptLocks.add(promptName);
+
+    if (!skillMd.includes(`](${file})`)) fail(`${file}: orchestrator does not link this style module`);
+  }
+
+  if (!skillMd.includes("Copy the module's complete **Prompt lock**")) {
+    fail(`${id}: orchestrator must require the complete module prompt lock`);
+  }
+}
+
 for (const skill of skills) {
   const { id, path: skillPath, entrypoint = "SKILL.md", support_files = [], aliases = [] } = skill;
   if (!/^[a-z0-9-]+$/.test(id)) fail(`${id}: id must be lowercase letters, digits, or hyphens`);
@@ -86,6 +148,10 @@ for (const skill of skills) {
   for (const file of walkFiles(dir)) {
     const rel = path.relative(dir, file);
     if (!registeredFiles.has(rel)) fail(`${id}: support file is not listed in registry: ${rel}`);
+  }
+
+  if (skillMd.includes("## Load the selected style module")) {
+    checkStoryboardStyleModules(id, dir, support_files, skillMd);
   }
 
   for (const file of [entrypoint, ...support_files].filter((name) => name.endsWith(".md"))) {
