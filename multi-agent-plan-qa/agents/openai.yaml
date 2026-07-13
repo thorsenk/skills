@@ -1,0 +1,4 @@
+interface:
+  display_name: "Multi-Agent Plan QA"
+  short_description: "Domain-grounded plan audit and hardening"
+  default_prompt: "Use $multi-agent-plan-qa to audit or harden the active plan with bounded, project-read-only review."

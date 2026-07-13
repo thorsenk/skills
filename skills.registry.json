@@ -38,6 +38,31 @@
       ]
     },
     {
+      "id": "storyboard-prompt-orchestration-test-2",
+      "path": "storyboard-prompt-orchestration-test-2",
+      "status": "test",
+      "support_level": "portable",
+      "aliases": [],
+      "hosts": ["codex"],
+      "entrypoint": "SKILL.md",
+      "support_files": [
+        "agents/openai.yaml"
+      ]
+    },
+    {
+      "id": "multi-agent-plan-qa",
+      "path": "multi-agent-plan-qa",
+      "status": "v1",
+      "support_level": "portable",
+      "aliases": [],
+      "hosts": ["claude-code", "codex"],
+      "entrypoint": "SKILL.md",
+      "support_files": [
+        "references/audit-framework.md",
+        "agents/openai.yaml"
+      ]
+    },
+    {
       "id": "tot-adaptable",
       "path": "tot-adaptable",
       "status": "v1",

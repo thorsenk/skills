@@ -11,6 +11,8 @@ plus any supporting reference files.
 |-------|-------------|
 | [storyboard-prompt-orchestration](storyboard-prompt-orchestration/) | Storyboard Prompt-Orchestration Skill for external image-capable AI: context scoping, mandatory storyboard script, six locked `style_output_mode` contracts, prompt generation, optional rendering, and a controlled rerun menu (R0–R5). |
 | [storyboard-prompt-orchestration-test](storyboard-prompt-orchestration-test/) | Explicit-invocation test package with gated panel approval and six dedicated visual-style modules, each with a locked prompt, drift exclusions, and style-specific QA. |
+| [storyboard-prompt-orchestration-test-2](storyboard-prompt-orchestration-test-2/) | Explicit-invocation image-quality test with complete inline visual contracts, hard safe-area rules, prompt architecture, and regeneration QA. |
+| [multi-agent-plan-qa](multi-agent-plan-qa/) | Domain-grounded, project-read-only plan auditing and bounded hardening with four capacity-aware review roles. |
 | [prompt-maestro](prompt-maestro/) | Classify, audit, and harden prompts with a visual HTML scorecard before execution. |
 | [tot-adaptable](tot-adaptable/) | Tree-of-Thought-inspired internal branching for multi-lens critique, discovery, planning, and review without process theater. |
 | [agent-skill-mechanics](agent-skill-mechanics/) | Design predictable agent skills through triggers, structure, steering, and pruning. |

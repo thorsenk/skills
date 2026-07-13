@@ -1,0 +1,4 @@
+interface:
+  display_name: "Calibrate Visual Language"
+  short_description: "Build repeatable visual-language skills"
+  default_prompt: "Use $calibrate-visual-language to calibrate visual references and produce a validated reusable style skill."

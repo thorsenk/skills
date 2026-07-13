@@ -1,0 +1,6 @@
+interface:
+  display_name: "Storyboard Prompt-Orchestration Test 2"
+  short_description: "Test image-quality-first gated storyboards"
+  default_prompt: "Use $storyboard-prompt-orchestration-test-2 to select and lock a visual style, approve the storyboard, and generate the chosen output."
+policy:
+  allow_implicit_invocation: false
