@@ -5,9 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="data:,">
   <title>Prompt Maestro Report</title>
-  <script>
-    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
-  </script>
   <style>
     :root {
       --paper: #f1f3ef;
@@ -96,8 +93,7 @@
     }
 
     .quick-nav a,
-    .filter-button,
-    .copy-button {
+    .filter-button {
       min-height: 34px;
       display: inline-flex;
       align-items: center;
@@ -116,16 +112,13 @@
     }
 
     .quick-nav a:hover,
-    .filter-button:hover,
-    .copy-button:hover {
+    .filter-button:hover {
       border-color: var(--blue);
       color: var(--blue);
     }
 
     .quick-nav a:focus-visible,
-    .filter-button:focus-visible,
-    .copy-button:focus-visible,
-    .copy-target:focus-visible {
+    .filter-button:focus-visible {
       outline: 3px solid rgba(49, 95, 155, 0.28);
       outline-offset: 3px;
     }
@@ -638,7 +631,7 @@
 
     .edit-header {
       display: grid;
-      grid-template-columns: auto minmax(0, 1fr) auto;
+      grid-template-columns: auto minmax(0, 1fr);
       gap: 14px;
       align-items: center;
       padding: 15px 18px;
@@ -670,11 +663,6 @@
       margin: 4px 0 0;
       color: var(--muted);
       font-size: 0.88rem;
-    }
-
-    .copy-button {
-      cursor: pointer;
-      padding: 6px 10px;
     }
 
     pre {
@@ -732,15 +720,6 @@
     .next-panel p {
       margin: 0;
       color: var(--muted);
-    }
-
-    .copy-target {
-      position: relative;
-    }
-
-    .copy-button.is-copied {
-      border-color: var(--green);
-      color: var(--green);
     }
 
     @media (max-width: 880px) {
@@ -840,9 +819,6 @@
         width: max-content;
       }
 
-      .copy-button {
-        width: max-content;
-      }
     }
 
     @media (max-width: 520px) {
@@ -1211,9 +1187,8 @@
                 <h3>Under Search Scope</h3>
                 <p>Define allowed roots before discovery starts.</p>
               </div>
-              <button class="copy-button" type="button" data-copy-target="edit-search-scope">Copy edit</button>
             </div>
-            <pre id="edit-search-scope" class="copy-target">Before searching, identify the active working directory and list the exact roots you will inspect. Do not search unrelated private folders, credentials, environment files, browser profiles, or personal documents.</pre>
+            <pre id="edit-search-scope">Before searching, identify the active working directory and list the exact roots you will inspect. Do not search unrelated private folders, credentials, environment files, browser profiles, or personal documents.</pre>
           </article>
 
           <article class="edit-sheet">
@@ -1223,9 +1198,8 @@
                 <h3>After Executive Summary</h3>
                 <p>Make search coverage auditable.</p>
               </div>
-              <button class="copy-button" type="button" data-copy-target="edit-search-receipt">Copy edit</button>
             </div>
-            <pre id="edit-search-receipt" class="copy-target">## Search Receipt
+            <pre id="edit-search-receipt">## Search Receipt
 
 Include working directory, roots searched, roots skipped, search methods used, file types inspected, and inaccessible relevant paths.</pre>
           </article>
@@ -1237,9 +1211,8 @@ Include working directory, roots searched, roots skipped, search methods used, f
                 <h3>Under Discovery Method</h3>
                 <p>Constrain semantic search to local sources.</p>
               </div>
-              <button class="copy-button" type="button" data-copy-target="edit-discovery-method">Copy edit</button>
             </div>
-            <pre id="edit-discovery-method" class="copy-target">For semantic search, use only local filenames, nearby terminology, local indexes already available in the environment, or manual inspection of likely files. Do not call web or external services.</pre>
+            <pre id="edit-discovery-method">For semantic search, use only local filenames, nearby terminology, local indexes already available in the environment, or manual inspection of likely files. Do not call web or external services.</pre>
           </article>
         </div>
       </div>
@@ -1255,9 +1228,8 @@ Include working directory, roots searched, roots skipped, search methods used, f
         <div class="revised-prompt">
           <div class="revised-header">
             <h3>Patched prompt excerpt</h3>
-            <button class="copy-button" type="button" data-copy-target="revised-copy">Copy revision</button>
           </div>
-          <pre id="revised-copy" class="copy-target">Review the target workspace in read-only mode and produce a concise context pack with exact file references.
+          <pre id="revised-copy">Review the target workspace in read-only mode and produce a concise context pack with exact file references.
 
 Before searching, identify the active working directory and list the exact roots you will inspect. Do not search unrelated private folders, credentials, environment files, browser profiles, or personal documents.
 
@@ -1332,54 +1304,6 @@ After the executive summary, include a Search Receipt with working directory, ro
       });
     });
 
-    async function copyText(targetId, button) {
-      const target = document.getElementById(targetId);
-      if (!target) return;
-      const text = target.textContent.trim();
-
-      try {
-        await navigator.clipboard.writeText(text);
-        const original = button.textContent;
-        button.textContent = "Copied";
-        button.classList.add("is-copied");
-        window.setTimeout(() => {
-          button.textContent = original;
-          button.classList.remove("is-copied");
-        }, 1400);
-      } catch {
-        target.setAttribute("tabindex", "-1");
-        target.focus();
-      }
-    }
-
-    document.querySelectorAll("[data-copy-target]").forEach((button) => {
-      button.addEventListener("click", () => copyText(button.dataset.copyTarget, button));
-    });
-
-    function scrollToHashTarget() {
-      if (!window.location.hash) return;
-      const target = document.getElementById(window.location.hash.slice(1));
-      if (!target) return;
-
-      window.requestAnimationFrame(() => {
-        const top = target.getBoundingClientRect().top + window.scrollY - 18;
-        window.scrollTo({ top, behavior: "auto" });
-        document.documentElement.dataset.anchorReady = window.location.hash.slice(1);
-      });
-    }
-
-    window.addEventListener("load", scrollToHashTarget);
-    window.addEventListener("hashchange", scrollToHashTarget);
-    window.setTimeout(scrollToHashTarget, 80);
-    window.setTimeout(scrollToHashTarget, 260);
-    window.setTimeout(scrollToHashTarget, 620);
-    if (document.fonts) document.fonts.ready.then(scrollToHashTarget);
-    let anchorAttempts = 0;
-    const anchorTimer = window.setInterval(() => {
-      scrollToHashTarget();
-      anchorAttempts += 1;
-      if (anchorAttempts > 8) window.clearInterval(anchorTimer);
-    }, 160);
   </script>
 </body>
 </html>

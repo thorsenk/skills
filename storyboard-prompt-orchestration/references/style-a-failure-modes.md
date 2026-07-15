@@ -64,7 +64,7 @@ When a failure mode is detected, follow these steps:
 | C. Annotation Starvation | Add Zone D content — callouts, labels, arrows, design rationale. | `style-a-composition-templates.md` Zone D |
 | D. Color Decoration | Map colors to semantic roles. Remove decorative color mentions. | `style-a-visual-grammar.md` Colored-Pencil Semantics |
 | E. Spatial Neglect | Add Zone E if concept is product/device/environment. Rebalance to 50/50 or 40/60. | `style-a-composition-templates.md` Template C |
-| F. White Canvas Default | Add transparency directive. Specify feathered edges, alpha channel, organic boundary. | `style-a-prompt-templates.md` + SKILL.md Transparency Doctrine |
+| F. White Canvas Default | Add transparency directive. Specify feathered edges, alpha channel, organic boundary. | `style-a-prompt-templates.md` + SKILL.md Transparency Guidance |
 | G. Brand Zone Omission | Add Zone C content — logo roughs, swatches, tone adjectives, identity fragments. | `style-a-composition-templates.md` Zone C |
 
 ---

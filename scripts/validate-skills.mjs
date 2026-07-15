@@ -17,6 +17,8 @@ const ids = new Set();
 const readme = read(path.join(root, "README.md"));
 const bannedCorePhrases = ["Claude folder", "Codex folder", "Claude skill", "Codex skill"];
 const allowedSupportLevels = new Set(["portable", "host-adapted", "host-specific"]);
+const allowedHosts = new Set(["claude-code", "codex"]);
+const allowedStatuses = new Set(["v1", "test", "blocked-material-calibration"]);
 
 if (!skills.length) fail("skills.registry.json must list at least one skill");
 
@@ -115,6 +117,25 @@ for (const skill of skills) {
   if (skillPath !== id) fail(`${id}: path must match id for top-level skill packages`);
   if (!allowedSupportLevels.has(skill.support_level)) {
     fail(`${id}: support_level must be portable, host-adapted, or host-specific`);
+  }
+  if (!allowedStatuses.has(skill.status)) {
+    fail(`${id}: status must be v1, test, or blocked-material-calibration`);
+  }
+
+  const hosts = Array.isArray(skill.hosts) ? skill.hosts : [];
+  if (!hosts.length) fail(`${id}: hosts must list at least one supported host`);
+  if (new Set(hosts).size !== hosts.length) fail(`${id}: hosts must not contain duplicates`);
+  for (const host of hosts) {
+    if (!allowedHosts.has(host)) fail(`${id}: unsupported host: ${host}`);
+  }
+  if (skill.support_level === "portable" && hosts.length !== allowedHosts.size) {
+    fail(`${id}: portable skills must support both claude-code and codex`);
+  }
+  if (skill.support_level === "host-adapted" && hosts.length !== allowedHosts.size) {
+    fail(`${id}: host-adapted skills must support both claude-code and codex`);
+  }
+  if (skill.support_level === "host-specific" && hosts.length !== 1) {
+    fail(`${id}: host-specific skills must list exactly one host`);
   }
   ids.add(id);
 
