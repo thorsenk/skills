@@ -12,15 +12,23 @@ const fail = (msg) => {
 };
 
 const registry = JSON.parse(read(registryPath));
-const skills = Array.isArray(registry.skills) ? registry.skills : [];
+const activeSkills = Array.isArray(registry.skills) ? registry.skills : [];
+const retiredSkills = Array.isArray(registry.retired) ? registry.retired : [];
+const skills = [...activeSkills, ...retiredSkills];
+const retiredEntries = new Set(retiredSkills);
+const activeIds = new Set(activeSkills.map((skill) => skill.id));
+const retiredIds = new Set(retiredSkills.map((skill) => skill.id));
 const ids = new Set();
 const readme = read(path.join(root, "README.md"));
 const bannedCorePhrases = ["Claude folder", "Codex folder", "Claude skill", "Codex skill"];
 const allowedSupportLevels = new Set(["portable", "host-adapted", "host-specific"]);
 const allowedHosts = new Set(["claude-code", "codex"]);
-const allowedStatuses = new Set(["v1", "test", "blocked-material-calibration"]);
+const allowedActiveStatuses = new Set(["v1", "test", "blocked-material-calibration", "deprecated"]);
 
-if (!skills.length) fail("skills.registry.json must list at least one skill");
+if (!activeSkills.length) fail("skills.registry.json must list at least one active skill");
+if (registry.retired !== undefined && !Array.isArray(registry.retired)) {
+  fail("skills.registry.json retired must be an array");
+}
 
 function walkFiles(dir) {
   const out = [];
@@ -112,14 +120,27 @@ function checkStoryboardStyleModules(id, dir, supportFiles, skillMd) {
 
 for (const skill of skills) {
   const { id, path: skillPath, entrypoint = "SKILL.md", support_files = [], aliases = [] } = skill;
+  const isRetired = retiredEntries.has(skill);
+  const expectedPath = isRetired ? `retired/${id}` : id;
   if (!/^[a-z0-9-]+$/.test(id)) fail(`${id}: id must be lowercase letters, digits, or hyphens`);
   if (ids.has(id)) fail(`${id}: duplicate registry id`);
-  if (skillPath !== id) fail(`${id}: path must match id for top-level skill packages`);
+  if (skillPath !== expectedPath) fail(`${id}: path must be ${expectedPath}`);
   if (!allowedSupportLevels.has(skill.support_level)) {
     fail(`${id}: support_level must be portable, host-adapted, or host-specific`);
   }
-  if (!allowedStatuses.has(skill.status)) {
-    fail(`${id}: status must be v1, test, or blocked-material-calibration`);
+  if (isRetired && skill.status !== "retired") {
+    fail(`${id}: entries in retired must use status retired`);
+  }
+  if (!isRetired && !allowedActiveStatuses.has(skill.status)) {
+    fail(`${id}: active status must be v1, test, blocked-material-calibration, or deprecated`);
+  }
+  if (skill.status === "deprecated") {
+    if (typeof skill.replacement !== "string" || !activeIds.has(skill.replacement) || skill.replacement === id) {
+      fail(`${id}: deprecated skills must name another active skill as replacement`);
+    }
+  }
+  if (isRetired && skill.replacement !== undefined && !activeIds.has(skill.replacement)) {
+    fail(`${id}: retired replacement must name an active skill`);
   }
 
   const hosts = Array.isArray(skill.hosts) ? skill.hosts : [];
@@ -198,10 +219,22 @@ for (const file of ["README.md", "NOTES.md"]) {
 }
 
 for (const item of fs.readdirSync(root, { withFileTypes: true })) {
-  if (!item.isDirectory() || item.name.startsWith(".") || item.name === "scripts") continue;
-  if (exists(path.join(root, item.name, "SKILL.md")) && !ids.has(item.name)) {
+  if (!item.isDirectory() || item.name.startsWith(".") || item.name === "scripts" || item.name === "retired") continue;
+  if (exists(path.join(root, item.name, "SKILL.md")) && !activeIds.has(item.name)) {
     fail(`${item.name}: skill directory is missing from skills.registry.json`);
   }
 }
 
-if (!process.exitCode) console.log(`Validated ${skills.length} skill package${skills.length === 1 ? "" : "s"}.`);
+const retiredRoot = path.join(root, "retired");
+if (exists(retiredRoot)) {
+  for (const item of fs.readdirSync(retiredRoot, { withFileTypes: true })) {
+    if (!item.isDirectory() || item.name.startsWith(".")) continue;
+    if (exists(path.join(retiredRoot, item.name, "SKILL.md")) && !retiredIds.has(item.name)) {
+      fail(`${item.name}: retired skill directory is missing from skills.registry.json retired`);
+    }
+  }
+}
+
+if (!process.exitCode) {
+  console.log(`Validated ${activeSkills.length} active skill package${activeSkills.length === 1 ? "" : "s"} and ${retiredSkills.length} retired skill package${retiredSkills.length === 1 ? "" : "s"}.`);
+}

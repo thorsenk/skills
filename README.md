@@ -40,6 +40,14 @@ Each package entry in `skills.registry.json` must declare one `support_level`:
 
 Keep `SKILL.md` host-neutral unless host-specific behavior is unavoidable.
 
+## Package lifecycle
+
+- Active, test, and blocked packages remain in the main package area.
+- Deprecated packages remain installable in the main package area, use `status: deprecated`, and name an active `replacement` in `skills.registry.json`.
+- Retired packages move under [`retired/`](retired/) at `retired/<skill-id>/`, move from `skills` to the registry's `retired` list, and use `status: retired`.
+
+Retired packages are preserved for history and migration reference, but the bulk installer does not install them.
+
 ## Install
 
 Clone the repo once, then symlink the skills you want into the host-specific skills
@@ -70,6 +78,8 @@ for target in ~/.claude/skills "${CODEX_HOME:-$HOME/.codex}/skills"; do
   done
 done
 ```
+
+This loop scans only top-level packages, so it excludes everything under `retired/`.
 
 Remove a skill by deleting its symlink; the source in this repo is untouched.
 If an old install path is a copied folder instead of a symlink, move or remove that
