@@ -13,6 +13,7 @@ plus any supporting reference files.
 | [storyboard-prompt-orchestration-test](storyboard-prompt-orchestration-test/) | Explicit-invocation test package with gated panel approval and six dedicated visual-style modules, each with a locked prompt, drift exclusions, and style-specific QA. |
 | [storyboard-prompt-orchestration-test-2](storyboard-prompt-orchestration-test-2/) | Explicit-invocation image-quality test with complete inline visual contracts, hard safe-area rules, prompt architecture, and regeneration QA. |
 | [multi-agent-plan-qa](multi-agent-plan-qa/) | Domain-grounded, project-read-only plan auditing and bounded hardening with four capacity-aware review roles. |
+| [domain-modeling](domain-modeling/) | Audit or establish evidence-grounded domain models, shared language, boundaries, rules, states, workflows, and contracts. |
 | [calibrate-visual-language](calibrate-visual-language/) | Calibrate references and controlled specimens into a validated, reusable visual-language skill. |
 | [prompt-maestro](prompt-maestro/) | Classify, audit, and harden prompts with a visual HTML scorecard before execution. |
 | [tot-adaptable](tot-adaptable/) | Tree-of-Thought-inspired internal branching for multi-lens critique, discovery, planning, and review without process theater. |

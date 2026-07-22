@@ -1,0 +1,4 @@
+interface:
+  display_name: "Domain Modeling"
+  short_description: "Audit and establish evidence-based domain models"
+  default_prompt: "Use $domain-modeling to audit this project's domain model and identify any evidence gaps."

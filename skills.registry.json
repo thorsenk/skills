@@ -63,6 +63,22 @@
       ]
     },
     {
+      "id": "domain-modeling",
+      "path": "domain-modeling",
+      "status": "v1",
+      "support_level": "portable",
+      "aliases": [],
+      "hosts": ["claude-code", "codex"],
+      "entrypoint": "SKILL.md",
+      "support_files": [
+        "agents/openai.yaml",
+        "references/exercise.md",
+        "references/rubric.md",
+        "references/sources.md",
+        "scripts/collect_domain_docs.py"
+      ]
+    },
+    {
       "id": "calibrate-visual-language",
       "path": "calibrate-visual-language",
       "status": "v1",
