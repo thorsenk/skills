@@ -1,85 +1,75 @@
 ---
 name: calibrate-visual-language
-description: [TODO: Complete and informative explanation of what the skill does and when to use it. Include WHEN to use this skill - specific scenarios, file types, or tasks that trigger it.]
+description: Build, repair, or validate a reusable visual-design-language skill from visual references, controlled comparison specimens, and explicit decisions. Use when a user wants to define a repeatable image style, turn references into a portable style package, compare visual directions before choosing one, or test a style skill for drift. Do not use for one-off image requests or routine generation with an already approved style skill.
 ---
 
 # Calibrate Visual Language
 
-## Overview
+Turn evidence and explicit decisions into a portable visual-design-language (VDL) skill. Discover the style through controlled specimens before writing final generation rules.
 
-[TODO: 1-2 sentences explaining what this skill enables]
+## Load only what the phase needs
 
-## Structuring This Skill
+- Read [calibration-protocol.md](references/calibration-protocol.md) before framing or running calibration rounds.
+- Read [reference-role-model.md](references/reference-role-model.md) when classifying, approving, or rejecting images.
+- Read [visual-rule-taxonomy.md](references/visual-rule-taxonomy.md) when translating evidence into rules.
+- Read [generated-skill-contract.md](references/generated-skill-contract.md) before creating or revising a VDL package.
+- Read [validation-protocol.md](references/validation-protocol.md) before calling a package validated or proposing release.
 
-[TODO: Choose the structure that best fits this skill's purpose. Common patterns:
+## Workflow
 
-**1. Workflow-Based** (best for sequential processes)
-- Works well when there are clear step-by-step procedures
-- Example: DOCX skill with "Workflow Decision Tree" -> "Reading" -> "Creating" -> "Editing"
-- Structure: ## Overview -> ## Workflow Decision Tree -> ## Step 1 -> ## Step 2...
+1. **Frame.** Identify intended artifacts, surfaces, audience, use context, fidelity, exclusions, generation environment, and whether this is a new package, revision, or fork. Ask one decision-shaping question only when the answer changes the next specimen or package decision.
+2. **Inventory.** Inspect every supplied reference. Give each image an explicit role and record conflicts, missing evidence, and uncertain inferences. A layout reference never silently defines visual treatment.
+3. **Form a provisional grammar.** Separate observed traits from inferred rules. Track decisions, conflicts, and uncertainties. Mark every rule open, provisional, approved, rejected, or superseded.
+4. **Run controlled rounds.** Keep fixture content, hierarchy, aspect ratio, object count, and major geometry fixed. Change one declared variable family at a time. Label each specimen with a stable ID and record fixed and varied parameters.
+5. **Confirm surfaces and boundaries.** Test every materially different supported surface plus at least one pressure case. Use actual images, not prose alone, for traits that depend on visual evidence.
+   When the intended language claims fidelity to a physical medium, use close-up photographs or scans of that medium as the material evidence. Generated simulations may document rejection directions, but they cannot approve physical stroke behavior.
+6. **Request explicit approval.** Never infer approval from silence or continuation. Promote only accepted specimens to approved locks. Keep useful failures as anti-references.
+7. **Create the VDL skill.** Run `scripts/init_vdl_skill.py` only after minimum locks exist. Fill the generated package with approved images, rules, manifest entries, fixture records, reference board, and evaluation rubric.
+8. **Validate and forward-test.** Run both package validators and the host package check. Test ordinary, alternate-surface, boundary, and reference-conflict prompts in a clean context when available. Do not leak expected answers into tests.
+9. **Propose release.** Report `PROVISIONAL`, `VALIDATED`, or `BLOCKED`. Installation or publication requires a separate explicit user approval; validation alone is not release authorization.
 
-**2. Task-Based** (best for tool collections)
-- Works well when the skill offers different operations/capabilities
-- Example: PDF skill with "Quick Start" -> "Merge PDFs" -> "Split PDFs" -> "Extract Text"
-- Structure: ## Overview -> ## Quick Start -> ## Task Category 1 -> ## Task Category 2...
+## Calibration-round contract
 
-**3. Reference/Guidelines** (best for standards or specifications)
-- Works well for brand guidelines, coding standards, or requirements
-- Example: Brand styling with "Brand Guidelines" -> "Colors" -> "Typography" -> "Features"
-- Structure: ## Overview -> ## Guidelines -> ## Specifications -> ## Usage...
+For every round:
 
-**4. Capabilities-Based** (best for integrated systems)
-- Works well when the skill provides multiple interrelated features
-- Example: Product Management with "Core Capabilities" -> numbered capability list
-- Structure: ## Overview -> ## Core Capabilities -> ### 1. Feature -> ### 2. Feature...
+1. State what is already approved.
+2. Name the variable family under test.
+3. Name what remains fixed.
+4. Present a bounded comparison set.
+5. Ask the user to select, reject, or correct traits.
+6. Record the decision and evidence.
+7. Select the next unresolved variable with the greatest downstream effect.
 
-Patterns can be mixed and matched as needed. Most skills combine patterns (e.g., start with task-based, add workflow for complex operations).
+When the user delegates approval judgment to you, record that delegation and still apply the same evidence and comparison checks. Do not turn a provisional capability specification into final style rules without specimens.
 
-Delete this entire "Structuring This Skill" section when done - it's just guidance.]
+## Minimum package gate
 
-## [TODO: Replace with the first main section based on chosen structure]
+Do not generate a final VDL package until it has:
 
-[TODO: Add content here. See examples in existing skills:
-- Code samples for technical skills
-- Decision trees for complex workflows
-- Concrete examples with realistic user requests
-- References to scripts/templates/references as needed]
+- one approved primary-surface lock;
+- one approved boundary or materially different surface lock;
+- visual evidence for mark-making and other style-defining traits;
+- explicit prohibited traits or anti-references;
+- resolved blocking conflicts;
+- a fixture for every claimed supported surface.
 
-## Resources (optional)
+## Scripts
 
-Create only the resource directories this skill actually needs. Delete this section if no resources are required.
+```sh
+python3 scripts/init_vdl_skill.py --display-name "Example Style" --slug example-style --destination /path/to/skills
+python3 scripts/validate_reference_manifest.py /path/to/example-style
+python3 scripts/validate_vdl_package.py /path/to/example-style
+```
 
-### scripts/
-Executable code (Python/Bash/etc.) that can be run directly to perform specific operations.
+`init_vdl_skill.py` refuses non-empty destinations. Never overwrite an installed or released package. For revisions, create a separate candidate folder or worktree and preserve the prior version.
 
-**Examples from other skills:**
-- PDF skill: `fill_fillable_fields.py`, `extract_form_field_info.py` - utilities for PDF manipulation
-- DOCX skill: `document.py`, `utilities.py` - Python modules for document processing
+## Non-negotiable boundaries
 
-**Appropriate for:** Python scripts, shell scripts, or any executable code that performs automation, data processing, or specific operations.
-
-**Note:** Scripts may be executed without loading into context, but can still be read by Codex for patching or environment adjustments.
-
-### references/
-Documentation and reference material intended to be loaded into context to inform Codex's process and thinking.
-
-**Examples from other skills:**
-- Product management: `communication.md`, `context_building.md` - detailed workflow guides
-- BigQuery: API reference documentation and query examples
-- Finance: Schema documentation, company policies
-
-**Appropriate for:** In-depth documentation, API references, database schemas, comprehensive guides, or any detailed information that Codex should reference while working.
-
-### assets/
-Files not intended to be loaded into context, but rather used within the output Codex produces.
-
-**Examples from other skills:**
-- Brand styling: PowerPoint template files (.pptx), logo files
-- Frontend builder: HTML/React boilerplate project directories
-- Typography: Font files (.ttf, .woff2)
-
-**Appropriate for:** Templates, boilerplate code, document templates, images, icons, fonts, or any files meant to be copied or used in the final output.
-
----
-
-**Not every skill requires all three types of resources.**
+- Do not average contradictory approved references into a hybrid.
+- Do not let style references rewrite information architecture or content.
+- Do not let structure references import an unrelated visual treatment.
+- Do not claim deterministic or pixel-identical output from stochastic models.
+- Do not replace approved images with prose summaries.
+- Do not use generated texture, noise, blur, displacement, or uniform transparency as evidence for physical material behavior.
+- Do not call a package validated because its files merely exist.
+- Do not install, publish, overwrite, or release without explicit authorization.

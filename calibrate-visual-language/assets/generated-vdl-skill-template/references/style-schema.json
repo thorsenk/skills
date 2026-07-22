@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "vdl_id": "{{SKILL_SLUG}}",
+  "name": "{{DISPLAY_NAME}}",
+  "package_version": "{{PACKAGE_VERSION}}",
+  "package_status": "PROVISIONAL",
+  "intended_uses": [],
+  "excluded_uses": [],
+  "generation_environment": "unspecified",
+  "rules": [],
+  "surface_profiles": [],
+  "prohibited_traits": [],
+  "open_decisions": []
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "{{DISPLAY_NAME}}"
+  short_description: "Generate with the approved visual language"
+  default_prompt: "Use ${{SKILL_SLUG}} to generate an image in the approved visual language."

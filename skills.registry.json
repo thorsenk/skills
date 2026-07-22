@@ -63,6 +63,35 @@
       ]
     },
     {
+      "id": "calibrate-visual-language",
+      "path": "calibrate-visual-language",
+      "status": "v1",
+      "support_level": "portable",
+      "aliases": [],
+      "hosts": ["claude-code", "codex"],
+      "entrypoint": "SKILL.md",
+      "support_files": [
+        "agents/openai.yaml",
+        "references/calibration-protocol.md",
+        "references/reference-role-model.md",
+        "references/visual-rule-taxonomy.md",
+        "references/generated-skill-contract.md",
+        "references/validation-protocol.md",
+        "scripts/init_vdl_skill.py",
+        "scripts/validate_reference_manifest.py",
+        "scripts/validate_vdl_package.py",
+        "assets/generated-vdl-skill-template/SKILL.md",
+        "assets/generated-vdl-skill-template/agents/openai.yaml",
+        "assets/generated-vdl-skill-template/references/generation-contract.md",
+        "assets/generated-vdl-skill-template/references/style-schema.json",
+        "assets/generated-vdl-skill-template/references/reference-manifest.json",
+        "assets/generated-vdl-skill-template/references/evaluation-rubric.md",
+        "assets/generated-vdl-skill-template/assets/reference-board/index.html",
+        "assets/generated-vdl-skill-template/assets/reference-board/styles.css",
+        "assets/generated-vdl-skill-template/scripts/validate_vdl_package.py"
+      ]
+    },
+    {
       "id": "tot-adaptable",
       "path": "tot-adaptable",
       "status": "v1",
