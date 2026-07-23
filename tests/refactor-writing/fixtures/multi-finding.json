@@ -1,0 +1,72 @@
+{
+  "title": "Release note handoff",
+  "sourcePath": "/portable/source/input.md",
+  "sourceWorkspace": "/portable/source-workspace",
+  "skillStatus": "Current and structurally valid; not installed",
+  "verdict": "Two consequential revisions improve decision clarity without changing ownership.",
+  "scope": "Review the publication request for clarity, timing, and preserved decision rights <without inventing approval>.",
+  "protectedMeaning": [
+    "The release owner retains the final publication decision.",
+    "The request remains reviewable before the Friday deadline."
+  ],
+  "evidenceBoundaries": [
+    {
+      "label": "Reviewed source",
+      "detail": "The supplied release-note handoff and its explicit deadline."
+    },
+    {
+      "label": "Not reviewed",
+      "detail": "No deployment logs, private chat, or unstated approval policy."
+    }
+  ],
+  "findings": [
+    {
+      "title": "Name the decision owner",
+      "original": {
+        "text": "Please review the release note and send it when ready. Please review the timing separately.",
+        "target": "send it when ready"
+      },
+      "proposal": {
+        "text": "Please review the release note; the release owner will publish it after approval. Please review the timing separately.",
+        "target": "the release owner will publish it after approval"
+      },
+      "evidence": "The source assigns review to the recipient but does not transfer publication ownership.",
+      "changed": "The proposal names the release owner as publisher.",
+      "whyItMatters": "It removes an accidental transfer of decision rights.",
+      "whyBetter": "The action and owner are explicit.",
+      "preserved": "The recipient still reviews the note before publication.",
+      "status": "Recommended — not applied"
+    },
+    {
+      "title": "Replace a relative deadline",
+      "original": {
+        "text": "Return comments soon so we can publish on Friday.",
+        "target": "soon"
+      },
+      "proposal": {
+        "text": "Return comments by 15:00 UTC Thursday so we can publish on Friday.",
+        "target": "by 15:00 UTC Thursday"
+      },
+      "evidence": "The source establishes Friday publication but leaves the review cutoff unresolved.",
+      "changed": "The relative timing word becomes a testable cutoff.",
+      "whyItMatters": "Reviewers can tell whether the request is still actionable.",
+      "whyBetter": "The timing is concrete without changing the publication date.",
+      "preserved": "Friday remains the intended publication day.",
+      "status": "Recommended — not applied"
+    }
+  ],
+  "finalOutput": {
+    "heading": "Complete proposed revision",
+    "content": "Please review the release note and return comments by 15:00 UTC Thursday. The release owner will publish it after approval for Friday’s release.\n\nQuestions & exceptions should remain in the review thread."
+  },
+  "method": {
+    "decisionSummary": "Candidates were retained only when they improved actionability, evidence alignment, or preserved decision rights.",
+    "noChangeReason": "A no-change result would have been returned if every candidate were cosmetic or meaning-reducing."
+  },
+  "redactions": [
+    "A private customer identifier was replaced with a descriptive label."
+  ],
+  "assumptions": [
+    "The stated Thursday cutoff uses UTC."
+  ]
+}

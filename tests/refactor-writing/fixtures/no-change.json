@@ -1,0 +1,29 @@
+{
+  "title": "Already-clear maintenance notice",
+  "sourcePath": "/portable/source/maintenance.md",
+  "sourceWorkspace": "/portable/source-workspace",
+  "skillStatus": "Current and structurally valid; not installed",
+  "verdict": "No candidate change improves the notice without adding unsupported meaning.",
+  "scope": "Review a short maintenance notice for consequential clarity issues.",
+  "protectedMeaning": [
+    "The maintenance window begins at 02:00 UTC.",
+    "Customers do not need to take action."
+  ],
+  "evidenceBoundaries": [
+    {
+      "label": "Reviewed source",
+      "detail": "The complete maintenance notice supplied for review."
+    }
+  ],
+  "findings": [],
+  "finalOutput": {
+    "heading": "No change recommended",
+    "content": "Scheduled maintenance begins at 02:00 UTC on 18 August. Service may be briefly unavailable. No customer action is required."
+  },
+  "method": {
+    "decisionSummary": "The notice was tested for missing actions, timing ambiguity, unsupported certainty, and altered responsibility.",
+    "noChangeReason": "Every alternative was cosmetic and would increase length without improving a reader decision."
+  },
+  "redactions": [],
+  "assumptions": []
+}

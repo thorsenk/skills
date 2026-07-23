@@ -13,3 +13,9 @@ jobs:
         with:
           node-version: "22"
       - run: node scripts/validate-skills.mjs
+      - name: Check refactor-writing JavaScript syntax
+        run: |
+          node --check refactor-writing/scripts/render-report.mjs
+          node --check refactor-writing/assets/report/artifact.js
+      - name: Test refactor-writing renderer
+        run: node --test tests/refactor-writing/*.test.mjs
