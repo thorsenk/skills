@@ -279,3 +279,66 @@ test("renderer leaves prior output unchanged when input validation fails", async
   );
   assert.equal(await readFile(reportPath, "utf8"), "previous complete report");
 });
+
+function withRepeatedOriginal(input, occurrence) {
+  const changed = clone(input);
+  changed.findings[0].original = {
+    text: "<first> term & <second> term",
+    target: "term"
+  };
+  if (occurrence !== undefined) changed.findings[0].original.occurrence = occurrence;
+  return changed;
+}
+
+test("renderer requires occurrence when a changed-span target repeats", async () => {
+  await expectRenderFailure(
+    "multi-finding.json",
+    (input) => withRepeatedOriginal(input),
+    {
+      message: /input\.findings\[0\]\.original\.target matched 2 times; occurrence must be an integer from 1 through 2/
+    }
+  );
+});
+
+test("renderer marks the selected one-based target occurrence", async () => {
+  const first = await renderFixture(
+    "multi-finding.json",
+    (input) => withRepeatedOriginal(input, 1)
+  );
+  const firstReport = await readFile(path.join(first.outputDir, "report.html"), "utf8");
+  assert.match(firstReport, /&lt;first&gt; <mark>term<\/mark> &amp; &lt;second&gt; term/);
+
+  const second = await renderFixture(
+    "multi-finding.json",
+    (input) => withRepeatedOriginal(input, 2)
+  );
+  const secondReport = await readFile(path.join(second.outputDir, "report.html"), "utf8");
+  assert.match(secondReport, /&lt;first&gt; term &amp; &lt;second&gt; <mark>term<\/mark>/);
+});
+
+test("renderer rejects invalid or out-of-range target occurrences", async (context) => {
+  for (const occurrence of [0, -1, 1.5, "2", 3]) {
+    await context.test(`occurrence ${JSON.stringify(occurrence)}`, async () => {
+      await expectRenderFailure(
+        "multi-finding.json",
+        (input) => withRepeatedOriginal(input, occurrence),
+        {
+          message: /occurrence must be an integer from 1 through 2/
+        }
+      );
+    });
+  }
+});
+
+test("renderer accepts occurrence 1 for a unique changed-span target", async () => {
+  const { outputDir } = await renderFixture(
+    "multi-finding.json",
+    (input) => {
+      const changed = clone(input);
+      changed.findings[0].original.occurrence = 1;
+      return changed;
+    }
+  );
+  const report = await readFile(path.join(outputDir, "report.html"), "utf8");
+  assert.match(report, /<mark>send it when ready<\/mark>/);
+});

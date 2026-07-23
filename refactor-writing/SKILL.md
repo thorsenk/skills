@@ -37,6 +37,11 @@ Keep the original and proposal visually adjacent. For each finding, provide:
 7. what protected meaning remains intact; and
 8. the real state, such as `Recommended — not applied`.
 
+Each `original` and `proposal` target must identify one exact, non-overlapping
+substring. Omit `occurrence` when the target appears once. When identical target
+text appears more than once, supply its one-based `occurrence`; the renderer
+must reject ambiguous or out-of-range targets rather than guess.
+
 Use word counts as context, never as proof. Synthesize one clean, annotation-free document after the findings; do not make the user reconstruct it from fragments.
 
 ## Render the artifact

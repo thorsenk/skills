@@ -41,8 +41,8 @@ Input JSON:
   "evidenceBoundaries": [{"label":"Reviewed source","detail":"What it established"}],
   "findings": [{
     "title": "Finding title",
-    "original": {"text":"Exact original context","target":"exact target"},
-    "proposal": {"text":"Exact proposed context","target":"exact target"},
+    "original": {"text":"Exact original context","target":"exact target","occurrence":1},
+    "proposal": {"text":"Exact proposed context","target":"exact target","occurrence":1},
     "evidence": "Traceable evidence basis",
     "changed": "What changed",
     "whyItMatters": "Why it matters",
@@ -118,8 +118,26 @@ function requireStringArray(value, context, allowEmpty = false) {
 function highlightExact(entry, context) {
   const text = requireString(entry, "text", context);
   const target = requireString(entry, "target", context);
-  const index = text.indexOf(target);
-  if (index < 0) throw new Error(`${context}.target must occur exactly in ${context}.text`);
+  const matches = [];
+  let searchFrom = 0;
+  while (searchFrom <= text.length - target.length) {
+    const index = text.indexOf(target, searchFrom);
+    if (index < 0) break;
+    matches.push(index);
+    searchFrom = index + target.length;
+  }
+  if (matches.length === 0) throw new Error(`${context}.target must occur exactly in ${context}.text`);
+
+  const occurrence = entry.occurrence;
+  const maximum = matches.length;
+  if (
+    (maximum > 1 && occurrence === undefined)
+    || (occurrence !== undefined && (!Number.isInteger(occurrence) || occurrence < 1 || occurrence > maximum))
+  ) {
+    throw new Error(`${context}.target matched ${maximum} times; occurrence must be an integer from 1 through ${maximum}`);
+  }
+
+  const index = matches[(occurrence ?? 1) - 1];
   return `${escapeHtml(text.slice(0, index))}<mark>${escapeHtml(target)}</mark>${escapeHtml(text.slice(index + target.length))}`;
 }
 

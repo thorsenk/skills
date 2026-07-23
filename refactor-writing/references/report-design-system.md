@@ -33,6 +33,8 @@ Observed evidence:
 
 - report content repeatedly needs a label rail and a reading column;
 - original and proposed language must remain adjacent at wide widths;
+- exact changed-span targets may omit `occurrence` only when unique; repeated
+  target text requires an explicit one-based `occurrence`;
 - the complete output must remain selectable without JavaScript;
 - the artifact must move safely as one self-contained folder.
 - `references/hero-dotted-wave-reference.png` records the supplied particle-wave
