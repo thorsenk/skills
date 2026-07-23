@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <link rel="icon" href="data:,">
+  <title>Refactor Writing — Design system</title>
+  <script>document.documentElement.classList.replace("no-js", "js")</script>
+  <link rel="stylesheet" href="./artifact.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./report.html">Refactor Writing</a>
+    <nav aria-label="Artifact navigation">
+      <a href="./report.html">Report</a>
+      <a href="./skill.html">SKILL.md</a>
+      <a href="./how-it-works.html">How it works</a>
+      <a href="./design-system.html" aria-current="page">System</a>
+    </nav>
+    <button class="motion-toggle" type="button" data-motion-toggle aria-pressed="false">Motion off</button>
+  </header>
+
+  <main>
+    <header class="hero reveal is-visible">
+      <span class="eyebrow">System catalog / revision 1</span>
+      <h1>Evidence-first editorial reporting</h1>
+      <p>A live catalog for the tokens, layout primitives, components, patterns, states, and failure modes used by every generated writing-refactor artifact.</p>
+      <div class="meta-line"><span>System: refactor-writing-report</span><span>Profile: portable static HTML</span><span>Target: WCAG 2.2 AA</span></div>
+    </header>
+
+    <section class="section reveal" id="foundations">
+      <div class="section-head">
+        <span class="kicker">Foundations</span>
+        <div><h2>Quiet materials, explicit evidence</h2><p class="section-copy">Paper, ink, rules, and a single action color carry the hierarchy. Decoration never competes with the reviewed language.</p></div>
+      </div>
+      <div class="catalog-grid token-grid">
+        <article class="token-card"><span class="token-swatch swatch-paper"></span><h3>Page</h3><p><code>--paper</code><br>#f5f5f2</p></article>
+        <article class="token-card"><span class="token-swatch swatch-surface"></span><h3>Surface</h3><p><code>--surface</code><br>#ffffff</p></article>
+        <article class="token-card"><span class="token-swatch swatch-ink"></span><h3>Primary text</h3><p><code>--ink</code><br>#1d2024</p></article>
+        <article class="token-card"><span class="token-swatch swatch-muted"></span><h3>Secondary text</h3><p><code>--muted</code><br>#626971</p></article>
+        <article class="token-card"><span class="token-swatch swatch-accent"></span><h3>Action</h3><p><code>--accent</code><br>#2f5f87</p></article>
+        <article class="token-card"><span class="token-swatch swatch-success"></span><h3>Confirmed state</h3><p><code>--success</code><br>#2e684d</p></article>
+        <article class="token-card"><span class="token-swatch swatch-mark"></span><h3>Changed span</h3><p><code>--mark</code><br>#fff0a8</p></article>
+        <article class="token-card"><span class="token-swatch swatch-line"></span><h3>Rule</h3><p><code>--line</code><br>#d6d8d8</p></article>
+      </div>
+    </section>
+
+    <section class="section reveal" id="type">
+      <div class="section-head">
+        <span class="kicker">Typography</span>
+        <div><h2>Scale creates hierarchy</h2><p class="section-copy">Sans-serif carries the argument. Monospace identifies evidence, sequence, and exact source.</p></div>
+      </div>
+      <div class="type-stack">
+        <div><span class="specimen-label">Display / h1</span><p class="type-display">Meaning before polish</p></div>
+        <div><span class="specimen-label">Section / h2</span><p class="type-heading">Only consequential changes survive</p></div>
+        <div><span class="specimen-label">Body</span><p class="type-body">The revision removes ambiguity while preserving the maintainer’s decision right and the original publication sequence.</p></div>
+        <div><span class="specimen-label">Evidence label</span><p class="type-label">Finding 01 / Recommended — not applied</p></div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="layout">
+      <div class="section-head">
+        <span class="kicker">Layout primitive</span>
+        <div><h2>One editorial grid</h2><p class="section-copy">Every wide composition uses the same rail, gap, and reading-column anchor. At tablet widths the structure becomes one column.</p></div>
+      </div>
+      <div class="alignment-demo">
+        <span class="finding-index">Label rail / 190px minimum</span>
+        <div><h3>Reading column</h3><p>Section copy, comparisons, proof, and documents begin here. A component may span both columns only when its internal structure reuses this same grid.</p></div>
+      </div>
+    </section>
+
+    <section class="section" id="components">
+      <div class="section-head reveal">
+        <span class="kicker">Components</span>
+        <div><h2>Reusable evidence structures</h2><p class="section-copy">The specimens below use the production classes—not catalog-only approximations.</p></div>
+      </div>
+
+      <article class="finding reveal">
+        <div class="finding-head"><span class="finding-index">Finding 01</span><h3>Replace a vague timing boundary</h3></div>
+        <div class="comparison">
+          <article><h4>Original</h4><p>Please review the release note <mark>soon</mark> so I can publish it.</p></article>
+          <article><h4>Proposal</h4><p>Please review the release note <mark>by 3:00 p.m. Thursday</mark> so I can publish it.</p></article>
+        </div>
+        <div class="proof-grid">
+          <div><b>Evidence basis</b><p>The release sequence requires review before publication.</p></div>
+          <div><b>What changed / why it matters</b><p>A dated boundary replaces an undefined urgency cue.</p></div>
+          <div><b>Why better / meaning preserved</b><p>The action is schedulable; the review decision right remains intact.</p></div>
+        </div>
+        <span class="finding-status">Recommended — not applied</span>
+      </article>
+
+      <div class="method-path">
+        <article class="method-step reveal"><span class="finding-index">01 / Protect</span><div><h3>Record protected meaning</h3><p>Identify the job, audience, action, facts, decision rights, uncertainty, tone, and constraints.</p></div></article>
+        <article class="method-step reveal"><span class="finding-index">02 / Test</span><div><h3>Require consequential value</h3><p>Keep a change only when evidence supports a specific improvement and protected meaning survives.</p></div></article>
+      </div>
+
+      <div class="document-shell reveal">
+        <div class="document-toolbar"><span>Selectable final output</span><div class="copy-group"><span class="copy-status" aria-live="polite"></span><button class="copy-button" type="button" data-copy-target="#catalogCopy">Copy specimen</button></div></div>
+        <pre class="output-document" id="catalogCopy" tabindex="0">Please review the release note by 3:00 p.m. Thursday so I can publish it after your approval.
+
+The maintainer retains the final publication decision.</pre>
+      </div>
+    </section>
+
+    <section class="section reveal" id="states">
+      <div class="section-head">
+        <span class="kicker">States and resilience</span>
+        <div><h2>Meaning survives enhancement failure</h2><p class="section-copy">Labels, structure, and readable source carry the message before color, motion, or copy behavior is applied.</p></div>
+      </div>
+      <div class="fact-list">
+        <div class="fact"><b>No change</b><p>Use the explicit heading “No change recommended” and return unchanged copy.</p></div>
+        <div class="fact"><b>Long content</b><p>Headings, paths, source text, and unbroken strings wrap without widening the page.</p></div>
+        <div class="fact"><b>No JavaScript</b><p>All content stays visible and selectable; only motion and copy assistance are absent.</p></div>
+        <div class="fact"><b>Reduced motion</b><p>Reveal transitions collapse to effectively zero duration.</p></div>
+        <div class="fact"><b>Print</b><p>Controls disappear, paper becomes white, and component boundaries remain visible.</p></div>
+        <div class="fact"><b>Keyboard</b><p>Links, buttons, and selectable documents expose a visible focus ring.</p></div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="deviations">
+      <div class="section-head">
+        <span class="kicker">Output Deviations</span>
+        <div><h2>Recognizable failures</h2><p class="section-copy">These examples name what the system prevents. They are diagnostic rules, not alternate styles.</p></div>
+      </div>
+      <div class="deviation-grid">
+        <article class="deviation-card"><span class="deviation-id">RW-01</span><h3>Grid drift</h3><p>Related headings, findings, and bodies begin on competing horizontal anchors.</p></article>
+        <article class="deviation-card"><span class="deviation-id">RW-02</span><h3>Evidence separation</h3><p>A proposal or rationale is detached from the exact language it supports.</p></article>
+        <article class="deviation-card"><span class="deviation-id">RW-03</span><h3>Viewport overflow</h3><p>A page or component requires horizontal scrolling at a supported width.</p></article>
+        <article class="deviation-card"><span class="deviation-id">RW-04</span><h3>Color-only meaning</h3><p>Status, navigation, or changed language cannot be understood without color.</p></article>
+        <article class="deviation-card"><span class="deviation-id">RW-05</span><h3>Motion lockout</h3><p>Essential content stays hidden when JavaScript, observation, or motion fails.</p></article>
+        <article class="deviation-card"><span class="deviation-id">RW-08</span><h3>Token fork</h3><p>A one-off raw value or duplicated grid compensates for a weak shared rule.</p></article>
+      </div>
+    </section>
+
+    <section class="section reveal" id="implementation">
+      <div class="section-head">
+        <span class="kicker">Implementation</span>
+        <div><h2>One profile, one adapter</h2><p class="section-copy">The renderer supplies semantic HTML; this stylesheet maps the system roles; JavaScript adds optional copy and motion behavior.</p></div>
+      </div>
+      <div class="fact-list">
+        <div class="fact"><b>Dependency boundary</b><p>No external fonts, frameworks, images, or production network requests.</p></div>
+        <div class="fact"><b>Portability</b><p>Every runtime link uses a same-folder relative path beginning with <code>./</code>.</p></div>
+        <div class="fact"><b>Responsive checks</b><p>Inspect desktop, tablet, and phone, including long content and both report branches.</p></div>
+        <div class="fact"><b>Accessibility target</b><p>WCAG 2.2 AA with semantic structure, keyboard access, visible focus, reduced motion, and non-color-only meaning.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="page-footer"><span>Refactor Writing</span><span>Design-system catalog / revision 1</span></footer>
+  <script src="./artifact.js"></script>
+</body>
+</html>

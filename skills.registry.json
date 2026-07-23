@@ -172,9 +172,12 @@
       "hosts": ["claude-code", "codex"],
       "entrypoint": "SKILL.md",
       "support_files": [
+        "DESIGN.md",
         "agents/openai.yaml",
         "assets/report/artifact.css",
         "assets/report/artifact.js",
+        "assets/report/design-system.html",
+        "references/report-design-system.md",
         "scripts/render-report.mjs"
       ]
     },

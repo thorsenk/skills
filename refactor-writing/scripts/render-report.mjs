@@ -128,7 +128,7 @@ function validate(data, outputDir, allowInsideSource) {
 }
 
 function page({ title, current, brand, body }) {
-  const nav = [["report.html", "Report", "report"], ["skill.html", "SKILL.md", "skill"], ["how-it-works.html", "How it works", "method"]]
+  const nav = [["report.html", "Report", "report"], ["skill.html", "SKILL.md", "skill"], ["how-it-works.html", "How it works", "method"], ["design-system.html", "System", "system"]]
     .map(([href, label, key]) => `<a href="./${href}"${current === key ? ' aria-current="page"' : ""}>${label}</a>`).join("");
   return `<!doctype html>
 <html lang="en" class="no-js">
@@ -214,13 +214,31 @@ function renderMethod(data) {
       <article class="method-step reveal"><span class="finding-index">04 / Deliver</span><div><h3>Return one complete document</h3><p>The report ends with copy-ready output, whether revised or unchanged, so no reconstruction is required.</p></div></article>
     </div></section>
     <section class="section reveal"><div class="section-head"><span class="kicker">Handling</span><div><h2>Redactions and assumptions</h2></div></div><h3>Redactions</h3>${redactions}<h3>Unresolved assumptions</h3>${assumptions}</section>
-    <section class="section reveal"><div class="section-head"><span class="kicker">Artifact structure</span><div><h2>Three pages, three jobs</h2></div></div><div class="fact-list"><div class="fact"><b>Report</b><p>Verdict, comparisons, evidence, protected meaning, and complete output.</p></div><div class="fact"><b>SKILL.md</b><p>Exact active instructions, path, status, hash, and copy control.</p></div><div class="fact"><b>How it works</b><p>Decision process, evidence boundaries, no-change logic, redactions, and assumptions.</p></div></div></section>
+    <section class="section reveal"><div class="section-head"><span class="kicker">Artifact structure</span><div><h2>Four pages, four jobs</h2></div></div><div class="fact-list"><div class="fact"><b>Report</b><p>Verdict, comparisons, evidence, protected meaning, and complete output.</p></div><div class="fact"><b>SKILL.md</b><p>Exact active instructions, path, status, hash, and copy control.</p></div><div class="fact"><b>How it works</b><p>Decision process, evidence boundaries, no-change logic, redactions, and assumptions.</p></div><div class="fact"><b>System</b><p>Live tokens, layout primitives, components, states, Output Deviations, and implementation rules.</p></div></div></section>
   </main>`;
   return page({ title: `${data.title} — How it works`, current: "method", brand: data.title, body });
 }
 
+async function verifySystemSources() {
+  const css = await readFile(path.join(assetDir, "artifact.css"), "utf8");
+  const catalog = await readFile(path.join(assetDir, "design-system.html"), "utf8");
+  const requiredTokens = ["--paper", "--surface", "--ink", "--muted", "--line", "--line-strong", "--accent", "--success", "--mark", "--editorial-grid", "--editorial-gap"];
+  const requiredCatalogSections = ["foundations", "type", "layout", "components", "states", "deviations", "implementation"];
+  for (const token of requiredTokens) {
+    if (!css.includes(`${token}:`)) throw new Error(`artifact.css is missing required system token ${token}`);
+  }
+  for (const id of requiredCatalogSections) {
+    if (!catalog.includes(`id="${id}"`)) throw new Error(`design-system.html is missing required catalog section #${id}`);
+  }
+  for (const productionClass of ["section-head", "finding", "comparison", "proof-grid", "document-shell", "method-step"]) {
+    if (!catalog.includes(`class="${productionClass}`) && !catalog.includes(` ${productionClass}`)) {
+      throw new Error(`design-system.html is missing production component .${productionClass}`);
+    }
+  }
+}
+
 async function verifyRelativeLinks(outputDir) {
-  const files = ["report.html", "skill.html", "how-it-works.html"];
+  const files = ["report.html", "skill.html", "how-it-works.html", "design-system.html"];
   for (const file of files) {
     const html = await readFile(path.join(outputDir, file), "utf8");
     const links = [...html.matchAll(/(?:href|src)="([^"]+)"/g)].map((match) => match[1]);
@@ -253,17 +271,19 @@ async function main() {
   const skillSource = await readFile(skillPath, "utf8");
   const skillHash = createHash("sha256").update(skillSource).digest("hex");
   validate(data, outputDir, args.allowInsideSource);
+  await verifySystemSources();
 
   await mkdir(outputDir, { recursive: true });
   await Promise.all([
     copyFile(path.join(assetDir, "artifact.css"), path.join(outputDir, "artifact.css")),
     copyFile(path.join(assetDir, "artifact.js"), path.join(outputDir, "artifact.js")),
+    copyFile(path.join(assetDir, "design-system.html"), path.join(outputDir, "design-system.html")),
     writeFile(path.join(outputDir, "report.html"), renderReport(data), "utf8"),
     writeFile(path.join(outputDir, "skill.html"), renderSkill(data, skillSource, skillPath, skillHash), "utf8"),
     writeFile(path.join(outputDir, "how-it-works.html"), renderMethod(data), "utf8")
   ]);
   await verifyRelativeLinks(outputDir);
-  console.log(`Rendered 3 pages and 2 run-local assets to ${outputDir}`);
+  console.log(`Rendered 4 pages and 2 run-local assets to ${outputDir}`);
   console.log(`Embedded SKILL.md SHA-256 ${skillHash}`);
   console.log("Relative-link validation passed");
 }

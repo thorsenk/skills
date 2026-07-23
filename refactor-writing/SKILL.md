@@ -1,6 +1,6 @@
 ---
 name: refactor-writing
-description: Review and refactor context-bearing natural-language writing with evidence-backed, meaning-preserving recommendations and a complete three-page HTML artifact. Use when a user wants consequential wording or structural improvements to a policy, briefing, handoff, instruction, skill, UI copy, or similar prose; needs exact original and proposed language with rationale and preserved meaning; or wants a complete copy-ready revision. Explicit invocation may apply this language-refactoring workflow to prompt text. Do not use for prompt evaluation or hardening, requirements completeness or implementation-risk review, source-code refactoring or codebase audits, or casual rewriting that does not require evidence, comparison, and an artifact.
+description: Review and refactor context-bearing natural-language writing with evidence-backed, meaning-preserving recommendations and a complete four-page HTML artifact. Use when a user wants consequential wording or structural improvements to a policy, briefing, handoff, instruction, skill, UI copy, or similar prose; needs exact original and proposed language with rationale and preserved meaning; or wants a complete copy-ready revision. Explicit invocation may apply this language-refactoring workflow to prompt text. Do not use for prompt evaluation or hardening, requirements completeness or implementation-risk review, source-code refactoring or codebase audits, or casual rewriting that does not require evidence, comparison, and an artifact.
 ---
 
 # Refactor Writing
@@ -55,12 +55,13 @@ Use the renderer and `assets/report/`; do not rebuild the interface by hand. The
 - `report.html` with the verdict, scope, protected meaning, prioritized findings, adjacent comparisons, rationale, and complete final output;
 - `skill.html` with the exact active `SKILL.md`, resolved source path, real status, and copy control; and
 - `how-it-works.html` with the invocation's decisions, evidence boundaries, no-change logic, and artifact structure.
+- `design-system.html` with the live tokens, layout primitives, production components, states, Output Deviations, and implementation rules.
 
 Keep status claims distinct: current, candidate, structurally valid, installed, and accepted are not synonyms. Label source changes and recommendations accurately.
 
 ## Inspect before delivery
 
-Execute the renderer, then inspect all three pages in a real browser at desktop, tablet, and phone widths. Check top, middle, and final-output sections; responsive navigation; comparison collapse; copy controls; keyboard focus; horizontal overflow; reverse scroll reveals; reduced-motion behavior; JavaScript-disabled content; relative navigation; and the browser console.
+Execute the renderer, then inspect all four pages in a real browser at desktop, tablet, and phone widths. Check top, middle, and final-output sections; responsive navigation; comparison collapse; copy controls; keyboard focus; horizontal overflow; reverse scroll reveals; reduced-motion behavior; JavaScript-disabled content; print behavior; relative navigation; and the browser console.
 
 Move or copy the invocation folder and verify it still works. Confirm the embedded skill text exactly matches the active `SKILL.md`. Fix every defect and re-inspect affected views.
 
