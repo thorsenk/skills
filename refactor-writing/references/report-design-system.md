@@ -188,9 +188,13 @@ The color-mode control is the only global visual preference control.
 | Control spotlight radius | `120px` | `--spotlight-control-size` |
 
 Reveal uses opacity and vertical translation only. JavaScript observes
-`.reveal` elements and toggles `.is-visible`; the first Hero remains visible
-during startup. Content is visible by default and JavaScript may hide it only
-after the enhancement is ready.
+`.reveal` elements. Each element reveals once on its first entry above the
+lower 12% viewport boundary, is then unobserved, and remains visible after
+leaving the viewport. Tall sections never depend on intersection ratio. The
+first Hero remains visible during startup. Content is visible by default and
+JavaScript may hide it only after the enhancement is ready. Reduced motion and
+no JavaScript expose all content immediately; only catalog specimen controls
+replay an animation.
 
 Spotlight is a pointer-following radial-gradient border treatment for closed,
 outlined components. It applies to token, primitive, icon, component, and

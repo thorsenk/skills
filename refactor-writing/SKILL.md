@@ -73,7 +73,7 @@ Keep status claims distinct: current, candidate, structurally valid, installed, 
 
 ## Inspect before delivery
 
-Execute the renderer, then inspect all four pages in a real browser at desktop, tablet, and phone widths. Check top, middle, and final-output sections; responsive navigation; comparison collapse; copy controls; keyboard focus; horizontal overflow; reverse scroll reveals; reduced-motion behavior; JavaScript-disabled content; print behavior; relative navigation; and the browser console.
+Execute the renderer, then inspect all four pages in a real browser at desktop, tablet, and phone widths. Check top, middle, and final-output sections; responsive navigation; comparison collapse; copy controls; keyboard focus; horizontal overflow; one-shot reveals that remain visible during reverse scrolling; reduced-motion behavior; JavaScript-disabled content; print behavior; relative navigation; and the browser console.
 
 Move or copy the invocation folder and verify it still works. Confirm the embedded skill text exactly matches the active `SKILL.md`. Fix every defect and re-inspect affected views.
 

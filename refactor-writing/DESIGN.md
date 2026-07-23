@@ -62,7 +62,12 @@ Add a role to the specification before adding a raw visual value.
 - Status and current navigation state remain understandable without color.
 - Copy controls enhance a document that is already readable and selectable;
   Copy and Check icons always retain visible Copy/Copied text.
-- Reveal motion is automatic. Do not add a global motion toggle.
+- Reveal motion is automatic and one-shot. An opted-in element reveals on its
+  first entry above the lower 12% viewport boundary, remains visible after it
+  leaves, and never depends on intersection ratio. Do not add a global motion
+  toggle.
+- Reduced motion and no JavaScript expose all content immediately. Only the
+  catalog's explicit specimen controls replay an animation.
 - Spotlight enhances closed outlined components, preserves the base border,
   follows fine pointers, centers for keyboard focus, and does not track touch.
 - Dark, Mid, and Light modes remap semantic roles without changing component

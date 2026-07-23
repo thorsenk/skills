@@ -342,3 +342,19 @@ test("renderer accepts occurrence 1 for a unique changed-span target", async () 
   const report = await readFile(path.join(outputDir, "report.html"), "utf8");
   assert.match(report, /<mark>send it when ready<\/mark>/);
 });
+
+test("production reveal is one-shot at the lower viewport boundary", async () => {
+  const runtime = await readFile(
+    path.join(repoDir, "refactor-writing/assets/report/artifact.js"),
+    "utf8"
+  );
+  const specification = await readFile(
+    path.join(repoDir, "refactor-writing/references/report-design-system.md"),
+    "utf8"
+  );
+
+  assert.match(runtime, /observer\?\.unobserve\(entry\.target\)/);
+  assert.match(runtime, /rootMargin: `0px 0px -\$\{REVEAL_VIEWPORT_OFFSET \* 100\}% 0px`/);
+  assert.match(specification, /reveals once/i);
+  assert.match(specification, /remains visible after\s+leaving the viewport/i);
+});
