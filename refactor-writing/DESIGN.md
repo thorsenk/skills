@@ -1,7 +1,7 @@
 # Refactor Writing Report Implementation Guide
 
 System ID: `refactor-writing-report`
-Revision: `8`
+Revision: `9`
 Maturity: Operational Design System
 Supported profile: Portable static HTML report
 

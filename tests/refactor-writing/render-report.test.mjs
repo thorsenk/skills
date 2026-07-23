@@ -358,3 +358,88 @@ test("production reveal is one-shot at the lower viewport boundary", async () =>
   assert.match(specification, /reveals once/i);
   assert.match(specification, /remains visible after\s+leaving the viewport/i);
 });
+
+test("catalog entries expose complete primitive, component, and pattern contracts", async () => {
+  const catalog = await readFile(
+    path.join(repoDir, "refactor-writing/assets/report/design-system.html"),
+    "utf8"
+  );
+  const css = await readFile(
+    path.join(repoDir, "refactor-writing/assets/report/artifact.css"),
+    "utf8"
+  );
+  const renderer = await readFile(rendererPath, "utf8");
+  const requiredLabels = {
+    primitive: [
+      "Selector",
+      "Tokens",
+      "States",
+      "Responsive",
+      "Accessibility",
+      "Fallback",
+      "Valid",
+      "Invalid"
+    ],
+    component: [
+      "Profile",
+      "Selector",
+      "Purpose",
+      "Anatomy",
+      "Tokens",
+      "Variants / states",
+      "Responsive",
+      "Accessibility",
+      "Fallbacks",
+      "Valid",
+      "Invalid"
+    ],
+    pattern: [
+      "Problem",
+      "Sequence",
+      "Variation",
+      "Responsive",
+      "Accessibility / resilience",
+      "Invalid"
+    ]
+  };
+  const expectedCounts = { primitive: 8, component: 9, pattern: 6 };
+  const foundCounts = { primitive: 0, component: 0, pattern: 0 };
+  const contractPattern = /<article\b([^>]*data-contract-kind="(primitive|component|pattern)"[^>]*)>([\s\S]*?)<\/article>/g;
+
+  for (const match of catalog.matchAll(contractPattern)) {
+    const [, attributes, kind, body] = match;
+    foundCounts[kind] += 1;
+    const labels = [...body.matchAll(/<dt>([^<]+)<\/dt>/g)].map((entry) => entry[1].trim());
+    for (const label of requiredLabels[kind]) {
+      assert.ok(labels.includes(label), `${kind} contract is missing ${label}`);
+    }
+
+    if (kind !== "pattern") {
+      const selector = attributes.match(/data-selector="([^"]+)"/)?.[1];
+      assert.ok(selector, `${kind} contract must expose data-selector`);
+      for (const candidate of selector.split(",").map((value) => value.trim())) {
+        if (candidate.startsWith(".")) {
+          assert.ok(
+            css.includes(candidate) || renderer.includes(candidate),
+            `${kind} selector is not implemented: ${candidate}`
+          );
+        } else {
+          assert.ok(
+            new RegExp(`<${candidate}(?:\\s|>)`).test(renderer) || css.includes(`${candidate} {`),
+            `${kind} element selector is not implemented: ${candidate}`
+          );
+        }
+      }
+    }
+
+    if (kind === "component") {
+      assert.doesNotMatch(
+        body,
+        /\b(?:loading|disabled|menu|tooltip|disclosure|form[- ]field)\b/i,
+        "component contract must not claim an unsupported state"
+      );
+    }
+  }
+
+  assert.deepEqual(foundCounts, expectedCounts);
+});
