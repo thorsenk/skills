@@ -1,0 +1,4 @@
+interface:
+  display_name: "Cool-Gray Marker Wireframes"
+  short_description: "Blocked pending real-marker reference approval"
+  default_prompt: "Use $cool-gray-marker-wireframes only to report its blocked material-calibration state; do not generate screens until the user explicitly approves the stroke reference."

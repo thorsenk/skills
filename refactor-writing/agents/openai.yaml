@@ -1,0 +1,4 @@
+interface:
+  display_name: "Refactor Writing"
+  short_description: "Evidence-backed, meaning-preserving writing refactors"
+  default_prompt: "Use $refactor-writing to review this writing, show only consequential evidence-backed changes, and produce the complete HTML artifact."

@@ -1,0 +1,54 @@
+{
+  "fixture_version": "1.0",
+  "package_id": "cool-gray-marker-wireframes",
+  "approval_date": null,
+  "approved_by": null,
+  "status": "BLOCKED",
+  "fixtures": [
+    {
+      "id": "FIX-DESKTOP-01",
+      "surface": "desktop-landscape",
+      "output": "assets/approved-locks/desktop-01.png",
+      "fixed": ["landscape canvas", "left navigation", "page header", "one focal summary card", "two secondary cards", "one chart", "one notes panel", "one annotation"],
+      "tested": ["overall medium", "desktop perimeter", "dashboard hierarchy", "annotation balance"],
+      "decision": "suspended",
+      "limitations": "Retained for desktop structure only; do not use or regenerate until material calibration is explicitly approved."
+    },
+    {
+      "id": "FIX-MOBILE-01",
+      "surface": "mobile-portrait",
+      "output": "assets/approved-locks/mobile-01.png",
+      "fixed": ["portrait canvas", "compact header", "priority card", "three-item list", "primary action", "one annotation"],
+      "tested": ["mobile scale", "side perimeter", "touch-target implication", "focal hierarchy"],
+      "decision": "suspended",
+      "limitations": "Retained for mobile structure only; do not use or regenerate until material calibration is explicitly approved."
+    },
+    {
+      "id": "CAL-MATERIALS-01",
+      "surface": "all",
+      "target_output": "assets/calibration-fixtures/materials-only-calibration-sheet.png",
+      "fixed": ["marker paper", "scale", "lighting", "cool-gray marker family", "crop"],
+      "tested": ["broad chisel direction and width", "longitudinal streaking", "single-pass translucency", "overlap buildup", "pooling", "capillary feathering", "one-pass, two-pass, and blended-pass differences", "graphite over and beside marker", "acceptable and excessive bleeding"],
+      "required_specimens": ["one broad chisel stroke", "two overlapping strokes", "filled rectangle from visible directional passes", "curved stroke with edge pooling", "graphite over and beside marker", "rejected flat-digital comparison"],
+      "decision": "blocked-pending-researched-material-reference-approval"
+    },
+    {
+      "id": "FIX-ANNOTATION-01",
+      "surface": "all",
+      "output": "assets/approved-locks/annotation-01.png",
+      "fixed": ["single screen fragment", "three callouts"],
+      "tested": ["handwriting character", "open arrowheads", "connector curves", "annotation density"],
+      "decision": "suspended",
+      "limitations": "Annotation calibration is not reopened in this pass."
+    },
+    {
+      "id": "FIX-BOUNDARY-01",
+      "surface": "desktop-landscape-pressure",
+      "output": "assets/approved-locks/boundary-01.png",
+      "fixed": ["landscape canvas", "four summary cards", "chart", "two stacked panels", "left navigation"],
+      "tested": ["maximum density", "protected perimeter", "legibility under pressure"],
+      "decision": "suspended",
+      "limitations": "Boundary calibration is not reopened in this pass; do not use or regenerate screens."
+    }
+  ]
+}

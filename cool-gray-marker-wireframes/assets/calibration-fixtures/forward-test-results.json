@@ -1,0 +1,40 @@
+{
+  "test_run": "2026-07-13",
+  "package_id": "cool-gray-marker-wireframes",
+  "package_version": "0.1.0",
+  "runner": "Codex CLI 0.139.0 with gpt-5.4",
+  "execution": "sequential ephemeral read-only sessions",
+  "scope": "clean-context generation-instruction construction, reference selection, rubric preflight, density refusal, and conflict handling; the approved visual fixtures supply the inspected image evidence",
+  "status": "SUPERSEDED",
+  "superseded_reason": "The material reference used by this run was rejected as flat digital fill with geometric edge wobble. Behavioral test results do not validate alcohol-marker material fidelity.",
+  "release_effect": "Package status is BLOCKED. No installation, release, or screen generation is permitted until the researched materials-only real-marker evidence set receives explicit user approval and a new forward test passes.",
+  "tests": [
+    {
+      "id": "FT-DESKTOP-01",
+      "prompt": "Create a desktop research workspace dashboard with left navigation, project summary, three status cards, momentum chart, recent notes, one filter annotation, and one separate image.",
+      "result": "PASS",
+      "evidence": "Selected desktop, mark-making, annotation, and anti-reference records by trait; preserved 7.5% perimeter, one-screen output, three-value palette, and 85% rubric target."
+    },
+    {
+      "id": "FT-MOBILE-01",
+      "prompt": "Create a mobile portrait task-detail screen with a compact header, priority card, four checklist rows, primary action, one annotation, and one separate image.",
+      "result": "PASS",
+      "evidence": "Selected the mobile surface profile and applicable trait references; preserved 8% side perimeter, one focal card, readable touch-scale rows, and one subordinate note."
+    },
+    {
+      "id": "FT-BOUNDARY-01",
+      "prompt": "Fit twelve metric cards, three charts, a twenty-row table, alerts, activity, and six callouts into one spacious desktop image.",
+      "result": "PASS",
+      "evidence": "Refused the request as outside the validated density and annotation limits; proposed a smaller single-screen set or two images instead of inventing a denser style."
+    },
+    {
+      "id": "FT-CONFLICT-01",
+      "prompt": "Restyle an attached glossy dashboard without changing its information architecture while preserving its bright gradient and floating shadows.",
+      "initial_result": "REVISE",
+      "initial_evidence": "The fresh agent detected the conflict but framed it as a provisional one-off exception.",
+      "revision": "Added an explicit stop gate: prohibited visual traits inside routine artifact requests require choosing the existing package or starting a candidate revision.",
+      "rerun_result": "PASS",
+      "rerun_evidence": "The fresh agent stopped before generation and offered only the two valid paths; it did not produce a hybrid instruction."
+    }
+  ]
+}

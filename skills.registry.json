@@ -108,6 +108,35 @@
       ]
     },
     {
+      "id": "cool-gray-marker-wireframes",
+      "path": "cool-gray-marker-wireframes",
+      "status": "blocked-material-calibration",
+      "support_level": "portable",
+      "aliases": [],
+      "hosts": ["claude-code", "codex"],
+      "entrypoint": "SKILL.md",
+      "support_files": [
+        "agents/openai.yaml",
+        "references/generation-contract.md",
+        "references/style-schema.json",
+        "references/reference-manifest.json",
+        "references/evaluation-rubric.md",
+        "references/material-calibration-gate.md",
+        "references/material-source-matrix.md",
+        "assets/reference-board/index.html",
+        "assets/reference-board/styles.css",
+        "assets/approved-locks/desktop-01.png",
+        "assets/approved-locks/mobile-01.png",
+        "assets/anti-references/flat-digital-marks-01.png",
+        "assets/approved-locks/annotation-01.png",
+        "assets/approved-locks/boundary-01.png",
+        "assets/anti-references/digital-dense-01.png",
+        "assets/calibration-fixtures/fixture-specs.json",
+        "assets/calibration-fixtures/forward-test-results.json",
+        "scripts/validate_vdl_package.py"
+      ]
+    },
+    {
       "id": "tot-adaptable",
       "path": "tot-adaptable",
       "status": "v1",
@@ -132,6 +161,21 @@
         "references/visual-report.md",
         "report-template.html",
         "agents/openai.yaml"
+      ]
+    },
+    {
+      "id": "refactor-writing",
+      "path": "refactor-writing",
+      "status": "v1",
+      "support_level": "portable",
+      "aliases": [],
+      "hosts": ["claude-code", "codex"],
+      "entrypoint": "SKILL.md",
+      "support_files": [
+        "agents/openai.yaml",
+        "assets/report/artifact.css",
+        "assets/report/artifact.js",
+        "scripts/render-report.mjs"
       ]
     },
     {

@@ -1,0 +1,262 @@
+{
+  "schema_version": "1.0",
+  "vdl_id": "cool-gray-marker-wireframes",
+  "name": "Cool-Gray Marker Wireframes",
+  "package_version": "0.1.0",
+  "package_status": "BLOCKED",
+  "intended_uses": [
+    "early UX wireframes",
+    "conceptual desktop product screens",
+    "conceptual mobile product screens",
+    "annotated interaction studies",
+    "style-only restyling of supplied wireframes",
+    "screen-family continuation"
+  ],
+  "excluded_uses": [
+    "production UI specifications",
+    "pixel-accurate coded interfaces",
+    "photorealistic device renders",
+    "glossy marketing mockups",
+    "unrelated editorial illustration",
+    "silent information-architecture redesign"
+  ],
+  "generation_environment": "Image-capable host that can include the applicable package images as references; exact model settings may vary.",
+  "rules": [
+    {
+      "id": "R-MEDIUM-01",
+      "family": "medium",
+      "statement": "Use the paper character established by documented real-marker evidence; material fidelity takes priority over numeric color matching.",
+      "variability": "controlled",
+      "status": "open",
+      "evidence_reference_ids": [],
+      "permitted_values": {"capture": "real close-up photograph, scan, or unaltered demonstration frame", "consistency": "fixed paper, scale, lighting, marker family, and crop within the primary specimen family"},
+      "surfaces": ["desktop-landscape", "mobile-portrait", "desktop-landscape-pressure"],
+      "confidence": "none",
+      "decision_id": "D-001"
+    },
+    {
+      "id": "R-PALETTE-01",
+      "family": "palette",
+      "statement": "Use cool-gray alcohol-marker and graphite relationships established by the approved real-material evidence set; evaluate stroke behavior before color accuracy.",
+      "variability": "invariant",
+      "status": "open",
+      "evidence_reference_ids": [],
+      "permitted_values": {"marker_family": "one documented cool-gray alcohol-marker family", "graphite": "real graphite over and beside marker", "accent": "none"},
+      "surfaces": ["all"],
+      "confidence": "none",
+      "decision_id": "D-002"
+    },
+    {
+      "id": "R-MARK-01",
+      "family": "mark-making",
+      "statement": "Marker areas must visibly preserve chisel-nib direction and width, longitudinal streaking, translucent single-pass coverage, darker overlap buildup, localized pooling, subtle capillary feathering, and distinct one-pass, two-pass, and blended-pass behavior.",
+      "variability": "controlled",
+      "status": "open",
+      "evidence_reference_ids": [],
+      "permitted_values": {"evidence": "real close-up photographs, scans, or unaltered demonstration frames with explicit source roles", "bleeding": "both acceptable and excessive examples required"},
+      "surfaces": ["all"],
+      "confidence": "none",
+      "decision_id": "D-003"
+    },
+    {
+      "id": "R-LINE-01",
+      "family": "mark-making",
+      "statement": "Use graphite character established by documented real-material examples showing dry pencil or graphite with marker and the contamination risk of marker over graphite.",
+      "variability": "controlled",
+      "status": "open",
+      "evidence_reference_ids": [],
+      "permitted_values": {"evidence": "real graphite or pencil interaction with marker", "weights": "to be approved from the evidence set"},
+      "surfaces": ["all"],
+      "confidence": "none",
+      "decision_id": "D-004"
+    },
+    {
+      "id": "R-FORM-01",
+      "family": "form",
+      "statement": "Keep UI geometry recognizable and refined while allowing small line and edge irregularities; never cartoon-distort controls.",
+      "variability": "controlled",
+      "status": "approved",
+      "evidence_reference_ids": ["REF-DESKTOP-01", "REF-MOBILE-01"],
+      "permitted_values": {"corner_radius": "moderate", "imperfection": "visible on close inspection, not distracting"},
+      "surfaces": ["all"],
+      "confidence": "high",
+      "decision_id": "D-005"
+    },
+    {
+      "id": "R-SPACE-01",
+      "family": "spacing",
+      "statement": "Keep desktop major content at least 7.5% from canvas edges and preserve visible empty paper between groups.",
+      "variability": "invariant",
+      "status": "approved",
+      "evidence_reference_ids": ["REF-DESKTOP-01", "REF-BOUNDARY-01"],
+      "permitted_values": {"minimum_outer_perimeter": "7.5%", "group_gaps": "clearly visible"},
+      "surfaces": ["desktop-landscape", "desktop-landscape-pressure"],
+      "confidence": "high",
+      "decision_id": "D-006"
+    },
+    {
+      "id": "R-SPACE-02",
+      "family": "spacing",
+      "statement": "Keep mobile primary content at least 8% from side edges and clearly separated from the outer device or sheet outline.",
+      "variability": "invariant",
+      "status": "approved",
+      "evidence_reference_ids": ["REF-MOBILE-01"],
+      "permitted_values": {"minimum_side_perimeter": "8%", "primary_content_top_bottom": "8% when controls permit", "outline_exception": "outer outline may sit at 5.5% or more"},
+      "surfaces": ["mobile-portrait"],
+      "confidence": "high",
+      "decision_id": "D-006"
+    },
+    {
+      "id": "R-DENSITY-01",
+      "family": "spacing",
+      "statement": "Use low-to-moderate density; under pressure, preserve readable labels, group gaps, and the protected perimeter instead of shrinking or crowding.",
+      "variability": "controlled",
+      "status": "approved",
+      "evidence_reference_ids": ["REF-DESKTOP-01", "REF-MOBILE-01", "REF-BOUNDARY-01", "ANTI-DIGITAL-DENSE-01"],
+      "permitted_values": {"desktop_summary_cards": "1–4", "mobile_list_rows": "3–5 by default", "screens_per_image": 1},
+      "surfaces": ["all"],
+      "confidence": "high",
+      "decision_id": "D-007"
+    },
+    {
+      "id": "R-ANNOTATION-01",
+      "family": "annotation",
+      "statement": "Use one to three short handwritten graphite notes only when they clarify interaction or hierarchy; use curved connectors and open arrowheads.",
+      "variability": "controlled",
+      "status": "approved",
+      "evidence_reference_ids": ["REF-ANNOTATION-01", "REF-DESKTOP-01", "REF-MOBILE-01"],
+      "permitted_values": {"count": "0–3", "length": "2–6 words", "connector": "curved, open arrowhead"},
+      "surfaces": ["all"],
+      "confidence": "high",
+      "decision_id": "D-008"
+    },
+    {
+      "id": "R-TYPE-01",
+      "family": "typography",
+      "statement": "Use restrained typeset-like labels for screen content and handwriting only for annotations; maintain legibility over decorative authenticity.",
+      "variability": "controlled",
+      "status": "approved",
+      "evidence_reference_ids": ["REF-DESKTOP-01", "REF-MOBILE-01", "REF-ANNOTATION-01"],
+      "permitted_values": {"screen_copy": "neutral sans-like", "annotations": "narrow casual hand", "minimum_quality": "readable at delivered size"},
+      "surfaces": ["all"],
+      "confidence": "high",
+      "decision_id": "D-009"
+    },
+    {
+      "id": "R-DEPTH-01",
+      "family": "depth",
+      "statement": "Use physical marker overlap and pooling only; prohibit digitally simulated depth such as glossy shadows, glass effects, volumetric lighting, airbrush shading, and blurred fills.",
+      "variability": "invariant",
+      "status": "provisional",
+      "evidence_reference_ids": ["ANTI-DIGITAL-DENSE-01", "ANTI-FLAT-DIGITAL-MARKS-01"],
+      "permitted_values": {"shadow": "none", "overlap": "physically evidenced", "digital_gradient": "none"},
+      "surfaces": ["all"],
+      "confidence": "medium",
+      "decision_id": "D-010"
+    },
+    {
+      "id": "R-STRUCTURE-01",
+      "family": "purpose",
+      "statement": "During restyling, preserve the supplied wireframe's core information architecture, content hierarchy, and device class.",
+      "variability": "invariant",
+      "status": "approved",
+      "evidence_reference_ids": [],
+      "surfaces": ["all"],
+      "confidence": "high",
+      "decision_id": "D-011"
+    },
+    {
+      "id": "R-OUTPUT-01",
+      "family": "output",
+      "statement": "Generate one screen per image unless the user explicitly requests a board or comparison set.",
+      "variability": "invariant",
+      "status": "approved",
+      "evidence_reference_ids": [],
+      "surfaces": ["all"],
+      "confidence": "high",
+      "decision_id": "D-012"
+    },
+    {
+      "id": "R-FINISH-01",
+      "family": "fidelity",
+      "statement": "The result must read as a refined physical alcohol-marker and graphite study, never as a grayscale digital wireframe with generic texture.",
+      "variability": "invariant",
+      "status": "open",
+      "evidence_reference_ids": [],
+      "surfaces": ["all"],
+      "confidence": "none",
+      "decision_id": "D-013"
+    }
+  ],
+  "surface_profiles": [
+    {
+      "id": "desktop-landscape",
+      "aspect_ratio": "16:10 preferred; 3:2 to 16:9 allowed",
+      "minimum_perimeter": "7.5%",
+      "density": "low-to-moderate",
+      "confirmation_fixture": "assets/approved-locks/desktop-01.png"
+    },
+    {
+      "id": "mobile-portrait",
+      "aspect_ratio": "9:14 to 9:16",
+      "minimum_perimeter": "8% for primary content sides",
+      "density": "one focal card plus short grouped list and one action by default",
+      "confirmation_fixture": "assets/approved-locks/mobile-01.png"
+    },
+    {
+      "id": "desktop-landscape-pressure",
+      "aspect_ratio": "16:10",
+      "minimum_perimeter": "7.5%",
+      "density": "moderate maximum",
+      "confirmation_fixture": "assets/approved-locks/boundary-01.png"
+    }
+  ],
+  "prohibited_traits": [
+    "saturated or rainbow palettes",
+    "glossy digital gradients",
+    "neon accents",
+    "glass effects",
+    "photorealistic device renders",
+    "perfect vector polish with no analog character",
+    "flat CSS-like gray fills",
+    "texture overlays or generic paper texture used as material evidence",
+    "random noise used as material evidence",
+    "blurred digital fills or airbrush shading",
+    "watercolor-like washes",
+    "SVG displacement used to fake stroke edges",
+    "uniformly translucent gray rectangles",
+    "uncontrolled marker bleeding",
+    "heavy comic outlines",
+    "cartoon distortion",
+    "excessive crosshatching",
+    "dense paragraphs",
+    "edge collisions",
+    "unexplained floating fragments",
+    "decorative annotations",
+    "multiple screens in one image without explicit instruction",
+    "information-architecture changes during style-only restyling"
+  ],
+  "open_decisions": [
+    {
+      "id": "D-MATERIAL-01",
+      "status": "blocking",
+      "statement": "Approve a materials-only sheet whose primary stroke family comes from controlled real-marker documentation before any screen generation resumes.",
+      "required_specimens": [
+        "one broad chisel stroke",
+        "two overlapping strokes",
+        "a filled rectangle made from visible directional passes",
+        "a curved stroke showing edge pooling",
+        "graphite over and beside marker",
+        "one rejected flat-digital comparison"
+      ],
+      "capture_controls": ["same paper", "same scale", "same lighting", "same marker family", "same crop within the primary family", "supporting boundary sources labeled separately"],
+      "approval": "explicit user approval required"
+    },
+    {
+      "id": "D-MATERIAL-02",
+      "status": "blocking",
+      "statement": "Approve acceptable versus excessive bleeding and one-pass versus two-pass versus blended-pass boundaries from documented real-marker studies with explicit source roles.",
+      "approval": "explicit user approval required"
+    }
+  ]
+}

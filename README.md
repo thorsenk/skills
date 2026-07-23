@@ -15,7 +15,9 @@ plus any supporting reference files.
 | [multi-agent-plan-qa](multi-agent-plan-qa/) | Domain-grounded, project-read-only plan auditing and bounded hardening with four capacity-aware review roles. |
 | [domain-modeling](domain-modeling/) | Audit or establish evidence-grounded domain models, shared language, boundaries, rules, states, workflows, and contracts. |
 | [calibrate-visual-language](calibrate-visual-language/) | Calibrate references and controlled specimens into a validated, reusable visual-language skill. |
+| [cool-gray-marker-wireframes](cool-gray-marker-wireframes/) | Blocked pending approval of a physical cool-gray alcohol-marker and graphite stroke reference. |
 | [prompt-maestro](prompt-maestro/) | Classify, audit, and harden prompts with a visual HTML scorecard before execution. |
+| [refactor-writing](refactor-writing/) | Refactor context-bearing writing with evidence-backed, meaning-preserving recommendations and a complete copy-ready HTML artifact. |
 | [tot-adaptable](tot-adaptable/) | Tree-of-Thought-inspired internal branching for multi-lens critique, discovery, planning, and review without process theater. |
 | [agent-skill-mechanics](agent-skill-mechanics/) | Design predictable agent skills through triggers, structure, steering, and pruning. |
 

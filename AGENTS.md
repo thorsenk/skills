@@ -17,6 +17,7 @@ and Codex from one shared repo.
 - Before editing, inspect the current git state.
 - Do not overwrite uncommitted changes from another agent or session.
 - After edits, run `node scripts/validate-skills.mjs`.
+- When the user approves a new skill for active use, install it into the requested host, or the current host when that is the stated destination. Prefer a symlink back to this repo, verify the installed entrypoint and metadata resolve, and state any restart needed. Registry and README updates alone do not count as installation.
 
 ## Shared context
 

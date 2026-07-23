@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0",
+  "vdl_id": "cool-gray-marker-wireframes",
+  "name": "Cool-Gray Marker Wireframes",
+  "package_version": "0.1.0",
+  "package_status": "BLOCKED",
+  "references": [
+    {
+      "id": "REF-DESKTOP-01",
+      "path": "assets/approved-locks/desktop-01.png",
+      "roles": ["approved-lock", "style-source"],
+      "approval_state": "approved",
+      "approval": {"approver": "Codex under user-delegated calibration approval", "date": "2026-07-13"},
+      "provenance": {"creator": "Codex", "method": "deterministic SVG specimen rendered in Chromium", "rights": "created for this package"},
+      "checksum": "sha256:d7a81e63ad593b1e98303e3586528bf42e2e6e5fecf558a95d6a21d7d7b7491c",
+      "applies_to": ["desktop-composition", "desktop-spacing", "desktop-density", "desktop-hierarchy"],
+      "does_not_apply_to": ["marker-material", "marker-finish", "paper-character", "sample-content", "information-architecture", "product-domain", "mobile-scale", "brand-copy"],
+      "surfaces": ["desktop-landscape"],
+      "generation_conditions": {"canvas": "1600x1000", "fixture": "FIX-DESKTOP-01"},
+      "limitations": "Structure-only evidence while material calibration is blocked. Its marker rendering is rejected as material evidence and must not be copied."
+    },
+    {
+      "id": "REF-MOBILE-01",
+      "path": "assets/approved-locks/mobile-01.png",
+      "roles": ["approved-lock", "style-source"],
+      "approval_state": "approved",
+      "approval": {"approver": "Codex under user-delegated calibration approval", "date": "2026-07-13"},
+      "provenance": {"creator": "Codex", "method": "deterministic SVG specimen rendered in Chromium", "rights": "created for this package"},
+      "checksum": "sha256:a651fc50acf11c8975378b95d6197bbba1990ad2d05f5e17701b8ec4da56bd8d",
+      "applies_to": ["mobile-composition", "mobile-spacing", "mobile-density", "touch-target-implication", "mobile-annotation-balance"],
+      "does_not_apply_to": ["marker-material", "marker-finish", "paper-character", "sample-content", "information-architecture", "product-domain", "desktop-density", "brand-copy"],
+      "surfaces": ["mobile-portrait"],
+      "generation_conditions": {"canvas": "900x1400", "fixture": "FIX-MOBILE-01"},
+      "limitations": "Structure-only evidence while material calibration is blocked. Its marker rendering is rejected as material evidence and must not be copied."
+    },
+    {
+      "id": "ANTI-FLAT-DIGITAL-MARKS-01",
+      "path": "assets/anti-references/flat-digital-marks-01.png",
+      "roles": ["anti-reference"],
+      "approval_state": "rejected",
+      "provenance": {"creator": "Codex", "method": "deterministic SVG specimen rendered in Chromium", "rights": "created for this package"},
+      "checksum": "sha256:00ec13b2c0f9d868f3dfb0aaf9c4c568e7885f853f2de8cfa7a35e40222a2fbe",
+      "applies_to": ["prohibited-flat-digital-fill", "prohibited-geometric-edge-wobble", "prohibited-uniform-translucency"],
+      "does_not_apply_to": ["alcohol-marker-stroke-behavior", "paper-character", "marker-color", "graphite-character", "layout", "content", "annotation-density", "typography-scale", "surface-density"],
+      "surfaces": ["all"],
+      "generation_conditions": {"canvas": "1200x800", "fixture": "FIX-MARKS-01"},
+      "limitations": "Rejected comparison only. It lacks chisel direction, longitudinal streaking, overlap buildup, localized pooling, capillary feathering, pass differences, and real graphite interaction."
+    },
+    {
+      "id": "REF-ANNOTATION-01",
+      "path": "assets/approved-locks/annotation-01.png",
+      "roles": ["approved-lock", "detail-source"],
+      "approval_state": "approved",
+      "approval": {"approver": "Codex under user-delegated calibration approval", "date": "2026-07-13"},
+      "provenance": {"creator": "Codex", "method": "deterministic SVG specimen rendered in Chromium", "rights": "created for this package"},
+      "checksum": "sha256:acc3eaecb97615ca15a7412738e9541e570a790032a86b3c88a4abddd0a227e9",
+      "applies_to": ["handwriting-character", "connector-curve", "open-arrowheads", "annotation-length", "annotation-density"],
+      "does_not_apply_to": ["screen-layout", "screen-content", "palette-range", "surface-density", "screen-label-font"],
+      "surfaces": ["all"],
+      "generation_conditions": {"canvas": "1200x800", "fixture": "FIX-ANNOTATION-01"},
+      "limitations": "Handwriting may vary, but it must remain narrow, casual, readable, and subordinate."
+    },
+    {
+      "id": "REF-BOUNDARY-01",
+      "path": "assets/approved-locks/boundary-01.png",
+      "roles": ["approved-lock", "style-source"],
+      "approval_state": "approved",
+      "approval": {"approver": "Codex under user-delegated calibration approval", "date": "2026-07-13"},
+      "provenance": {"creator": "Codex", "method": "deterministic SVG specimen rendered in Chromium", "rights": "created for this package"},
+      "checksum": "sha256:c352fa71a3f822dd7ecb296621bfdcac749847e09096fa2ea75b80783d186cb4",
+      "applies_to": ["maximum-desktop-density", "protected-perimeter", "legibility-under-pressure", "group-separation"],
+      "does_not_apply_to": ["default-density", "sample-content", "information-architecture", "mobile-density", "brand-copy"],
+      "surfaces": ["desktop-landscape-pressure"],
+      "generation_conditions": {"canvas": "1600x1000", "fixture": "FIX-BOUNDARY-01"},
+      "limitations": "Structure-only evidence while material calibration is blocked. Represents the upper density boundary, not the default amount of content, and does not validate marker rendering."
+    },
+    {
+      "id": "ANTI-DIGITAL-DENSE-01",
+      "path": "assets/anti-references/digital-dense-01.png",
+      "roles": ["anti-reference"],
+      "approval_state": "approved",
+      "approval": {"approver": "Codex under user-delegated calibration approval", "date": "2026-07-13"},
+      "provenance": {"creator": "Codex", "method": "deterministic SVG specimen rendered in Chromium", "rights": "created for this package"},
+      "checksum": "sha256:0d6b4d0441d313a6f492278055e9b7283c2975bd56ab158ad422d1b94b18500e",
+      "applies_to": ["prohibited-digital-finish", "prohibited-density", "prohibited-edge-crowding"],
+      "does_not_apply_to": ["approved-palette", "approved-layout", "approved-typography", "approved-mark-making"],
+      "surfaces": ["all"],
+      "generation_conditions": {"canvas": "1400x800"},
+      "limitations": "Use only to recognize and reject glossy digital polish or edge-to-edge density. Never imitate its content or colors."
+    }
+  ]
+}
