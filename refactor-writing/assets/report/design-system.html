@@ -334,14 +334,17 @@ Status: reviewed — not applied</pre></div>
           <article class="motion-token-visual motion-token-visual--geometry">
             <div class="motion-visual-heading"><span class="specimen-label">Geometry + cadence</span><code>effect configuration</code></div>
             <div class="geometry-instrument">
-              <div class="spotlight-radii" aria-label="Control and card spotlight diameters">
-                <span class="spotlight-ring spotlight-ring--card"><b>220</b></span>
-                <span class="spotlight-ring spotlight-ring--control"><b>120</b></span>
+              <div class="spotlight-radii" aria-label="Control and card spotlight radii">
+                <span class="spotlight-ring spotlight-ring--card" aria-hidden="true"></span>
+                <span class="spotlight-ring spotlight-ring--control" aria-hidden="true"></span>
+                <span class="spotlight-center" aria-hidden="true"></span>
+                <span class="spotlight-measure spotlight-measure--card"><i aria-hidden="true"></i><b>220px radius</b></span>
+                <span class="spotlight-measure spotlight-measure--control"><i aria-hidden="true"></i><b>120px radius</b></span>
               </div>
               <div class="cadence-gauge"><span aria-hidden="true"></span><b>30fps</b><small>particle cap</small></div>
               <div class="threshold-gauge"><span aria-hidden="true"></span><b>12%</b><small>viewport boundary</small></div>
             </div>
-            <p>Spotlight sizes are CSS tokens. Frame cap and the lower viewport boundary are runtime configuration.</p>
+            <p>CSS radial-gradient circle size is a radius measured from the pointer or focus center to the fade boundary. Frame cap and the lower viewport boundary are runtime configuration.</p>
           </article>
 
           <article class="motion-token-visual motion-token-visual--fallback">

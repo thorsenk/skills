@@ -187,6 +187,9 @@ The color-mode control is the only global visual preference control.
 | Card spotlight radius | `220px` | `--spotlight-card-size` |
 | Control spotlight radius | `120px` | `--spotlight-control-size` |
 
+Spotlight values are radial-gradient radii measured from the pointer or focus
+center to the fade boundary. They are not diameters.
+
 Reveal uses opacity and vertical translation only. JavaScript observes
 `.reveal` elements. Each element reveals once on its first entry above the
 lower 12% viewport boundary, is then unobserved, and remains visible after

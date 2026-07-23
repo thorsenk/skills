@@ -443,3 +443,23 @@ test("catalog entries expose complete primitive, component, and pattern contract
 
   assert.deepEqual(foundCounts, expectedCounts);
 });
+
+test("spotlight instrument presents unchanged production values as radii", async () => {
+  const catalog = await readFile(
+    path.join(repoDir, "refactor-writing/assets/report/design-system.html"),
+    "utf8"
+  );
+  const css = await readFile(
+    path.join(repoDir, "refactor-writing/assets/report/artifact.css"),
+    "utf8"
+  );
+
+  assert.match(catalog, /spotlight radii/i);
+  assert.match(catalog, /220px radius/);
+  assert.match(catalog, /120px radius/);
+  assert.doesNotMatch(catalog, /spotlight diameters?/i);
+  assert.match(css, /--spotlight-card-size:\s*220px/);
+  assert.match(css, /--spotlight-control-size:\s*120px/);
+  assert.match(css, /--spotlight-size:\s*var\(--spotlight-card-size\)/);
+  assert.match(css, /--spotlight-size:\s*var\(--spotlight-control-size\)/);
+});

@@ -49,7 +49,7 @@ one agent/session at a time, so no plans may execute in parallel.
 | 003 | Require unambiguous changed-span targets | P1 | S | 001 | DONE |
 | 004 | Reconcile reveal documentation with one-shot behavior | P2 | S | 001 | DONE |
 | 005 | Complete catalog component and pattern contracts | P2 | M | 001, 004 | DONE |
-| 006 | Correct the spotlight-radius instrument | P2 | S | 001, 005 | TODO |
+| 006 | Correct the spotlight-radius instrument | P2 | S | 001, 005 | DONE |
 
 Status values: TODO | IN PROGRESS | DONE | BLOCKED (with a one-line reason) |
 REJECTED (with a one-line rationale).

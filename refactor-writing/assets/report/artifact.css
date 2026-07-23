@@ -974,24 +974,58 @@ mark { padding: 0.08em 0.15em; background: var(--mark); color: var(--mark-ink); 
 }
 .spotlight-ring {
   position: absolute;
-  display: grid;
-  place-items: center;
   border: var(--rule-width) solid var(--accent);
   border-radius: 50%;
 }
 .spotlight-ring--card { width: 132px; height: 132px; inset: 5px auto auto 50%; transform: translateX(-50%); }
 .spotlight-ring--control { width: 72px; height: 72px; inset: 35px auto auto 50%; transform: translateX(-50%); }
-.spotlight-ring b {
+.spotlight-center {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  border: var(--rule-width) solid var(--paper);
+  border-radius: 50%;
+  background: var(--accent);
+  transform: translate(-50%, -50%);
+}
+.spotlight-measure {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  height: 1px;
+}
+.spotlight-measure i {
+  position: absolute;
+  inset: 0;
+  border-top: var(--rule-width) solid var(--accent);
+}
+.spotlight-measure b {
+  position: absolute;
+  width: max-content;
   padding: 1px 4px;
   background: var(--paper);
   color: var(--accent);
-  font: 700 0.66rem/1.2 var(--mono);
+  font: 700 0.61rem/1.25 var(--mono);
 }
-.spotlight-ring--card > b {
-  position: absolute;
-  top: 8px;
+.spotlight-measure--card {
+  right: 50%;
+  width: 66px;
+}
+.spotlight-measure--card b {
+  top: 7px;
+  left: 0;
+}
+.spotlight-measure--control {
   left: 50%;
-  transform: translateX(-50%);
+  width: 36px;
+}
+.spotlight-measure--control b {
+  right: 0;
+  bottom: 7px;
+  transform: translateX(42%);
 }
 .cadence-gauge,
 .threshold-gauge {
