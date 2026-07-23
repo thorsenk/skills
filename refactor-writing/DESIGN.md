@@ -86,6 +86,12 @@ Add a role to the specification before adding a raw visual value.
   vertical at `440px` and below. Steps wrap, arrows preserve sequence, and
   Pattern flows never scroll or clip.
 - All generated navigation and assets remain same-folder relative links.
+- The output directory must not be a symbolic link. Renderer-owned destinations
+  must be regular files or absent; unknown invocation-folder files are
+  preserved.
+- Generate and validate all six owned files in a sibling staging directory
+  before replacing the prior owned files. `--allow-inside-source` is the only
+  permitted source-containment override.
 
 ## Prevent these deviations
 

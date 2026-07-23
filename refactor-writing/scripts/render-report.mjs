@@ -1,12 +1,30 @@
 #!/usr/bin/env node
 
 import { createHash } from "node:crypto";
-import { copyFile, mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import {
+  copyFile,
+  lstat,
+  mkdir,
+  mkdtemp,
+  readFile,
+  realpath,
+  rename,
+  rm,
+  writeFile
+} from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const assetDir = path.resolve(scriptDir, "../assets/report");
+const ownedFiles = [
+  "artifact.css",
+  "artifact.js",
+  "design-system.html",
+  "report.html",
+  "skill.html",
+  "how-it-works.html"
+];
 
 const help = `Usage:
   node render-report.mjs --input invocation.json --output invocation-folder --skill SKILL.md [--allow-inside-source]
@@ -110,7 +128,7 @@ function inside(child, parent) {
   return relative === "" || (!relative.startsWith("..") && !path.isAbsolute(relative));
 }
 
-function validate(data, outputDir, allowInsideSource) {
+function validate(data) {
   for (const key of ["title", "sourcePath", "skillStatus", "verdict", "scope"]) requireString(data, key);
   requireStringArray(data.protectedMeaning, "input.protectedMeaning");
   if (!Array.isArray(data.evidenceBoundaries) || data.evidenceBoundaries.length === 0) throw new Error("input.evidenceBoundaries must be non-empty");
@@ -134,8 +152,80 @@ function validate(data, outputDir, allowInsideSource) {
   requireString(data.method, "noChangeReason", "input.method");
   requireStringArray(data.redactions ?? [], "input.redactions", true);
   requireStringArray(data.assumptions ?? [], "input.assumptions", true);
-  if (data.sourceWorkspace && !allowInsideSource && inside(outputDir, path.resolve(data.sourceWorkspace))) {
-    throw new Error("Output folder is inside sourceWorkspace; choose an external folder or pass --allow-inside-source after explicit user authorization");
+}
+
+async function lstatIfPresent(filePath) {
+  try {
+    return await lstat(filePath);
+  } catch (error) {
+    if (error.code === "ENOENT") return null;
+    throw error;
+  }
+}
+
+async function resolveEffectivePath(filePath) {
+  const absolute = path.resolve(filePath);
+  const direct = await lstatIfPresent(absolute);
+  if (direct) {
+    return {
+      absolute,
+      effective: await realpath(absolute),
+      exists: true,
+      stats: direct
+    };
+  }
+
+  const suffix = [];
+  let ancestor = absolute;
+  let ancestorStats = null;
+  while (!ancestorStats) {
+    const parent = path.dirname(ancestor);
+    if (parent === ancestor) throw new Error(`Unable to resolve an existing ancestor for ${absolute}`);
+    suffix.unshift(path.basename(ancestor));
+    ancestor = parent;
+    ancestorStats = await lstatIfPresent(ancestor);
+  }
+
+  return {
+    absolute,
+    effective: path.join(await realpath(ancestor), ...suffix),
+    exists: false,
+    stats: null
+  };
+}
+
+async function validateOutputBoundary(data, outputDir, allowInsideSource) {
+  const output = await resolveEffectivePath(outputDir);
+  if (output.exists && output.stats.isSymbolicLink()) {
+    throw new Error("Output folder must not be a symbolic link");
+  }
+  if (output.exists && !output.stats.isDirectory()) {
+    throw new Error("Output folder must be a directory or absent");
+  }
+  if (!data.sourceWorkspace || allowInsideSource) return;
+
+  const sourcePath = path.resolve(data.sourceWorkspace);
+  const sourceStats = await lstatIfPresent(sourcePath);
+  if (!sourceStats) {
+    if (inside(output.absolute, sourcePath)) {
+      throw new Error("Output folder is inside sourceWorkspace; sourceWorkspace does not exist, so only lexical containment could be checked. Choose an external folder or pass --allow-inside-source after explicit user authorization");
+    }
+    return;
+  }
+
+  const effectiveSource = await realpath(sourcePath);
+  if (inside(output.effective, effectiveSource)) {
+    throw new Error("Output folder is inside sourceWorkspace after effective path resolution; choose an external folder or pass --allow-inside-source after explicit user authorization");
+  }
+}
+
+async function assertOwnedDestinationsSafe(outputDir) {
+  for (const name of ownedFiles) {
+    const destination = path.join(outputDir, name);
+    const stats = await lstatIfPresent(destination);
+    if (stats && (!stats.isFile() || stats.isSymbolicLink())) {
+      throw new Error(`Generated destination must be a regular file or absent: ${name}`);
+    }
   }
 }
 
@@ -328,20 +418,40 @@ async function main() {
   const data = JSON.parse(await readFile(inputPath, "utf8"));
   const skillSource = await readFile(skillPath, "utf8");
   const skillHash = createHash("sha256").update(skillSource).digest("hex");
-  validate(data, outputDir, args.allowInsideSource);
+  validate(data);
+  await validateOutputBoundary(data, outputDir, args.allowInsideSource);
   await verifySystemSources();
 
   await mkdir(outputDir, { recursive: true });
-  await rm(path.join(outputDir, "hero-dotted-wave.png"), { force: true });
-  await Promise.all([
-    copyFile(path.join(assetDir, "artifact.css"), path.join(outputDir, "artifact.css")),
-    copyFile(path.join(assetDir, "artifact.js"), path.join(outputDir, "artifact.js")),
-    copyFile(path.join(assetDir, "design-system.html"), path.join(outputDir, "design-system.html")),
-    writeFile(path.join(outputDir, "report.html"), renderReport(data), "utf8"),
-    writeFile(path.join(outputDir, "skill.html"), renderSkill(data, skillSource, skillPath, skillHash), "utf8"),
-    writeFile(path.join(outputDir, "how-it-works.html"), renderMethod(data), "utf8")
-  ]);
-  await verifyRelativeLinks(outputDir);
+  await validateOutputBoundary(data, outputDir, args.allowInsideSource);
+  await assertOwnedDestinationsSafe(outputDir);
+
+  if (await lstatIfPresent(path.join(outputDir, "hero-dotted-wave.png"))) {
+    console.warn("Renderer preserved unowned file hero-dotted-wave.png; it is no longer referenced by generated pages");
+  }
+
+  const stagingDir = await mkdtemp(path.join(
+    path.dirname(outputDir),
+    `.${path.basename(outputDir)}-staging-`
+  ));
+  try {
+    await Promise.all([
+      copyFile(path.join(assetDir, "artifact.css"), path.join(stagingDir, "artifact.css")),
+      copyFile(path.join(assetDir, "artifact.js"), path.join(stagingDir, "artifact.js")),
+      copyFile(path.join(assetDir, "design-system.html"), path.join(stagingDir, "design-system.html")),
+      writeFile(path.join(stagingDir, "report.html"), renderReport(data), "utf8"),
+      writeFile(path.join(stagingDir, "skill.html"), renderSkill(data, skillSource, skillPath, skillHash), "utf8"),
+      writeFile(path.join(stagingDir, "how-it-works.html"), renderMethod(data), "utf8")
+    ]);
+    await verifyRelativeLinks(stagingDir);
+    await assertOwnedDestinationsSafe(outputDir);
+    for (const name of ownedFiles) {
+      await rename(path.join(stagingDir, name), path.join(outputDir, name));
+    }
+  } finally {
+    await rm(stagingDir, { recursive: true, force: true });
+  }
+
   console.log(`Rendered 4 pages and 2 run-local assets to ${outputDir}`);
   console.log(`Embedded SKILL.md SHA-256 ${skillHash}`);
   console.log("Relative-link validation passed");

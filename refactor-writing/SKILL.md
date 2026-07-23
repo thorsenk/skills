@@ -50,6 +50,13 @@ node <skill-folder>/scripts/render-report.mjs \
   --skill <skill-folder>/SKILL.md
 ```
 
+The invocation folder must be a real directory, not a symbolic link. Each
+renderer-owned destination must be absent or a regular file. The renderer
+creates and validates all six owned files in a sibling staging directory before
+replacement, preserves unknown files in an existing invocation folder, and
+never cleans the folder recursively. Use `--allow-inside-source` only after the
+user explicitly authorizes output inside the reviewed workspace.
+
 Use the renderer and `assets/report/`; do not rebuild the interface by hand. The renderer must produce:
 
 - `report.html` with the verdict, scope, protected meaning, prioritized findings, adjacent comparisons, rationale, and complete final output;

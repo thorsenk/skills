@@ -45,7 +45,7 @@ one agent/session at a time, so no plans may execute in parallel.
 | Plan | Title | Priority | Effort | Depends on | Status |
 | --- | --- | --- | --- | --- | --- |
 | 001 | Establish renderer characterization tests | P1 | M | — | DONE |
-| 002 | Make artifact output transactional and symlink-safe | P1 | M | 001 | TODO |
+| 002 | Make artifact output transactional and symlink-safe | P1 | M | 001 | DONE |
 | 003 | Require unambiguous changed-span targets | P1 | S | 001 | TODO |
 | 004 | Reconcile reveal documentation with one-shot behavior | P2 | S | 001 | TODO |
 | 005 | Complete catalog component and pattern contracts | P2 | M | 001, 004 | TODO |

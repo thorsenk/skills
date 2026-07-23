@@ -470,6 +470,14 @@ Runtime constraints:
 - the Hero particle field is generated as inline SVG and requires no image
   file;
 - generated output is movable as one folder;
+- the output directory is a real directory rather than a symbolic link;
+- each renderer-owned destination is absent or a regular file, never a
+  symbolic link;
+- the renderer validates a sibling staging directory before replacing owned
+  output files and preserves every unknown file in an existing invocation
+  folder;
+- `--allow-inside-source` is the only permitted override when effective path
+  resolution places output inside the reviewed workspace;
 - primary content survives missing JavaScript;
 - CSS supports wide, tablet, phone, reduced-motion, forced-colors, and print
   contexts;

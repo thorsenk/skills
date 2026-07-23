@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { execFile } from "node:child_process";
-import { mkdtemp, readFile, readdir, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, readdir, symlink, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
@@ -163,4 +163,119 @@ test("renderer rejects output inside the reviewed source workspace", async () =>
       message: /Output folder is inside sourceWorkspace/
     }
   );
+});
+
+test("renderer rejects an output directory that is a symbolic link", async (context) => {
+  const temporaryRoot = await mkdtemp(path.join(os.tmpdir(), "refactor-writing-symlink-"));
+  const targetDir = path.join(temporaryRoot, "target");
+  const outputDir = path.join(temporaryRoot, "artifact-link");
+  await mkdir(targetDir);
+  try {
+    await symlink(targetDir, outputDir, "dir");
+  } catch (error) {
+    if (error.code === "EPERM" || error.code === "EACCES") {
+      context.skip(`symbolic links are unavailable: ${error.code}`);
+      return;
+    }
+    throw error;
+  }
+
+  await expectRenderFailure(
+    "no-change.json",
+    (input) => input,
+    {
+      outputDir,
+      message: /Output folder must not be a symbolic link/
+    }
+  );
+});
+
+test("renderer rejects a generated destination that is a symbolic link", async (context) => {
+  const temporaryRoot = await mkdtemp(path.join(os.tmpdir(), "refactor-writing-destination-"));
+  const outputDir = path.join(temporaryRoot, "artifact");
+  const targetFile = path.join(temporaryRoot, "outside-report.html");
+  await mkdir(outputDir);
+  await writeFile(targetFile, "must remain unchanged", "utf8");
+  try {
+    await symlink(targetFile, path.join(outputDir, "report.html"), "file");
+  } catch (error) {
+    if (error.code === "EPERM" || error.code === "EACCES") {
+      context.skip(`symbolic links are unavailable: ${error.code}`);
+      return;
+    }
+    throw error;
+  }
+
+  await expectRenderFailure(
+    "no-change.json",
+    (input) => input,
+    {
+      outputDir,
+      message: /Generated destination must be a regular file or absent/
+    }
+  );
+  assert.equal(await readFile(targetFile, "utf8"), "must remain unchanged");
+});
+
+test("renderer resolves a symlinked output ancestor before source containment", async (context) => {
+  const temporaryRoot = await mkdtemp(path.join(os.tmpdir(), "refactor-writing-effective-"));
+  const sourceWorkspace = path.join(temporaryRoot, "reviewed-source");
+  const outputAlias = path.join(temporaryRoot, "output-alias");
+  await mkdir(sourceWorkspace);
+  try {
+    await symlink(sourceWorkspace, outputAlias, "dir");
+  } catch (error) {
+    if (error.code === "EPERM" || error.code === "EACCES") {
+      context.skip(`symbolic links are unavailable: ${error.code}`);
+      return;
+    }
+    throw error;
+  }
+
+  await expectRenderFailure(
+    "no-change.json",
+    (input) => {
+      const changed = clone(input);
+      changed.sourceWorkspace = sourceWorkspace;
+      return changed;
+    },
+    {
+      outputDir: path.join(outputAlias, "generated"),
+      message: /inside sourceWorkspace after effective path resolution/
+    }
+  );
+});
+
+test("renderer preserves an unrelated retired raster in an existing output folder", async () => {
+  const temporaryRoot = await mkdtemp(path.join(os.tmpdir(), "refactor-writing-retired-"));
+  const outputDir = path.join(temporaryRoot, "artifact");
+  const rasterPath = path.join(outputDir, "hero-dotted-wave.png");
+  await mkdir(outputDir);
+  await writeFile(rasterPath, "unowned reference", "utf8");
+
+  const { stderr } = await renderFixture("no-change.json", (input) => input, { outputDir });
+  assert.equal(await readFile(rasterPath, "utf8"), "unowned reference");
+  assert.match(stderr, /preserved unowned file hero-dotted-wave\.png/);
+});
+
+test("renderer leaves prior output unchanged when input validation fails", async () => {
+  const temporaryRoot = await mkdtemp(path.join(os.tmpdir(), "refactor-writing-prior-"));
+  const outputDir = path.join(temporaryRoot, "artifact");
+  const reportPath = path.join(outputDir, "report.html");
+  await mkdir(outputDir);
+  await writeFile(reportPath, "previous complete report", "utf8");
+
+  await expectRenderFailure(
+    "no-change.json",
+    (input) => {
+      const changed = clone(input);
+      changed.finalOutput.heading = "Complete proposed revision";
+      return changed;
+    },
+    {
+      outputDir,
+      message: /must be "No change recommended"/
+    }
+  );
+  assert.equal(await readFile(reportPath, "utf8"), "previous complete report");
 });
