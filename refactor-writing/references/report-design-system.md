@@ -1,7 +1,7 @@
 # Refactor Writing Report System Specification
 
 System ID: `refactor-writing-report`
-Revision: `1`
+Revision: `8`
 Maturity: Operational Design System
 Supported Delivery Profile: Portable static HTML report
 
@@ -35,6 +35,9 @@ Observed evidence:
 - original and proposed language must remain adjacent at wide widths;
 - the complete output must remain selectable without JavaScript;
 - the artifact must move safely as one self-contained folder.
+- `references/hero-dotted-wave-reference.png` records the supplied particle-wave
+  appearance for comparison only; it is not a runtime asset and must never be
+  copied, loaded, stretched, or presented as the implemented effect.
 
 User decisions:
 
@@ -58,66 +61,188 @@ a careful working paper rather than a dashboard.
 ### Color roles
 
 The semantic roles below are the system decisions. The CSS variables are the
-static HTML adapter mappings.
+static HTML adapter mappings. Light preserves the original working-paper
+palette; Mid reduces luminance without inverting the page; Dark provides a
+low-light palette. Components use roles rather than mode-specific raw values.
 
-| Semantic role | Raw value | CSS mapping | Use |
-| --- | --- | --- | --- |
-| Page | `#f5f5f2` | `--paper` | Primary page field |
-| Surface | `#ffffff` | `--surface` | Comparison and document surfaces |
-| Primary text | `#1d2024` | `--ink` | Headings, body, strong borders |
-| Secondary text | `#626971` | `--muted` | Supporting copy and labels |
-| Rule | `#d6d8d8` | `--line` | Section and component separation |
-| Strong rule | `#8b9197` | `--line-strong` | Component and finding boundaries |
-| Action | `#2f5f87` | `--accent` | Links, eyebrows, finding indices |
-| Action wash | `#e8f0f6` | `--accent-soft` | Optional quiet emphasis |
-| Confirmed state | `#2e684d` | `--success` | Copy success and retained status |
-| Changed span | `#fff0a8` | `--mark` | Exact changed language only |
+| Semantic role | Light | Mid | Dark | CSS mapping | Use |
+| --- | --- | --- | --- | --- | --- |
+| Page | `#f5f5f2` | `#d7d6d1` | `#151719` | `--paper` | Primary page field |
+| Surface | `#ffffff` | `#e8e7e2` | `#202427` | `--surface` | Comparison, catalog, and document surfaces |
+| Primary text | `#1d2024` | `#24272a` | `#f1f3ef` | `--ink` | Headings and body |
+| Secondary text | `#626971` | `#555c61` | `#adb5b8` | `--muted` | Supporting copy and labels |
+| Rule | `#d6d8d8` | `#b7b9b7` | `#3d4448` | `--line` | Section and related-item separation |
+| Strong rule | `#8b9197` | `#737a7e` | `#707a7f` | `--line-strong` | Component and finding boundaries |
+| Action | `#2f5f87` | `#285f89` | `#8fc3e8` | `--accent` | Links, eyebrows, indices, and local spotlight |
+| Action wash | `#e8f0f6` | `#c6d7e3` | `#263a49` | `--accent-soft` | Quiet action emphasis |
+| Confirmed state | `#2e684d` | `#2d684c` | `#79caa5` | `--success` | Copy success and retained status |
+| Changed span | `#fff0a8` | `#ecd57a` | `#7a621a` | `--mark` | Exact changed language only |
+| Changed-span text | `#1d2024` | `#302b18` | `#fff4bf` | `--mark-ink` | Legible text over Changed span |
+| Topbar surface | `rgba(245,245,242,.96)` | `rgba(215,214,209,.96)` | `rgba(21,23,25,.96)` | `--topbar` | Sticky navigation surface |
+| Control hover | `#eceeec` | `#d0cfca` | `#2b3034` | `--control-hover` | Hovered text controls |
+| Focus ring | `rgba(47,95,135,.35)` | `rgba(40,95,137,.38)` | `rgba(143,195,232,.52)` | `--focus` | Keyboard focus outline |
+| Verdict surface | `#1d2024` | `#24272a` | `#08090a` | `--verdict-bg` | Full-bleed report decision field |
+| Verdict text | `#ffffff` | `#ffffff` | `#f7f8f5` | `--verdict-ink` | Primary verdict copy |
+| Verdict secondary | `#cfd3d6` | `#d1d5d6` | `#bec5c7` | `--verdict-muted` | Supporting verdict copy |
+| Verdict accent | `#a8cce7` | `#a9d1ed` | `#9ed0f1` | `--verdict-accent` | Verdict label |
+| Verdict signal core | `rgba(47,95,135,.72)` | `rgba(40,95,137,.75)` | `rgba(56,120,164,.66)` | `--verdict-signal-a` | Primary decorative depth field |
+| Verdict signal edge | `rgba(79,166,188,.5)` | `rgba(77,160,181,.48)` | `rgba(88,183,196,.46)` | `--verdict-signal-b` | Secondary convergence highlight |
+| Verdict micro-grid | `rgba(255,255,255,.2)` | `rgba(255,255,255,.2)` | `rgba(255,255,255,.18)` | `--verdict-signal-grid` | Sparse decorative structure |
+| Hero particle | `#506b82` | `#486779` | `#96aeb9` | `--hero-particle` | Procedural Hero particle field |
+
+The visible color-mode control offers Dark, Mid, and Light in that order,
+exposes selection with `aria-pressed`, and preserves the selected mode when
+browser storage is available. Light is the no-JavaScript fallback. Color modes
+remap roles only; they do not change component anatomy, content, or behavior.
 
 Do not use color alone to communicate comparison, status, or navigation state.
 Text labels, underline, location, or structure must carry the same meaning.
+Do not introduce a raw color inside a component. Add or revise a semantic role
+first, then map it in all three modes and in print and forced-colors contexts.
 
 ### Typography
 
-- Use the platform sans-serif stack for prose and headings.
-- Use the platform monospace stack for evidence labels, indices, and exact
-  source documents.
-- Use one `h1` per page. Section titles use `h2`; component titles use `h3` or
-  `h4` according to document hierarchy.
-- Display headings use tight line-height and negative tracking. Body copy uses
-  `1.6` line-height and a maximum measure of `760px`.
-- Do not use monospace for long explanatory prose.
+| Semantic role | Adapter | Use |
+| --- | --- | --- |
+| Prose family | `--sans` | Body, headings, navigation, and controls |
+| Evidence family | `--mono` | Indices, evidence labels, exact source, and code |
+| Display | responsive `h1` rule | One page purpose |
+| Section heading | responsive `.section h2` rule | Major content groups |
+| Component heading | component `h3` and `h4` rules | Local reusable structure |
+| Body | `1rem/1.6 --sans` | Primary prose |
+| Supporting | muted body and small-copy rules | Evidence explanation and metadata |
+| Evidence label | eyebrow, kicker, index, and specimen rules | Short identifiers only |
+| Document | output and skill document rules | Exact selectable source |
+
+Use one `h1` per page. Section titles use `h2`; component titles use `h3` or
+`h4` according to document hierarchy. Display headings use tight line-height
+and negative tracking. Body copy uses `1.6` line-height and a maximum measure
+of `760px`; supporting prose uses a maximum measure of `680px`. Long headings,
+labels, paths, and unbroken source strings wrap. Do not use monospace for long
+explanatory prose, and do not choose a heading element for its appearance.
 
 ### Spacing and density
 
-- The page shell is capped at `1120px`.
-- Wide layouts use a `190px` minimum label rail, a `40px` gap, and a flexible
-  reading column.
-- Sections use generous vertical separation; components use compact internal
-  spacing and visible rules.
-- Repeated information is separated with borders before adding cards,
-  backgrounds, radius, or shadow.
+Only structural spacing and sizing decisions are tokens. Incidental optical
+adjustments remain local to their owning primitive.
 
-### Shape, border, and elevation
+| Semantic role | Value or adapter | Use |
+| --- | --- | --- |
+| Page maximum | `1120px`, `--max` | Main, Hero content, and footer |
+| Prose measure | `760px` | Primary explanatory copy |
+| Supporting measure | `680px` | Secondary explanatory copy |
+| Label rail minimum | `190px` | Wide editorial grid |
+| Editorial gap | `40px`, `--editorial-gap` | Rail-to-reading-column separation |
+| Compact cluster | `16px` | Catalog and deviation grids |
+| Desktop page gutter | `24px` minimum | Wide and tablet page edge |
+| Phone page gutter | `14px` | Viewports at or below `700px` |
+| Control minimum block size | `36px` | Text controls |
+| Section block space | `clamp(54px, 8vw, 96px)` | Ordinary section separation |
+| Hero leading space | `clamp(70px, 11vw, 144px)` | Page opening |
+| Hero trailing space | `clamp(56px, 8vw, 104px)` | Hero-to-content separation |
 
-- Content surfaces are square and flat.
-- Buttons alone use a `7px` radius to signal interactivity.
-- Shadows and decorative elevation are not part of this system.
-- One-pixel rules define grouping. Strong rules mark important boundaries.
+Wide layouts use the label rail, editorial gap, and flexible reading column.
+The rail collapses at `1024px`; comparisons, fact lists, token grids, and
+catalog grids collapse to one column where specified at `700px`. Components
+use compact internal spacing and visible rules. Repeated information is
+separated with borders before adding another surface.
 
-### Motion
+Catalog anchor targets use a `110px` scroll margin so their label and heading
+remain visible below the wrapped sticky Topbar at every supported width.
 
-- Motion is optional progressive enhancement.
-- Reveal motion uses only opacity and an `18px` vertical translation over
-  `420ms`.
-- The visible motion control must expose state with `aria-pressed`.
-- Reduced-motion preference disables meaningful transition duration.
-- With JavaScript unavailable, all essential content remains visible.
+### Shape, border, focus, and elevation
+
+| Semantic role | Value | Use |
+| --- | --- | --- |
+| Content radius | `0` | Cards, comparisons, documents, and report surfaces |
+| Control radius | `7px` | Buttons and grouped mode control |
+| Rule width | `1px` | Quiet and strong boundaries |
+| Focus width | `3px` | Keyboard outline |
+| Focus offset | `3px` | Separation from the component border |
+| Elevation | none | All report and catalog surfaces |
+
+Content surfaces are square and flat. Controls alone use the control radius to
+signal interactivity. One-pixel rules define grouping; Strong rule marks
+important boundaries. Shadows and decorative elevation are not part of this
+system. Spotlight is an overlay on an existing outline and never replaces the
+base border or keyboard focus ring.
+
+### Motion and effects
+
+Motion is automatic progressive enhancement. There is no global motion toggle.
+The color-mode control is the only global visual preference control.
+
+| Semantic role | Value | Adapter responsibility |
+| --- | --- | --- |
+| Reveal duration | `420ms` | `--motion-reveal-duration` |
+| Reveal distance | `18px` | `--motion-reveal-distance` |
+| Spotlight fade | `160ms` | `--motion-spotlight-duration` |
+| Particle loop | `32000ms` | `--motion-particle-loop` |
+| Particle frame cap | `30fps` | `--motion-particle-fps` |
+| Verdict field loop | `26000ms` | `--motion-verdict-loop` |
+| Verdict micro-grid loop | `36000ms` | `--motion-verdict-micro-loop` |
+| Standard easing | `ease` | `--motion-ease` |
+| Card spotlight radius | `220px` | `--spotlight-card-size` |
+| Control spotlight radius | `120px` | `--spotlight-control-size` |
+
+Reveal uses opacity and vertical translation only. JavaScript observes
+`.reveal` elements and toggles `.is-visible`; the first Hero remains visible
+during startup. Content is visible by default and JavaScript may hide it only
+after the enhancement is ready.
+
+Spotlight is a pointer-following radial-gradient border treatment for closed,
+outlined components. It applies to token, primitive, icon, component, and
+deviation cards, comparisons, document shells, and outlined controls. Open
+rules, text rails, Hero, and Verdict do not participate. The base one-pixel
+outline remains visible at rest. Fine-pointer position updates local
+`--spotlight-x` and `--spotlight-y` values; keyboard focus centers the
+spotlight. Touch does not activate pointer tracking.
+
+The Hero treatment is a deterministic procedural SVG. JavaScript creates a
+`34 × 14` particle field in a `1200 × 420` view box and rolls two harmonic
+waves through its perspective rows over one seamless `32000ms` loop. Updates
+are capped at 30fps and limited to visible Hero or catalog specimen hosts.
+Animation pauses while a host is offscreen or the document is hidden. Reduced
+motion renders one static deterministic frame; no JavaScript leaves a plain
+Hero field. The effect is decorative, pointer-inert, accessibility-hidden, and
+removed from forced colors and print. A paper-colored radial shield between the
+field and content protects the primary reading zone; it remaps with every mode
+and introduces no extra asset. Do not load or stretch a raster substitute.
+
+The Verdict signal field is CSS-generated and deterministic. A decorative
+`::before` layer combines two radial gradients with one directional gradient;
+a decorative `::after` layer adds a sparse `12px` micro-grid masked away from
+the reading edge. The field uses semantic Verdict signal roles, not raw
+component colors. The gradient drifts over `26000ms`; the micro-grid moves one
+tile over `36000ms`, so the loop has no visual jump. Both layers use transforms
+only, remain pointer-inert, and sit behind the content. Reduced motion and
+no-JavaScript render one static composed frame. Print and forced colors remove
+both layers. Do not add an image, SVG payload, interaction, or stronger motion.
 
 ### Imagery, icons, and data display
 
-The supported profile does not require imagery, iconography, charts, or data
-visualization. Do not introduce them without extending the specification and
-testing the new responsibilities.
+The Hero particle field is generated directly as inline SVG by
+`assets/report/artifact.js`. It has no raster, network, or same-folder image
+dependency. Its semantic color remaps in all three modes.
+
+The only supported interface icons are Copy and Check. They are direct inline
+SVGs with a `24 × 24` view box, no fill, `currentColor` stroke, `1.5` stroke
+width, and round caps and joins. `.icon--sm` renders at `16px`; `.icon--md`
+renders at `20px`. Copy reinforces a visible Copy label. Check reinforces a
+visible Copied status. Paired icons use `aria-hidden="true"` and
+`focusable="false"`; the visible text supplies the accessible name. Icon-only
+controls, emoji icons, icon fonts, remote SVGs, mixed filled/outline styles, and
+icons that carry status without text are unsupported.
+
+The catalog renders each supported icon as an enlarged construction drawing
+over a 24-unit grid, with visible bounds and axes. It also renders the same path
+at 16px, 20px, 24px, and 32px so maintainers can inspect stroke survival and
+silhouette. Only 16px and 20px are production sizes; the larger drawings are
+catalog inspection references.
+
+Charts and data visualization are outside this Delivery Profile. Do not
+introduce other imagery or icons without extending the specification and
+testing the new responsibility.
 
 ## Visual grammar
 
@@ -138,7 +263,12 @@ Invalid combinations:
 - a document surface nested inside another document surface;
 - hidden essential content that requires motion or JavaScript to appear;
 - navigation to absolute, parent-relative, or network resources;
-- content-column exceptions implemented with one-off offsets.
+- content-column exceptions implemented with one-off offsets;
+- mode-specific raw colors inside a component;
+- a spotlight, icon, or wave used as evidence or required status;
+- a rounded or elevated content card;
+- a global motion toggle;
+- a catalog-only approximation presented as a production component.
 
 ## Primitives
 
@@ -146,28 +276,58 @@ Invalid combinations:
 - **Editorial grid:** label rail plus reading column; collapses to one column at
   and below `1024px`.
 - **Rule:** quiet or strong one-pixel separator.
-- **Surface:** white content field against the paper background.
-- **Label:** eyebrow, kicker, or finding index using the monospace role.
-- **Action:** bordered button with visible hover and focus states.
+- **Surface:** semantic content field against the page background.
+- **Label:** eyebrow, kicker, finding index, specimen label, or deviation ID
+  using the evidence family.
+- **Link:** inline, brand, and current-navigation variants with visible focus
+  and non-color-only current state.
+- **Action:** bordered text button with visible hover and focus states.
+- **Status:** visible text for pending or confirmed state; color and Check may
+  reinforce but never replace it.
+- **Changed span:** `mark` around the exact changed language only.
+- **Icon:** Copy or Check inline SVG, always paired with visible text.
+- **Selectable document:** preformatted source that remains readable without
+  copy behavior.
+- **Focus ring:** the shared keyboard outline, visible above component and
+  spotlight layers.
+
+The catalog demonstrates each primitive with the production selector rather
+than a visual imitation. Each entry documents purpose, selector or element,
+tokens, variants, supported states, responsive behavior, accessibility,
+enhancement fallback, valid use, and invalid use. Catalog wrappers may arrange
+the specimen but may not redefine its production appearance.
 
 ## Components
 
 ### Topbar
 
-Contains brand link, four-page local navigation, and the motion control. The
-current page uses `aria-current="page"`. Navigation may wrap but must not create
-horizontal overflow.
+Contains brand link, four-page local navigation, and the Dark/Mid/Light color
+mode control. The current page uses `aria-current="page"`. Navigation may wrap
+but must not create horizontal overflow. It never contains a global motion
+toggle.
+
+### Color-mode control
+
+Contains three text buttons in Dark, Mid, and Light order. Exactly one button
+uses `aria-pressed="true"`. Icons are not required. The selected mode persists
+when local storage is available; storage failure does not prevent selection.
+With JavaScript unavailable the control is absent and Light remains usable.
 
 ### Hero
 
 Contains one eyebrow, one `h1`, optional supporting copy, and optional metadata.
 Long titles wrap naturally; they are never clipped or reduced below the
-responsive type floor.
+responsive type floor. The procedural particle SVG spans the viewport behind
+the component while content remains on the normal page shell. The particle
+role remaps by mode; geometry and behavior do not. Use one Hero to introduce
+each page; it is not a call to action and must not contain required controls.
 
 ### Verdict
 
 Full-bleed dark decision field. It is reserved for the report verdict and must
-not be reused as general decoration.
+not be reused as general decoration. Its CSS signal field uses the shared
+construction defined under Motion and effects. The gradients and micro-grid are
+decoration; Verdict text provides all meaning.
 
 ### Section head
 
@@ -199,12 +359,45 @@ collapses to one column at `1024px`.
 ### Document shell
 
 Contains a toolbar and exact preformatted content. Copy is an enhancement;
-selecting and reading remain available without scripts.
+selecting and reading remain available without scripts. The Copy action uses
+the Copy icon with visible text. Success uses Check with visible Copied text in
+an `aria-live="polite"` status.
 
 ### Method path
 
 Uses the shared editorial grid for numbered stages. The sequence is structural,
 not decorative.
+
+### Footer
+
+Uses the page `contentinfo` landmark to close each artifact with two short text
+items: artifact identity and delivery context. It stays text-only, stacks at
+phone width, and keeps the shared page width in print. It does not duplicate
+navigation or host required controls.
+
+### Catalog card
+
+Token, primitive, icon, component, and deviation specimens use one shared flat
+card structure: specimen, name, adapter mapping where applicable, usage rule,
+and invalid-use note. Cards remain square, use Surface and Rule, and may receive
+the spotlight effect. Catalog cards are documentation components; they are not
+general report-content cards.
+
+Every component entry in the catalog includes:
+
+- purpose and supported Delivery Profile;
+- production selector and semantic anatomy;
+- token dependencies;
+- variants and supported states;
+- responsive, print, and forced-colors behavior;
+- keyboard, accessible-name, and status behavior where interactive;
+- reduced-motion, touch, and no-JavaScript behavior where enhanced;
+- valid and invalid compositions;
+- a live production specimen or a link to the live page-level instance.
+
+The catalog must not claim disabled, loading, destructive, tooltip, disclosure,
+menu, form-field, or icon-only variants that the static report profile does not
+implement.
 
 ## Reusable patterns
 
@@ -223,31 +416,90 @@ announced result.
 Section head → ordered method path → handling facts. This pattern demonstrates
 that the grid is reusable outside comparison-heavy report content.
 
+### Catalog teaching
+
+Section head → rule description → live production specimen → token and state
+facts → valid and invalid uses. A catalog section teaches a reusable rule; it
+does not exist only to display an attractive example.
+
+### Effect explanation
+
+Named effect → live interactive or deterministic specimen → trigger and state
+description → token values → reduced-motion, touch, no-JavaScript,
+forced-colors, and print behavior. An effect without this complete explanation
+is not a supported system effect.
+
+The motion-token catalog is an instrument panel, not a text inventory. It must
+show response durations as comparable timelines; reveal distance and easing as
+spatial plots; ambient durations as live, labeled loops; spotlight sizes,
+particle cadence, and the lower 12% viewport boundary as scaled geometry; and full
+versus reduced motion as a side-by-side equivalence check. Labels and exact
+values remain available beside the graphics. The catalog-only replay control
+may restart short response tokens but does not alter production automation.
+
+Each reusable pattern documents the communication problem it solves, component
+sequence, allowed variation, responsive behavior, accessibility and resilience
+requirements, and invalid combinations. At least two materially different
+pages must demonstrate shared patterns without composition-specific patches.
+
+The catalog Pattern grid may span the full editorial grid so two-card rows have
+enough usable width. Each Pattern card is its own inline-size container. At
+container widths above `440px`, its three steps and two arrows share one
+five-column row. At `440px` and below, the sequence becomes one vertical column
+and arrows rotate to preserve reading direction. Steps use `min-width: 0` and
+wrap long labels. A Pattern flow must never require horizontal scrolling or
+clip its final step.
+
 ## Static HTML Delivery Profile
 
 Implementation adapter:
 
 - `scripts/render-report.mjs` supplies semantic HTML and copies package assets;
 - `assets/report/artifact.css` maps semantic decisions to CSS;
-- `assets/report/artifact.js` supplies optional motion and copy behavior.
+- `assets/report/artifact.js` supplies color-mode selection, automatic reveal
+  motion, the procedural Hero particle field, spotlight position, and copy
+  behavior;
+- `assets/report/report.html` is the package-local example reached from the
+  catalog's Report link; generated artifacts replace it with invocation data.
 
 Runtime constraints:
 
 - no production dependencies;
 - no network requests, external fonts, or absolute navigation;
 - all runtime links use same-folder `./` paths;
+- the Hero particle field is generated as inline SVG and requires no image
+  file;
 - generated output is movable as one folder;
 - primary content survives missing JavaScript;
-- CSS supports wide, tablet, phone, reduced-motion, and print contexts.
+- CSS supports wide, tablet, phone, reduced-motion, forced-colors, and print
+  contexts;
+- inline SVG icons and the CSS Verdict signal field require no external asset.
 
 Accessibility target: WCAG 2.2 AA. Required behavior includes semantic
 landmarks, coherent heading order, keyboard-operable controls, visible focus,
 named navigation, non-color-only meaning, status announcements, text resizing,
 reduced motion, and no page-level horizontal overflow.
 
-Print behavior removes sticky controls and motion, uses white paper with dark
-text, preserves comparison boundaries, and avoids splitting major components
-when practical.
+Behavior fallbacks:
+
+- **Reduced motion:** content renders visible without reveal translation;
+  spotlight opacity transitions collapse and the effect becomes an immediate
+  centered border emphasis for hover or focus; the Hero particle field renders
+  one static frame and the Verdict signal field remains static.
+- **Touch:** no pointer-following spotlight is initialized. Base borders,
+  focus, copy, and color-mode behavior remain.
+- **No JavaScript:** Light mode renders, all content is visible and selectable,
+  the Hero uses a plain field, the Verdict signal field is static, mode and
+  copy controls are absent rather than inert, and base component outlines
+  remain.
+- **Forced colors:** system colors and native outlines preserve text, links,
+  controls, boundaries, marks, and status; Hero, Verdict signal field, and spotlight
+  may be removed because they carry no meaning. `mark` and status retain a
+  textual or structural distinction.
+- **Print:** sticky navigation, controls, Hero particle field, Verdict signal field,
+  spotlight, and motion are removed. Paper becomes white, text becomes dark,
+  comparison and document boundaries remain, links do not rely on color, and
+  major components avoid splitting when practical.
 
 ## Output Deviations
 
@@ -267,15 +519,55 @@ when practical.
   outside the generated folder.
 - `RW-08 Token fork`: a composition introduces a new raw visual value or
   duplicate layout rule instead of using the shared roles.
+- `RW-09 Motion excess`: looping, parallax, blur, scale, or simultaneous
+  effects compete with reviewed language.
+- `RW-10 Affordance substitution`: spotlight, hover, or color replaces a base
+  border, focus ring, text label, or semantic state.
+- `RW-11 Input-exclusive effect`: a pointer-only effect carries meaning with no
+  keyboard or static equivalent.
+- `RW-12 Effect leakage`: decoration or interaction remains in print, forced
+  colors, no-JavaScript, or unsupported-mask states.
+- `RW-13 Mode drift`: a component bypasses semantic roles, changes anatomy
+  between modes, or loses required contrast in Light, Mid, or Dark.
+- `RW-14 Icon ambiguity`: an unsupported, inconsistent, or unlabeled icon
+  carries action or status meaning without visible text.
+- `RW-15 Catalog fiction`: documentation presents a catalog-only imitation,
+  unsupported state, or incomplete specimen as a production capability.
+- `RW-16 Material shortcut`: a procedural or scale-dependent visual phenomenon
+  is replaced with a stretched raster or misleading cosmetic substitute.
 
 ## Evaluation requirements
 
-Before release, render both a findings case and the no-change branch. Check all
-four pages at desktop, tablet, and phone widths. Verify relative navigation,
-copy state, motion state, keyboard focus, reduced motion, no-JavaScript content,
-print styling, console output, horizontal overflow, long-content wrapping, and
-the embedded `SKILL.md` hash. Run `node scripts/validate-skills.mjs` from the
-repository root.
+Before release:
+
+1. Render both a multi-finding case and the no-change branch.
+2. Inspect report, skill, method, and catalog pages at desktop, tablet, and
+   phone widths in Light, Mid, and Dark.
+3. Verify package-local report navigation, same-folder assets, no production
+   network requests, zero unexpected console errors, and the embedded
+   `SKILL.md` hash.
+4. Check heading order, landmarks, accessible names, `aria-current`,
+   `aria-pressed`, copy-status announcement, keyboard order, visible focus,
+   text resize, long labels, long source, and non-color-only meaning.
+5. Check automatic reveal, visible startup Hero, absence of a global motion
+   toggle, fine-pointer and keyboard spotlight, persistent base borders, touch
+   fallback, and Copy/Copied behavior.
+6. Inspect reduced-motion, no-JavaScript, forced-colors, and print contexts
+   against the fallbacks above.
+7. Confirm each Hero receives one 476-particle SVG, rolls through a seamless
+   32-second loop at no more than 30fps, pauses updates offscreen, becomes
+   static for reduced motion, uses no raster, and is removed from print.
+   Confirm each Verdict uses the two CSS signal layers, semantic mode roles,
+   transform-only ambient motion, a static reduced-motion and no-JavaScript
+   frame, and no image, SVG, accessibility, or pointer payload.
+8. Confirm Copy and Check are the only interface icons, use the shared SVG
+   geometry, remain paired with visible text, and require no external asset.
+9. Check page-level and component-level overflow, narrow comparison stacking,
+   catalog grid collapse, document wrapping, and major print breaks.
+10. Confirm every cataloged token, primitive, component, pattern, state, and
+    effect maps to the specification and uses a real production specimen.
+11. Run `node scripts/validate-skills.mjs` and `git diff --check` from the
+    repository root.
 
 Meaningful changes to tokens, grid behavior, component anatomy, or the Delivery
 Profile increment this revision and require current visual and functional QA.

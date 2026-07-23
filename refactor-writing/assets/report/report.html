@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="data:,">
+  <title>Release note handoff — Example report</title>
+  <script>(()=>{let t="light";try{const s=localStorage.getItem("refactor-writing-theme");if(["dark","mid","light"].includes(s))t=s}catch{}document.documentElement.dataset.theme=t;document.documentElement.classList.replace("no-js","js")})()</script>
+  <link rel="stylesheet" href="./artifact.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./report.html">Release note handoff</a>
+    <nav aria-label="Artifact navigation">
+      <a href="./report.html" aria-current="page">Report</a>
+      <a href="./skill.html">SKILL.md</a>
+      <a href="./how-it-works.html">How it works</a>
+      <a href="./design-system.html">System</a>
+    </nav>
+    <div class="theme-switcher" role="group" aria-label="Color mode">
+      <button class="theme-option" type="button" data-theme-option="dark" aria-pressed="false">Dark</button>
+      <button class="theme-option" type="button" data-theme-option="mid" aria-pressed="false">Mid</button>
+      <button class="theme-option" type="button" data-theme-option="light" aria-pressed="true">Light</button>
+    </div>
+  </header>
+
+  <main>
+    <header class="hero reveal is-visible">
+      <span class="eyebrow">Writing refactor / recommendations</span>
+      <h1>Release note handoff</h1>
+      <p>Review the publication request for clarity, timing, and preserved decision rights.</p>
+      <div class="meta-line"><span>1 retained finding</span><span>Example preview — not applied</span><span>Source: sample release handoff</span></div>
+    </header>
+
+    <section class="verdict reveal">
+      <div class="verdict-content">
+        <span class="eyebrow">Verdict</span>
+        <h2>Replace the vague review deadline with a concrete boundary.</h2>
+        <p>The revision makes the request schedulable while preserving the reviewer’s approval role.</p>
+      </div>
+    </section>
+
+    <section class="section reveal">
+      <div class="section-head">
+        <span class="kicker">Protected meaning</span>
+        <div><h2>What the revision must keep intact</h2><p class="section-copy">These constraints were recorded before candidate changes were judged.</p></div>
+      </div>
+      <div class="fact-list">
+        <div class="fact"><p>The reviewer decides whether the release note is ready.</p></div>
+        <div class="fact"><p>Publication happens only after approval.</p></div>
+      </div>
+    </section>
+
+    <section class="section" id="findings">
+      <div class="section-head reveal">
+        <span class="kicker">Evidence-backed changes</span>
+        <div><h2>Only consequential changes survived</h2><p class="section-copy">Original and proposal remain adjacent; highlights identify only the targeted language.</p></div>
+      </div>
+
+      <article class="finding reveal">
+        <div class="finding-head"><span class="finding-index">Finding 01</span><h3>Replace a vague timing boundary</h3></div>
+        <div class="comparison">
+          <article><h4>Original</h4><p>Please review the release note <mark>soon</mark> so I can publish it.</p></article>
+          <article><h4>Proposal</h4><p>Please review the release note <mark>by 3:00 p.m. Thursday</mark> so I can publish it after your approval.</p></article>
+        </div>
+        <div class="proof-grid">
+          <div><b>Evidence basis</b><p>The release sequence requires review before publication.</p></div>
+          <div><b>What changed / why it matters</b><p>A dated boundary replaces undefined urgency, making the request schedulable.</p></div>
+          <div><b>Why better / meaning preserved</b><p>The reviewer’s approval role and the publication sequence remain intact.</p></div>
+        </div>
+        <span class="finding-status">Recommended — not applied</span>
+      </article>
+    </section>
+
+    <section class="section reveal" id="final-output">
+      <div class="section-head">
+        <span class="kicker">Copy-ready output</span>
+        <div><h2>Complete proposed revision</h2><p class="section-copy">One clean document with no report annotations.</p></div>
+      </div>
+      <div class="document-shell">
+        <div class="document-toolbar"><span>Complete proposed revision</span><div class="copy-group"><span class="copy-status" aria-live="polite"></span><button class="copy-button" type="button" data-copy-target="#finalCopy"><svg class="icon icon--sm" data-copy-icon viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="8" y="8" width="12" height="12" rx="1"></rect><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"></path></svg><svg class="icon icon--sm" data-check-icon viewBox="0 0 24 24" aria-hidden="true" focusable="false" hidden><path d="m5 12 4 4L19 6"></path></svg> Copy document</button></div></div>
+        <noscript><p class="noscript-note">JavaScript is off. The complete document remains selectable below.</p></noscript>
+        <pre class="output-document" id="finalCopy" tabindex="0">Please review the release note by 3:00 p.m. Thursday so I can publish it after your approval.</pre>
+      </div>
+    </section>
+  </main>
+
+  <footer class="page-footer"><span>Release note handoff</span><span>Example writing refactor report</span></footer>
+  <script src="./artifact.js"></script>
+</body>
+</html>

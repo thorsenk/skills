@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light">
+  <meta name="color-scheme" content="light dark">
   <link rel="icon" href="data:,">
   <title>Refactor Writing — Design system</title>
-  <script>document.documentElement.classList.replace("no-js", "js")</script>
+  <script>(()=>{let t="light";try{const s=localStorage.getItem("refactor-writing-theme");if(["dark","mid","light"].includes(s))t=s}catch{}document.documentElement.dataset.theme=t;document.documentElement.classList.replace("no-js","js")})()</script>
   <link rel="stylesheet" href="./artifact.css">
 </head>
 <body>
@@ -18,110 +18,495 @@
       <a href="./how-it-works.html">How it works</a>
       <a href="./design-system.html" aria-current="page">System</a>
     </nav>
-    <button class="motion-toggle" type="button" data-motion-toggle aria-pressed="false">Motion off</button>
+    <div class="theme-switcher" role="group" aria-label="Color mode">
+      <button class="theme-option" type="button" data-theme-option="dark" aria-pressed="false">Dark</button>
+      <button class="theme-option" type="button" data-theme-option="mid" aria-pressed="false">Mid</button>
+      <button class="theme-option" type="button" data-theme-option="light" aria-pressed="true">Light</button>
+    </div>
   </header>
+  <noscript><p class="noscript-note">JavaScript is off. The complete catalog remains visible in Light mode; theme selection, reveal replay, spotlight outlines, and copy assistance are unavailable.</p></noscript>
 
   <main>
     <header class="hero reveal is-visible">
-      <span class="eyebrow">System catalog / revision 1</span>
+      <span class="eyebrow">System catalog / revision 8</span>
       <h1>Evidence-first editorial reporting</h1>
-      <p>A live catalog for the tokens, layout primitives, components, patterns, states, and failure modes used by every generated writing-refactor artifact.</p>
-      <div class="meta-line"><span>System: refactor-writing-report</span><span>Profile: portable static HTML</span><span>Target: WCAG 2.2 AA</span></div>
+      <p>A live reference for the foundations, tokens, primitives, effects, components, patterns, states, and implementation rules used by every generated writing-refactor artifact.</p>
+      <div class="meta-line">
+        <span>System: refactor-writing-report</span>
+        <span>Maturity: Operational Design System</span>
+        <span>Profile: portable static HTML</span>
+        <span>Target: WCAG 2.2 AA</span>
+      </div>
+      <nav class="catalog-index" aria-label="Design-system sections">
+        <div class="catalog-index-group">
+          <b>Foundations</b>
+          <a href="#foundations">Semantic tokens</a>
+          <a href="#type">Typography</a>
+          <a href="#layout">Layout and shape</a>
+        </div>
+        <div class="catalog-index-group">
+          <b>Building blocks</b>
+          <a href="#iconography">Iconography</a>
+          <a href="#primitives">Primitives</a>
+          <a href="#components">Components</a>
+        </div>
+        <div class="catalog-index-group">
+          <b>Behavior</b>
+          <a href="#motion-effects">Motion and effects</a>
+          <a href="#patterns">Patterns</a>
+          <a href="#states">States and resilience</a>
+        </div>
+        <div class="catalog-index-group">
+          <b>Delivery</b>
+          <a href="#deviations">Output Deviations</a>
+          <a href="#implementation">Static HTML profile</a>
+          <a href="#qa">QA contract</a>
+        </div>
+      </nav>
     </header>
 
     <section class="section reveal" id="foundations">
       <div class="section-head">
-        <span class="kicker">Foundations</span>
-        <div><h2>Quiet materials, explicit evidence</h2><p class="section-copy">Paper, ink, rules, and a single action color carry the hierarchy. Decoration never competes with the reviewed language.</p></div>
+        <span class="kicker">Foundations / tokens</span>
+        <div>
+          <h2>Roles before raw values</h2>
+          <p class="section-copy">Components consume semantic roles. Light, Mid, Dark, and print remap those roles without changing anatomy or meaning.</p>
+        </div>
       </div>
-      <div class="catalog-grid token-grid">
-        <article class="token-card"><span class="token-swatch swatch-paper"></span><h3>Page</h3><p><code>--paper</code><br>#f5f5f2</p></article>
-        <article class="token-card"><span class="token-swatch swatch-surface"></span><h3>Surface</h3><p><code>--surface</code><br>#ffffff</p></article>
-        <article class="token-card"><span class="token-swatch swatch-ink"></span><h3>Primary text</h3><p><code>--ink</code><br>#1d2024</p></article>
-        <article class="token-card"><span class="token-swatch swatch-muted"></span><h3>Secondary text</h3><p><code>--muted</code><br>#626971</p></article>
-        <article class="token-card"><span class="token-swatch swatch-accent"></span><h3>Action</h3><p><code>--accent</code><br>#2f5f87</p></article>
-        <article class="token-card"><span class="token-swatch swatch-success"></span><h3>Confirmed state</h3><p><code>--success</code><br>#2e684d</p></article>
-        <article class="token-card"><span class="token-swatch swatch-mark"></span><h3>Changed span</h3><p><code>--mark</code><br>#fff0a8</p></article>
-        <article class="token-card"><span class="token-swatch swatch-line"></span><h3>Rule</h3><p><code>--line</code><br>#d6d8d8</p></article>
+
+      <div class="catalog-family">
+        <div class="catalog-family-head">
+          <h3>Surface and text</h3>
+          <p>Page, content, and text roles establish the editorial material. Every mode preserves the same hierarchy and readable contrast.</p>
+        </div>
+        <div class="catalog-grid token-grid">
+          <article class="token-card"><span class="token-swatch swatch-paper"></span><h3>Page</h3><p><code>--paper</code><br>Light #f5f5f2<br>Mid #d7d6d1<br>Dark #151719<br>Use: primary page field.</p></article>
+          <article class="token-card"><span class="token-swatch swatch-surface"></span><h3>Content surface</h3><p><code>--surface</code><br>Light #ffffff<br>Mid #e8e7e2<br>Dark #202427<br>Use: comparisons, documents, catalog cards.</p></article>
+          <article class="token-card"><span class="token-swatch swatch-ink"></span><h3>Primary text</h3><p><code>--ink</code><br>Light #1d2024<br>Mid #24272a<br>Dark #f1f3ef<br>Use: headings and body.</p></article>
+          <article class="token-card"><span class="token-swatch swatch-muted"></span><h3>Secondary text</h3><p><code>--muted</code><br>Light #626971<br>Mid #555c61<br>Dark #adb5b8<br>Use: support and labels.</p></article>
+        </div>
+      </div>
+
+      <div class="catalog-family">
+        <div class="catalog-family-head">
+          <h3>Boundaries and actions</h3>
+          <p>Quiet rules separate related material. Strong rules define component boundaries. Action color is reserved for links, indices, and local feedback.</p>
+        </div>
+        <div class="catalog-grid token-grid">
+          <article class="token-card"><span class="token-swatch swatch-line"></span><h3>Quiet rule</h3><p><code>--line</code><br>#d6d8d8 / #b7b9b7 / #3d4448<br>Use: internal separation.</p></article>
+          <article class="token-card"><span class="token-swatch swatch-line-strong"></span><h3>Strong rule</h3><p><code>--line-strong</code><br>#8b9197 / #737a7e / #707a7f<br>Use: component boundary.</p></article>
+          <article class="token-card"><span class="token-swatch swatch-accent"></span><h3>Action</h3><p><code>--accent</code><br>#2f5f87 / #285f89 / #8fc3e8<br>Never use as general decoration.</p></article>
+          <article class="token-card"><span class="token-swatch swatch-accent-soft"></span><h3>Action wash</h3><p><code>--accent-soft</code><br>#e8f0f6 / #c6d7e3 / #263a49<br>Use: quiet action emphasis.</p></article>
+          <article class="token-card"><span class="token-swatch swatch-success"></span><h3>Confirmed state</h3><p><code>--success</code><br>#2e684d / #2d684c / #79caa5<br>Always paired with text.</p></article>
+          <article class="token-card"><span class="token-swatch swatch-mark"></span><h3>Changed span</h3><p><code>--mark</code> + <code>--mark-ink</code><br>Exact changed language only.</p></article>
+          <article class="token-card"><span class="token-swatch swatch-focus"></span><h3>Focus ring</h3><p><code>--focus</code><br>3px outline + 3px offset.<br>Never replaced by spotlight.</p></article>
+          <article class="token-card"><span class="token-swatch swatch-control-hover"></span><h3>Control hover</h3><p><code>--control-hover</code><br>#eceeec / #d0cfca / #2b3034<br>Instant, local feedback.</p></article>
+        </div>
+      </div>
+
+      <div class="catalog-family">
+        <div class="catalog-family-head">
+          <h3>Chrome and verdict</h3>
+          <p>Sticky navigation and the decisive Verdict Band use dedicated roles because translucency and inverse contrast have responsibilities the base palette does not.</p>
+        </div>
+        <div class="catalog-grid token-grid">
+          <article class="token-card"><span class="token-swatch swatch-topbar"></span><h3>Topbar surface</h3><p><code>--topbar</code><br>Mode-aware translucent page field.</p></article>
+          <article class="token-card"><span class="token-swatch swatch-verdict-bg"></span><h3>Verdict surface</h3><p><code>--verdict-bg</code><br>Reserved for one report decision field.</p></article>
+          <article class="token-card"><span class="token-swatch swatch-verdict-ink"></span><h3>Verdict text</h3><p><code>--verdict-ink</code><br>Primary inverse copy.</p></article>
+          <article class="token-card"><span class="token-swatch swatch-verdict-muted"></span><h3>Verdict secondary</h3><p><code>--verdict-muted</code><br>Support copy only.</p></article>
+          <article class="token-card"><span class="token-swatch swatch-verdict-accent"></span><h3>Verdict accent</h3><p><code>--verdict-accent</code><br>Verdict label only.</p></article>
+          <article class="token-card"><span class="token-swatch swatch-verdict-signal-a"></span><h3>Verdict signal core</h3><p><code>--verdict-signal-a</code><br>Primary depth field; decoration only.</p></article>
+          <article class="token-card"><span class="token-swatch swatch-verdict-signal-b"></span><h3>Verdict signal edge</h3><p><code>--verdict-signal-b</code><br>Secondary convergence highlight.</p></article>
+          <article class="token-card"><span class="token-swatch swatch-verdict-grid"></span><h3>Verdict micro-grid</h3><p><code>--verdict-signal-grid</code><br>Sparse structure over the field.</p></article>
+        </div>
+      </div>
+
+      <div class="catalog-family">
+        <div class="catalog-family-head">
+          <h3>Spacing and sizing</h3>
+          <p>Only repeated structural decisions become tokens. Optical adjustments stay with the primitive that owns them.</p>
+        </div>
+        <div class="scale-list" aria-label="Structural spacing and sizing tokens">
+          <div class="scale-row"><b>Compact cluster</b><span class="scale-sample" style="--sample-size:16px"></span><span>16px</span></div>
+          <div class="scale-row"><b>Editorial gap</b><span class="scale-sample" style="--sample-size:40px"></span><span>40px</span></div>
+          <div class="scale-row"><b>Control minimum</b><span class="scale-sample" style="--sample-size:36px"></span><span>36px block</span></div>
+          <div class="scale-row"><b>Label rail</b><span class="scale-sample" style="--sample-size:190px"></span><span>190px minimum</span></div>
+          <div class="scale-row"><b>Section rhythm</b><span class="scale-sample" style="--sample-size:96px"></span><span>54–96px fluid</span></div>
+        </div>
+        <div class="measure-grid">
+          <article class="measure-specimen" style="--measure-size:100%"><b>Primary prose</b><p><code>760px</code> maximum. Used for leading explanations and major arguments.</p></article>
+          <article class="measure-specimen" style="--measure-size:89%"><b>Supporting prose</b><p><code>680px</code> maximum. Used for local explanations and secondary evidence.</p></article>
+        </div>
       </div>
     </section>
 
     <section class="section reveal" id="type">
       <div class="section-head">
-        <span class="kicker">Typography</span>
-        <div><h2>Scale creates hierarchy</h2><p class="section-copy">Sans-serif carries the argument. Monospace identifies evidence, sequence, and exact source.</p></div>
+        <span class="kicker">Typography and content</span>
+        <div><h2>Scale carries hierarchy</h2><p class="section-copy">Platform sans-serif carries the argument. Platform monospace identifies evidence, sequence, code, and exact source.</p></div>
       </div>
       <div class="type-stack">
-        <div><span class="specimen-label">Display / h1</span><p class="type-display">Meaning before polish</p></div>
-        <div><span class="specimen-label">Section / h2</span><p class="type-heading">Only consequential changes survive</p></div>
-        <div><span class="specimen-label">Body</span><p class="type-body">The revision removes ambiguity while preserving the maintainer’s decision right and the original publication sequence.</p></div>
-        <div><span class="specimen-label">Evidence label</span><p class="type-label">Finding 01 / Recommended — not applied</p></div>
+        <div><span class="specimen-label">Display / h1 / sans</span><p class="type-display">Meaning before polish</p></div>
+        <div><span class="specimen-label">Section / h2 / sans</span><p class="type-heading">Only consequential changes survive</p></div>
+        <div><span class="specimen-label">Component / h3 / sans</span><h3>Replace a vague timing boundary</h3></div>
+        <div><span class="specimen-label">Body / 1.6 line height</span><p class="type-body">The revision removes ambiguity while preserving the maintainer’s decision right and the original publication sequence.</p></div>
+        <div><span class="specimen-label">Supporting / muted</span><p class="source-note">Exact source, status, and assumptions remain readable without competing with the primary argument.</p></div>
+        <div><span class="specimen-label">Evidence label / mono</span><p class="type-label">Finding 01 / Recommended — not applied</p></div>
+        <div><span class="specimen-label">Exact document / mono</span><pre class="output-document">Source path: /portable/report/input.md
+Status: reviewed — not applied</pre></div>
       </div>
     </section>
 
     <section class="section reveal" id="layout">
       <div class="section-head">
-        <span class="kicker">Layout primitive</span>
-        <div><h2>One editorial grid</h2><p class="section-copy">Every wide composition uses the same rail, gap, and reading-column anchor. At tablet widths the structure becomes one column.</p></div>
+        <span class="kicker">Layout, shape, and density</span>
+        <div><h2>One editorial grid, flat materials</h2><p class="section-copy">Every wide composition shares the same label rail and reading-column anchor. Closed content surfaces remain square, flat, and bounded by one-pixel rules.</p></div>
       </div>
       <div class="alignment-demo">
         <span class="finding-index">Label rail / 190px minimum</span>
-        <div><h3>Reading column</h3><p>Section copy, comparisons, proof, and documents begin here. A component may span both columns only when its internal structure reuses this same grid.</p></div>
+        <div><h3>Reading column</h3><p>Section copy, comparisons, proof, and documents begin here. The structure collapses to one column at 1024px; phone compositions stack at 700px.</p></div>
+      </div>
+      <div class="shape-grid">
+        <article class="shape-card"><b>Content surface</b><span data-shape-sample="content"></span><p>0 radius, 1px boundary, no shadow. Used for cards, comparisons, and documents.</p></article>
+        <article class="shape-card"><b>Interactive control</b><span data-shape-sample="control"></span><p>7px radius distinguishes controls without softening editorial content.</p></article>
+        <article class="shape-card"><b>Quiet rule</b><span class="border-line"></span><p>Separates related facts, proof items, and ordinary sections.</p></article>
+        <article class="shape-card"><b>Strong rule</b><span class="border-line is-strong"></span><p>Defines the start of a finding or the perimeter of a closed component.</p></article>
+      </div>
+    </section>
+
+    <section class="section reveal" id="iconography">
+      <div class="section-head">
+        <span class="kicker">Iconography</span>
+        <div><h2>Two marks, fully specified</h2><p class="section-copy">Copy and Check are a deliberately small functional set. The enlarged drawings expose their shared geometry; the production ramp proves how that geometry survives at interface sizes.</p></div>
+      </div>
+      <div class="icon-grid">
+        <article class="icon-card icon-card--blueprint">
+          <div class="icon-specimen icon-specimen--blueprint" aria-label="Enlarged construction drawing for the Copy icon">
+            <span class="icon-axis icon-axis--x" aria-hidden="true"></span>
+            <span class="icon-axis icon-axis--y" aria-hidden="true"></span>
+            <span class="icon-coordinate icon-coordinate--x" aria-hidden="true">24</span>
+            <span class="icon-coordinate icon-coordinate--y" aria-hidden="true">24</span>
+            <svg class="icon icon--display" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="8" y="8" width="12" height="12" rx="1"></rect><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"></path></svg>
+          </div>
+          <div class="icon-card-heading"><h3>Copy</h3><code>24 × 24 view box</code></div>
+          <p>Two offset sheets communicate duplication. The one-unit corner radius softens the geometry without changing its editorial weight.</p>
+          <div class="icon-size-ramp" aria-label="Copy icon production size ramp">
+            <span class="icon-size-sample"><svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="1"></rect><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"></path></svg><b>16</b><small>compact</small></span>
+            <span class="icon-size-sample"><svg class="icon icon--md" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="1"></rect><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"></path></svg><b>20</b><small>inline</small></span>
+            <span class="icon-size-sample"><svg class="icon icon--lg" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="1"></rect><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"></path></svg><b>24</b><small>reference</small></span>
+            <span class="icon-size-sample"><svg class="icon icon--xl" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="1"></rect><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"></path></svg><b>32</b><small>inspection</small></span>
+          </div>
+        </article>
+        <article class="icon-card icon-card--blueprint">
+          <div class="icon-specimen icon-specimen--blueprint" aria-label="Enlarged construction drawing for the Check icon">
+            <span class="icon-axis icon-axis--x" aria-hidden="true"></span>
+            <span class="icon-axis icon-axis--y" aria-hidden="true"></span>
+            <span class="icon-coordinate icon-coordinate--x" aria-hidden="true">24</span>
+            <span class="icon-coordinate icon-coordinate--y" aria-hidden="true">24</span>
+            <svg class="icon icon--display" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m5 12 4 4L19 6"></path></svg>
+          </div>
+          <div class="icon-card-heading"><h3>Check</h3><code>24 × 24 view box</code></div>
+          <p>One continuous path confirms completion. Round caps and joins keep the acute turns intact at the compact production size.</p>
+          <div class="icon-size-ramp" aria-label="Check icon production size ramp">
+            <span class="icon-size-sample"><svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"></path></svg><b>16</b><small>compact</small></span>
+            <span class="icon-size-sample"><svg class="icon icon--md" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"></path></svg><b>20</b><small>inline</small></span>
+            <span class="icon-size-sample"><svg class="icon icon--lg" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"></path></svg><b>24</b><small>reference</small></span>
+            <span class="icon-size-sample"><svg class="icon icon--xl" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"></path></svg><b>32</b><small>inspection</small></span>
+          </div>
+        </article>
+        <article class="icon-card icon-card--usage">
+          <div class="icon-specimen"><button class="copy-button" type="button"><svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="8" y="8" width="12" height="12" rx="1"></rect><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"></path></svg>Copy document</button></div>
+          <b>Valid pairing</b><p>The icon supports a named action and inherits <code>currentColor</code>.</p>
+        </article>
+        <article class="icon-card icon-card--usage">
+          <div class="icon-specimen"><span class="finding-status"><svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m5 12 4 4L19 6"></path></svg> Copied</span></div>
+          <b>Valid confirmation</b><p>Check and text appear together. Icon-only status, emoji, and mixed filled styles are unsupported.</p>
+        </article>
+      </div>
+      <div class="icon-construction-strip" aria-label="Shared icon construction rules">
+        <div class="stroke-specimen" aria-hidden="true"><span></span></div>
+        <div><span class="specimen-label">Stroke</span><b>1.5 units</b><p>Unfilled, inherited color</p></div>
+        <div class="cap-specimen" aria-hidden="true"><span></span><i></i></div>
+        <div><span class="specimen-label">Terminals</span><b>Round cap + join</b><p>One visual grammar at every size</p></div>
+      </div>
+      <div class="fact-list">
+        <div class="fact"><b>Geometry</b><p>24 × 24 view box, no fill, 1.5px current-color stroke, round caps, and round joins.</p></div>
+        <div class="fact"><b>Production sizes</b><p>16px in compact controls; 20px where a larger inline mark is justified. The 24px and 32px samples above are inspection references, not new product sizes.</p></div>
+        <div class="fact"><b>Accessibility</b><p>Paired SVGs are hidden from accessibility APIs because visible text supplies the name.</p></div>
+        <div class="fact"><b>Invalid use</b><p>No icon fonts, remote SVGs, emoji replacements, heading decoration, or icon-only Copy controls.</p></div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="primitives">
+      <div class="section-head">
+        <span class="kicker">Primitives / atoms</span>
+        <div><h2>Small roles with explicit boundaries</h2><p class="section-copy">These are the lowest-level reusable elements. Each specimen uses the production selector or semantic element.</p></div>
+      </div>
+      <div class="primitive-grid">
+        <article class="primitive-card"><div class="primitive-specimen"><a href="#primitives">Inline evidence link</a></div><b>Inline link</b><p>Action color, underline, and visible keyboard focus.</p><div class="primitive-meta"><code>a</code><span>Invalid: color-only current state.</span></div></article>
+        <article class="primitive-card"><div class="primitive-specimen"><span class="eyebrow">Writing refactor / recommendations</span></div><b>Eyebrow</b><p>Short page context above the page title.</p><div class="primitive-meta"><code>.eyebrow</code><span>Invalid: long explanatory prose.</span></div></article>
+        <article class="primitive-card"><div class="primitive-specimen"><span class="kicker">Evidence-backed changes</span></div><b>Kicker</b><p>Short section context in the label rail.</p><div class="primitive-meta"><code>.kicker</code><span>Invalid: decorative numbering without sequence.</span></div></article>
+        <article class="primitive-card"><div class="primitive-specimen"><span class="finding-index">Finding 01</span></div><b>Evidence index</b><p>Locates a finding without replacing its heading.</p><div class="primitive-meta"><code>.finding-index</code><span>Invalid: index as the only label.</span></div></article>
+        <article class="primitive-card"><div class="primitive-specimen">Replace <mark>soon</mark> with an exact review boundary.</div><b>Changed span</b><p>Marks only the exact language under review.</p><div class="primitive-meta"><code>mark</code><span>Invalid: warning, badge, or paragraph-wide emphasis.</span></div></article>
+        <article class="primitive-card"><div class="primitive-specimen"><span class="finding-status">Recommended — not applied</span></div><b>Textual status</b><p>Meaning remains complete without color.</p><div class="primitive-meta"><code>.finding-status</code><span>Invalid: green dot with no text.</span></div></article>
+        <article class="primitive-card"><div class="primitive-specimen"><button class="copy-button" type="button">Copy document</button></div><b>Action control</b><p>Bordered text action with hover, focus, and spotlight enhancement.</p><div class="primitive-meta"><code>.copy-button</code><span>Invalid: unlabeled icon-only action.</span></div></article>
+        <article class="primitive-card"><div class="primitive-specimen"><code>--editorial-grid</code></div><b>Inline code</b><p>Names exact selectors, values, paths, or tokens.</p><div class="primitive-meta"><code>code</code><span>Invalid: whole explanatory paragraphs.</span></div></article>
+      </div>
+    </section>
+
+    <section class="section reveal" id="motion-effects">
+      <div class="section-head">
+        <span class="kicker">Motion and effects</span>
+        <div><h2>Orient, acknowledge, then get out of the way</h2><p class="section-copy">Motion is automatic progressive enhancement. Effects remain deliberate, nonessential, and inspectable here with their fallbacks.</p></div>
+      </div>
+
+      <div class="catalog-family">
+        <div class="catalog-family-head"><h3>Motion tokens</h3><p>Each value is shown as time, distance, cadence, or field geometry. Replay the short response tokens; ambient loops continue at their real production durations.</p></div>
+        <div class="motion-token-board" id="motionTokenBoard">
+          <div class="motion-board-head">
+            <div><span class="specimen-label">Live token instrument</span><h3>Response, rhythm, and fallback</h3></div>
+            <button class="replay-button" type="button" data-replay-motion-tokens aria-controls="motionTokenBoard">Replay response tokens</button>
+          </div>
+
+          <article class="motion-token-visual motion-token-visual--timing">
+            <div class="motion-visual-heading"><span class="specimen-label">Response timing</span><code>duration</code></div>
+            <div class="motion-lane">
+              <span>Spotlight fade</span>
+              <div class="motion-track" aria-hidden="true"><i class="motion-fill motion-fill--spotlight"></i></div>
+              <b>160ms</b>
+            </div>
+            <div class="motion-lane">
+              <span>Section reveal</span>
+              <div class="motion-track" aria-hidden="true"><i class="motion-fill motion-fill--reveal"></i></div>
+              <b>420ms</b>
+            </div>
+            <p>Short feedback resolves before the orienting reveal completes.</p>
+          </article>
+
+          <article class="motion-token-visual motion-token-visual--spatial">
+            <div class="motion-visual-heading"><span class="specimen-label">Distance + easing</span><code>18px / ease</code></div>
+            <div class="distance-instrument" aria-hidden="true">
+              <span class="distance-origin"></span>
+              <span class="distance-target"></span>
+              <i>18px</i>
+            </div>
+            <div class="easing-instrument" aria-hidden="true">
+              <svg viewBox="0 0 180 74" preserveAspectRatio="none"><path class="easing-grid" d="M1 1V73H179 M1 55H179 M1 37H179 M1 19H179"></path><path class="easing-curve" d="M1 73 C46 69 42 18 179 1"></path></svg>
+              <span class="easing-runner"></span>
+            </div>
+            <p>Opacity and vertical translation only. No scale, blur, or rotation.</p>
+          </article>
+
+          <article class="motion-token-visual motion-token-visual--loops">
+            <div class="motion-visual-heading"><span class="specimen-label">Ambient loops</span><code>seamless</code></div>
+            <div class="loop-instrument" aria-label="Three live ambient loop duration specimens">
+              <div><span class="loop-dial loop-dial--verdict" aria-hidden="true"><i></i></span><b>26s</b><small>Verdict field</small></div>
+              <div><span class="loop-dial loop-dial--particle" aria-hidden="true"><i></i></span><b>32s</b><small>Particle wave</small></div>
+              <div><span class="loop-dial loop-dial--micro" aria-hidden="true"><i></i></span><b>36s</b><small>Micro-grid</small></div>
+            </div>
+            <p>Slow environmental motion, never progress or urgency.</p>
+          </article>
+
+          <article class="motion-token-visual motion-token-visual--geometry">
+            <div class="motion-visual-heading"><span class="specimen-label">Geometry + cadence</span><code>effect configuration</code></div>
+            <div class="geometry-instrument">
+              <div class="spotlight-radii" aria-label="Control and card spotlight diameters">
+                <span class="spotlight-ring spotlight-ring--card"><b>220</b></span>
+                <span class="spotlight-ring spotlight-ring--control"><b>120</b></span>
+              </div>
+              <div class="cadence-gauge"><span aria-hidden="true"></span><b>30fps</b><small>particle cap</small></div>
+              <div class="threshold-gauge"><span aria-hidden="true"></span><b>12%</b><small>viewport boundary</small></div>
+            </div>
+            <p>Spotlight sizes are CSS tokens. Frame cap and the lower viewport boundary are runtime configuration.</p>
+          </article>
+
+          <article class="motion-token-visual motion-token-visual--fallback">
+            <div class="motion-visual-heading"><span class="specimen-label">Preference response</span><code>prefers-reduced-motion</code></div>
+            <div class="preference-comparison">
+              <div><span class="preference-stage preference-stage--motion" aria-hidden="true"><i></i></span><b>Full motion</b><small>Translate + fade; ambient drift</small></div>
+              <div><span class="preference-stage preference-stage--still" aria-hidden="true"><i></i></span><b>Reduced motion</b><small>Visible, centered, static</small></div>
+            </div>
+            <p>The information and hierarchy are identical in both states.</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="effect-list">
+        <article class="effect-specimen">
+          <div class="effect-stage">
+            <div>
+              <div class="motion-demo-target" id="revealDemo"><span class="specimen-label">Live specimen</span><h3>Quiet section reveal</h3><p>Opacity and an 18px vertical translation orient the reader without delaying access.</p></div>
+              <button class="replay-button" type="button" data-replay-reveal aria-controls="revealDemo">Replay reveal</button>
+            </div>
+          </div>
+          <div class="effect-contract">
+            <h3>Reveal / orientation</h3>
+            <p>Runs automatically as opted-in sections enter the viewport. The replay button exists only in this catalog.</p>
+            <dl><dt>Trigger</dt><dd>First entry above the lower 12% viewport boundary.</dd><dt>Timing</dt><dd>420ms ease.</dd><dt>Properties</dt><dd>Opacity and translateY only.</dd><dt>Reduced motion</dt><dd>Immediately visible; no spatial motion.</dd><dt>No JavaScript</dt><dd>Visible by default.</dd><dt>Do not</dt><dd>Loop, stagger every child, blur, scale, rotate, or hide required content.</dd></dl>
+          </div>
+        </article>
+
+        <article class="effect-specimen">
+          <div class="effect-stage">
+            <article class="primitive-card"><span class="specimen-label">Move pointer or tab here</span><h3>Local outline feedback</h3><p>The base border remains visible while the accent follows proximity or centers on focus.</p><button class="copy-button" type="button">Focusable action</button></article>
+          </div>
+          <div class="effect-contract">
+            <h3>Spotlight / interaction locality</h3>
+            <p>A masked radial-gradient border identifies the active closed component without adding elevation.</p>
+            <dl><dt>Trigger</dt><dd>Fine pointer proximity or keyboard focus.</dd><dt>Timing</dt><dd>160ms opacity fade.</dd><dt>Scope</dt><dd>Closed cards, comparisons, documents, and outlined controls.</dd><dt>Touch</dt><dd>No pointer tracking.</dd><dt>Fallback</dt><dd>Normal one-pixel border when masks or JavaScript are unavailable.</dd><dt>Do not</dt><dd>Apply to open rules, Hero, Verdict, body text, or as the only focus indication.</dd></dl>
+          </div>
+        </article>
+
+        <article class="effect-specimen">
+          <div class="effect-stage"><div class="material-hero-sample" data-particle-wave-host aria-label="Live procedural Hero particle-wave specimen"></div></div>
+          <div class="effect-contract">
+            <h3>Hero particle field / ambient motion</h3>
+            <p>A deterministic inline SVG rolls a perspective field of 476 particles through one slow, seamless wave. A mode-matched radial shield keeps dense particles away from the primary reading zone. No raster is loaded or stretched.</p>
+            <dl><dt>Geometry</dt><dd>34 columns × 14 depth rows in a 1200 × 420 view box.</dd><dt>Timing</dt><dd>32000ms loop capped at 30fps.</dd><dt>Content safety</dt><dd>A paper-colored radial fade protects the left reading zone without cutting a hard hole in the field.</dd><dt>Modes</dt><dd>Semantic <code>--hero-particle</code> and <code>--paper</code> roles remap together.</dd><dt>Lifecycle</dt><dd>DOM updates pause offscreen and while the document is hidden.</dd><dt>Reduced motion</dt><dd>One deterministic static frame.</dd><dt>No JavaScript</dt><dd>Plain Hero field; all content remains visible.</dd><dt>Print and forced colors</dt><dd>Field and shield removed.</dd><dt>Do not</dt><dd>Load a raster substitute, add interaction, or reuse the field as evidence.</dd></dl>
+          </div>
+        </article>
+
+        <article class="effect-specimen">
+          <div class="effect-stage">
+            <div class="material-verdict-sample" aria-label="Live Verdict signal-field material specimen">
+            </div>
+          </div>
+          <div class="effect-contract">
+            <h3>Verdict signal field / resolved state</h3>
+            <p>Layered semantic gradients converge behind a sparse micro-grid, creating a decisive atmosphere without drawing lines through the conclusion.</p>
+            <dl><dt>Construction</dt><dd>Two radial gradients, one directional gradient, and a 12px CSS micro-grid; no image or SVG payload.</dd><dt>Timing</dt><dd>26000ms alternating field drift and 36000ms grid cycle.</dd><dt>Motion</dt><dd>Transform-only ambient drift on decorative pseudo-elements.</dd><dt>Reduced motion and no JavaScript</dt><dd>One static composed frame.</dd><dt>Accessibility</dt><dd>Purely decorative and pointer-inert; the Verdict text owns all meaning.</dd><dt>Print and forced colors</dt><dd>Removed; the Verdict remains readable as a bordered field.</dd><dt>Do not</dt><dd>Reuse as a card fill, increase opacity behind copy, or add interactive response.</dd></dl>
+          </div>
+        </article>
       </div>
     </section>
 
     <section class="section" id="components">
       <div class="section-head reveal">
         <span class="kicker">Components</span>
-        <div><h2>Reusable evidence structures</h2><p class="section-copy">The specimens below use the production classes—not catalog-only approximations.</p></div>
+        <div><h2>Production structures with complete contracts</h2><p class="section-copy">The page shell above is the live Topbar and Hero specimen. The structures below use production classes, not catalog-only imitations.</p></div>
       </div>
 
-      <article class="finding reveal">
-        <div class="finding-head"><span class="finding-index">Finding 01</span><h3>Replace a vague timing boundary</h3></div>
-        <div class="comparison">
-          <article><h4>Original</h4><p>Please review the release note <mark>soon</mark> so I can publish it.</p></article>
-          <article><h4>Proposal</h4><p>Please review the release note <mark>by 3:00 p.m. Thursday</mark> so I can publish it.</p></article>
-        </div>
-        <div class="proof-grid">
-          <div><b>Evidence basis</b><p>The release sequence requires review before publication.</p></div>
-          <div><b>What changed / why it matters</b><p>A dated boundary replaces an undefined urgency cue.</p></div>
-          <div><b>Why better / meaning preserved</b><p>The action is schedulable; the review decision right remains intact.</p></div>
-        </div>
-        <span class="finding-status">Recommended — not applied</span>
-      </article>
+      <div class="component-list">
+        <article class="component-contract">
+          <span class="component-live-label">Live specimen / top of this page</span>
+          <h3>Topbar</h3>
+          <div class="contract-grid"><div><b>Purpose</b><p>Connects the four local pages and exposes appearance modes.</p></div><div><b>Anatomy</b><p>Brand, local navigation, Dark/Mid/Light group.</p></div><div><b>States</b><p>Default, current page, hover, focus, narrow wrap.</p></div><div><b>Accessibility</b><p>Named navigation, one <code>aria-current</code>, pressed mode state.</p></div><div><b>Responsive</b><p>Navigation wraps beneath brand and controls.</p></div><div><b>Invalid</b><p>Motion toggle, icon-only navigation, clipped brand, two current pages.</p></div></div>
+        </article>
+        <article class="component-contract">
+          <span class="component-live-label">Live specimen / topbar control</span>
+          <h3>Appearance mode switcher</h3>
+          <div class="contract-grid"><div><b>Purpose</b><p>Selects Dark, Mid, or Light without changing content or component anatomy.</p></div><div><b>Anatomy</b><p>Named group with three visible text buttons in a fixed order.</p></div><div><b>State</b><p>Exactly one option exposes <code>aria-pressed="true"</code>; hover and focus remain independent.</p></div><div><b>Persistence</b><p>The valid stored mode is applied before first paint and survives local page navigation.</p></div><div><b>Fallback</b><p>Light renders when storage or JavaScript is unavailable; content never depends on selection.</p></div><div><b>Invalid</b><p>Icon-only modes, a motion toggle, two pressed options, or a mode that changes meaning.</p></div></div>
+        </article>
+        <article class="component-contract">
+          <span class="component-live-label">Live specimen / page introduction above</span>
+          <h3>Hero</h3>
+          <div class="contract-grid"><div><b>Purpose</b><p>Introduces one artifact page. It is not a call to action.</p></div><div><b>Anatomy</b><p>Eyebrow, one h1, supporting copy, optional metadata.</p></div><div><b>Variants</b><p>Metadata-rich report or compact explanatory page.</p></div><div><b>Effect</b><p>Procedural particle field behind the normal content container; static when motion is reduced.</p></div><div><b>Edge cases</b><p>Long title, long path/status, absent metadata.</p></div><div><b>Invalid</b><p>Required controls, clipped copy, content imagery, CTA framing.</p></div></div>
+        </article>
+        <article class="component-contract">
+          <span class="component-live-label">Live specimen / every catalog section</span>
+          <h3>Section head and fact list</h3>
+          <div class="fact-list">
+            <div class="fact"><b>Section head</b><p>Short kicker in the label rail plus heading and optional supporting copy.</p></div>
+            <div class="fact"><b>Fact list</b><p>Labeled or unlabeled facts in two columns, stacking to one on phones.</p></div>
+            <div class="fact"><b>Variants</b><p>Single fact, odd item count, and dense evidence-boundary summary.</p></div>
+            <div class="fact"><b>Invalid</b><p>Grid position as meaning, hidden labels, or an independent alignment rule.</p></div>
+          </div>
+        </article>
 
-      <div class="method-path">
-        <article class="method-step reveal"><span class="finding-index">01 / Protect</span><div><h3>Record protected meaning</h3><p>Identify the job, audience, action, facts, decision rights, uncertainty, tone, and constraints.</p></div></article>
-        <article class="method-step reveal"><span class="finding-index">02 / Test</span><div><h3>Require consequential value</h3><p>Keep a change only when evidence supports a specific improvement and protected meaning survives.</p></div></article>
-      </div>
+        <section class="verdict reveal" aria-label="Verdict Band component specimen">
+          <div class="verdict-content">
+            <span class="eyebrow">Verdict / live component</span>
+            <h2>Refactor recommended. The decisive conclusion stays prominent, readable, and attached to the evidence that follows.</h2>
+            <p>Use once near the beginning of a report. The signal field is decorative; no controls belong inside it.</p>
+          </div>
+        </section>
+        <article class="component-contract">
+          <h3>Verdict Band</h3>
+          <div class="contract-grid"><div><b>Purpose</b><p>Presents the report’s decisive conclusion.</p></div><div><b>Anatomy</b><p>Verdict label, prominent statement, optional support, decorative signal field.</p></div><div><b>Variants</b><p>Short or long verdict; one per report.</p></div><div><b>Modes</b><p>Dedicated inverse and signal roles remap in Light, Mid, and Dark.</p></div><div><b>Print</b><p>Signal field removed; white field and strong border retained.</p></div><div><b>Invalid</b><p>Multiple bands, controls in the field, high-frequency motion, decorative reuse.</p></div></div>
+        </article>
 
-      <div class="document-shell reveal">
-        <div class="document-toolbar"><span>Selectable final output</span><div class="copy-group"><span class="copy-status" aria-live="polite"></span><button class="copy-button" type="button" data-copy-target="#catalogCopy">Copy specimen</button></div></div>
-        <pre class="output-document" id="catalogCopy" tabindex="0">Please review the release note by 3:00 p.m. Thursday so I can publish it after your approval.
+        <article class="finding reveal">
+          <div class="finding-head"><span class="finding-index">Finding 01</span><h3>Replace a vague timing boundary</h3></div>
+          <div class="comparison">
+            <article><h4>Original</h4><p>Please review the release note <mark>soon</mark> so I can publish it.</p></article>
+            <article><h4>Proposal</h4><p>Please review the release note <mark>by 3:00 p.m. Thursday</mark> so I can publish it.</p></article>
+          </div>
+          <div class="proof-grid">
+            <div><b>Evidence basis</b><p>The release sequence requires review before publication.</p></div>
+            <div><b>What changed / why it matters</b><p>A dated boundary replaces an undefined urgency cue.</p></div>
+            <div><b>Why better / meaning preserved</b><p>The action is schedulable; the review decision right remains intact.</p></div>
+          </div>
+          <span class="finding-status">Recommended — not applied</span>
+        </article>
+        <article class="component-contract">
+          <h3>Finding, comparison, proof, and status</h3>
+          <div class="contract-grid"><div><b>Anatomy</b><p>Index, heading, Original/Proposal, three proof responsibilities, text status.</p></div><div><b>Variants</b><p>Recommendation or complete no-change branch.</p></div><div><b>Responsive</b><p>Comparison and proof stack; evidence order remains.</p></div><div><b>Highlight</b><p><code>mark</code> wraps only the exact changed language.</p></div><div><b>Spotlight</b><p>Comparison boundary may respond; proof rails remain open.</p></div><div><b>Invalid</b><p>Missing side, detached proof, paragraph-wide mark, color-only status.</p></div></div>
+        </article>
+
+        <div class="method-path">
+          <article class="method-step reveal"><span class="finding-index">01 / Protect</span><div><h3>Record protected meaning</h3><p>Identify job, audience, action, facts, decision rights, uncertainty, tone, and constraints.</p></div></article>
+          <article class="method-step reveal"><span class="finding-index">02 / Test</span><div><h3>Require consequential value</h3><p>Keep a change only when evidence supports a real improvement and protected meaning survives.</p></div></article>
+          <article class="method-step reveal"><span class="finding-index">03 / Deliver</span><div><h3>Return one complete document</h3><p>End with copy-ready output so the reader never reconstructs the result.</p></div></article>
+        </div>
+        <article class="component-contract">
+          <h3>Method path</h3>
+          <div class="contract-grid"><div><b>Purpose</b><p>Explains a genuinely ordered review process.</p></div><div><b>Anatomy</b><p>Sequence label, step heading, explanatory copy.</p></div><div><b>Variants</b><p>Compact two-step specimen or complete four-step workflow.</p></div><div><b>Responsive</b><p>Rail and body stack while order remains explicit.</p></div><div><b>Invalid</b><p>Numbering unrelated facts or forcing a branching process into a line.</p></div></div>
+        </article>
+
+        <div class="document-shell reveal">
+          <div class="document-toolbar"><span>Selectable final output</span><div class="copy-group"><span class="copy-status" aria-live="polite"></span><button class="copy-button" type="button" data-copy-target="#catalogCopy"><svg class="icon icon--sm" data-copy-icon viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="8" y="8" width="12" height="12" rx="1"></rect><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"></path></svg><svg class="icon icon--sm" data-check-icon viewBox="0 0 24 24" aria-hidden="true" focusable="false" hidden><path d="m5 12 4 4L19 6"></path></svg>Copy specimen</button></div></div>
+          <pre class="output-document" id="catalogCopy" tabindex="0">Please review the release note by 3:00 p.m. Thursday so I can publish it after your approval.
 
 The maintainer retains the final publication decision.</pre>
+        </div>
+        <article class="component-contract">
+          <h3>Document shell</h3>
+          <div class="contract-grid"><div><b>Purpose</b><p>Delivers exact readable, selectable, copy-ready source or output.</p></div><div><b>Variants</b><p>Uncapped output document or constrained-height skill source.</p></div><div><b>States</b><p>Idle, keyboard focus, Copied, Select text fallback, no JavaScript.</p></div><div><b>Accessibility</b><p>Visible control name, live status, selectable content.</p></div><div><b>Fallback</b><p>Copy is optional; the document remains complete.</p></div><div><b>Invalid</b><p>Missing target/live region, nested documents, capped final output.</p></div></div>
+        </article>
+        <article class="component-contract">
+          <span class="component-live-label">Live specimen / bottom of every page</span>
+          <h3>Footer</h3>
+          <div class="contract-grid"><div><b>Purpose</b><p>Closes the page with artifact identity and delivery context.</p></div><div><b>Anatomy</b><p>Two short text items separated from content by one quiet rule.</p></div><div><b>Responsive</b><p>Items stack at phone width without changing order.</p></div><div><b>Print</b><p>Remains text-only and uses the printable page width.</p></div><div><b>Accessibility</b><p>Uses the page <code>contentinfo</code> landmark; no navigation is duplicated.</p></div><div><b>Invalid</b><p>Required controls, legal boilerplate, decorative icons, or a second page navigation.</p></div></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section reveal" id="patterns">
+      <div class="section-head">
+        <span class="kicker">Patterns</span>
+        <div><h2>Repeated compositions, not one-off layouts</h2><p class="section-copy">Patterns solve recurring communication jobs across materially different report pages while reusing the same primitives and components. Each card responds to its own width, preserving every step without clipping or horizontal scrolling.</p></div>
+      </div>
+      <div class="pattern-grid">
+        <article class="pattern-card"><b>Report opening</b><div class="pattern-flow"><span class="pattern-step">Hero</span><span class="pattern-arrow">→</span><span class="pattern-step">Verdict</span><span class="pattern-arrow">→</span><span class="pattern-step">Protected meaning</span></div><p>Establish purpose, decision, then constraints. Used on recommendation and no-change reports.</p></article>
+        <article class="pattern-card"><b>Evidence adjacency</b><div class="pattern-flow"><span class="pattern-step">Finding</span><span class="pattern-arrow">→</span><span class="pattern-step">Comparison</span><span class="pattern-arrow">→</span><span class="pattern-step">Proof + status</span></div><p>Keeps the proposal and its basis together. Never detach rationale from reviewed language.</p></article>
+        <article class="pattern-card"><b>Copy-ready handoff</b><div class="pattern-flow"><span class="pattern-step">Section head</span><span class="pattern-arrow">→</span><span class="pattern-step">Document shell</span><span class="pattern-arrow">→</span><span class="pattern-step">Optional copy</span></div><p>Used for revised output and unchanged output. Reading never depends on the control.</p></article>
+        <article class="pattern-card"><b>Source traceability</b><div class="pattern-flow"><span class="pattern-step">Hero metadata</span><span class="pattern-arrow">→</span><span class="pattern-step">Exact source</span><span class="pattern-arrow">→</span><span class="pattern-step">Source note</span></div><p>Connects status, path, hash, and embedded SKILL.md without rewriting the source.</p></article>
+        <article class="pattern-card"><b>Decision-process path</b><div class="pattern-flow"><span class="pattern-step">Evidence facts</span><span class="pattern-arrow">→</span><span class="pattern-step">Ordered method</span><span class="pattern-arrow">→</span><span class="pattern-step">Assumptions</span></div><p>Explains how candidates were accepted or rejected without turning the report into process theater.</p></article>
+        <article class="pattern-card"><b>No-change branch</b><div class="pattern-flow"><span class="pattern-step">No-change verdict</span><span class="pattern-arrow">→</span><span class="pattern-step">Zero findings</span><span class="pattern-arrow">→</span><span class="pattern-step">Unchanged output</span></div><p>Returns the complete source with an explicit no-change decision rather than an empty report.</p></article>
       </div>
     </section>
 
     <section class="section reveal" id="states">
       <div class="section-head">
         <span class="kicker">States and resilience</span>
-        <div><h2>Meaning survives enhancement failure</h2><p class="section-copy">Labels, structure, and readable source carry the message before color, motion, or copy behavior is applied.</p></div>
+        <div><h2>Meaning survives every enhancement boundary</h2><p class="section-copy">Inspectable states show what changes and what must remain stable. Unsupported form, loading, destructive, menu, and tooltip states are intentionally absent.</p></div>
       </div>
-      <div class="fact-list">
-        <div class="fact"><b>No change</b><p>Use the explicit heading “No change recommended” and return unchanged copy.</p></div>
-        <div class="fact"><b>Long content</b><p>Headings, paths, source text, and unbroken strings wrap without widening the page.</p></div>
-        <div class="fact"><b>No JavaScript</b><p>All content stays visible and selectable; only motion and copy assistance are absent.</p></div>
-        <div class="fact"><b>Reduced motion</b><p>Reveal transitions collapse to effectively zero duration.</p></div>
-        <div class="fact"><b>Print</b><p>Controls disappear, paper becomes white, and component boundaries remain visible.</p></div>
-        <div class="fact"><b>Keyboard</b><p>Links, buttons, and selectable documents expose a visible focus ring.</p></div>
+      <div class="state-grid">
+        <article class="state-card"><b>Navigation and link</b><p>Current page adds an underline and location; focus adds a separate 3px ring.</p><div class="state-strip"><a class="state-sample" href="#states">Default link</a><a class="state-sample is-current" href="#states" aria-current="true">Current page</a></div></article>
+        <article class="state-card"><b>Action and confirmation</b><p>Hover changes the local surface. Copy returns visible “Copied” or “Select text” feedback.</p><div class="state-strip"><button class="copy-button" type="button">Default action</button><span class="state-sample is-confirmed"><svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"></path></svg>&nbsp;Copied</span></div></article>
+        <article class="state-card"><b>No JavaScript</b><p>Light mode, plain Hero field, static Verdict signal, base borders, and full selectable content. Theme, particle motion, reveal, spotlight, replay, and copy controls are absent.</p><div class="state-strip"><span class="state-sample">Content visible</span><span class="state-sample">Static signal</span><span class="state-sample">No dead controls</span></div></article>
+        <article class="state-card"><b>Reduced motion</b><p>Reveal remains visible; smooth scrolling stops; spotlight centers; Hero and Verdict ambient fields hold one static frame.</p><div class="state-strip"><span class="state-sample">0 spatial reveal</span><span class="state-sample">Static fields</span><span class="state-sample">Centered spotlight</span></div></article>
+        <article class="state-card"><b>Touch and keyboard</b><p>Touch never depends on hover. External keyboard focus receives centered spotlight plus the independent focus ring.</p><div class="state-strip"><span class="state-sample">No touch tracking</span><span class="state-sample">Visible focus</span></div></article>
+        <article class="state-card"><b>Print and forced colors</b><p>Decorative materials and controls disappear. Semantic boundaries, text, focus, and highlighted meaning remain legible.</p><div class="state-strip"><span class="state-sample">White paper</span><span class="state-sample">System colors</span></div></article>
+        <article class="state-card"><b>Long content</b><p>Titles, paths, labels, and unbroken strings wrap without increasing the page width.</p><div class="state-strip"><span class="state-sample">averylongunbrokensourceidentifier.example/report/input</span></div></article>
+        <article class="state-card"><b>No change</b><p>The explicit heading “No change recommended” accompanies zero findings and a complete unchanged document.</p><div class="state-strip"><span class="state-sample">0 retained findings</span><span class="state-sample">Complete output</span></div></article>
       </div>
     </section>
 
     <section class="section reveal" id="deviations">
       <div class="section-head">
         <span class="kicker">Output Deviations</span>
-        <div><h2>Recognizable failures</h2><p class="section-copy">These examples name what the system prevents. They are diagnostic rules, not alternate styles.</p></div>
+        <div><h2>Recognizable system failures</h2><p class="section-copy">These examples diagnose what the system prevents. They are not alternate visual styles.</p></div>
       </div>
       <div class="deviation-grid">
         <article class="deviation-card"><span class="deviation-id">RW-01</span><h3>Grid drift</h3><p>Related headings, findings, and bodies begin on competing horizontal anchors.</p></article>
@@ -129,25 +514,58 @@ The maintainer retains the final publication decision.</pre>
         <article class="deviation-card"><span class="deviation-id">RW-03</span><h3>Viewport overflow</h3><p>A page or component requires horizontal scrolling at a supported width.</p></article>
         <article class="deviation-card"><span class="deviation-id">RW-04</span><h3>Color-only meaning</h3><p>Status, navigation, or changed language cannot be understood without color.</p></article>
         <article class="deviation-card"><span class="deviation-id">RW-05</span><h3>Motion lockout</h3><p>Essential content stays hidden when JavaScript, observation, or motion fails.</p></article>
-        <article class="deviation-card"><span class="deviation-id">RW-08</span><h3>Token fork</h3><p>A one-off raw value or duplicated grid compensates for a weak shared rule.</p></article>
+        <article class="deviation-card"><span class="deviation-id">RW-06</span><h3>Copy dependency</h3><p>The final document cannot be read or selected when copy behavior fails.</p></article>
+        <article class="deviation-card"><span class="deviation-id">RW-07</span><h3>Portability break</h3><p>The artifact requires a network resource or a file outside its generated folder.</p></article>
+        <article class="deviation-card"><span class="deviation-id">RW-08</span><h3>Token fork</h3><p>A raw value or duplicate layout rule compensates for a weak shared role.</p></article>
+        <article class="deviation-card"><span class="deviation-id">RW-09</span><h3>Motion excess</h3><p>Looping, parallax, blur, scale, or simultaneous effects compete with reviewed language.</p></article>
+        <article class="deviation-card"><span class="deviation-id">RW-10</span><h3>Affordance substitution</h3><p>Spotlight, hover, or color replaces the base border, focus ring, text label, or semantic state.</p></article>
+        <article class="deviation-card"><span class="deviation-id">RW-11</span><h3>Input-exclusive effect</h3><p>A pointer-only effect carries meaning with no keyboard or static equivalent.</p></article>
+        <article class="deviation-card"><span class="deviation-id">RW-12</span><h3>Effect leakage</h3><p>Decorative or interactive effects remain in print, forced colors, no-JavaScript, or unsupported-mask states.</p></article>
+        <article class="deviation-card"><span class="deviation-id">RW-13</span><h3>Mode drift</h3><p>A component bypasses semantic roles, changes anatomy, or loses required contrast in one color mode.</p></article>
+        <article class="deviation-card"><span class="deviation-id">RW-14</span><h3>Icon ambiguity</h3><p>An unsupported, inconsistent, or unlabeled icon carries action or status meaning without visible text.</p></article>
+        <article class="deviation-card"><span class="deviation-id">RW-15</span><h3>Catalog fiction</h3><p>Documentation presents an imitation, unsupported state, or incomplete specimen as production capability.</p></article>
+        <article class="deviation-card"><span class="deviation-id">RW-16</span><h3>Material shortcut</h3><p>A procedural or scale-dependent visual phenomenon is replaced with a stretched raster or misleading cosmetic substitute.</p></article>
       </div>
     </section>
 
     <section class="section reveal" id="implementation">
       <div class="section-head">
-        <span class="kicker">Implementation</span>
-        <div><h2>One profile, one adapter</h2><p class="section-copy">The renderer supplies semantic HTML; this stylesheet maps the system roles; JavaScript adds optional copy and motion behavior.</p></div>
+        <span class="kicker">Portable static HTML profile</span>
+        <div><h2>One profile, one shared adapter</h2><p class="section-copy">The renderer supplies semantic HTML, the stylesheet maps system roles, and JavaScript adds the procedural Hero field, mode selection, reveal, spotlight, replay specimens, and copy assistance.</p></div>
+      </div>
+      <div class="profile-grid">
+        <article class="profile-card"><b>Report</b><p>Hero, one Verdict, protected meaning, findings or no-change branch, and complete output.</p></article>
+        <article class="profile-card"><b>SKILL.md</b><p>Exact active instructions, status, path, hash, constrained source document, and copy enhancement.</p></article>
+        <article class="profile-card"><b>How it works</b><p>Evidence boundaries, ordered method, redactions, assumptions, and artifact structure.</p></article>
+        <article class="profile-card"><b>System</b><p>This live teaching catalog: tokens, primitives, effects, components, patterns, states, deviations, and QA.</p></article>
       </div>
       <div class="fact-list">
-        <div class="fact"><b>Dependency boundary</b><p>No external fonts, frameworks, images, or production network requests.</p></div>
-        <div class="fact"><b>Portability</b><p>Every runtime link uses a same-folder relative path beginning with <code>./</code>.</p></div>
-        <div class="fact"><b>Responsive checks</b><p>Inspect desktop, tablet, and phone, including long content and both report branches.</p></div>
-        <div class="fact"><b>Accessibility target</b><p>WCAG 2.2 AA with semantic structure, keyboard access, visible focus, reduced motion, and non-color-only meaning.</p></div>
+        <div class="fact"><b>Dependencies</b><p>No frameworks, external fonts, icon packages, production network requests, or absolute navigation.</p></div>
+        <div class="fact"><b>Portable assets</b><p><code>artifact.css</code>, <code>artifact.js</code>, and four local HTML pages move together. The Hero particle field is generated as inline SVG at runtime.</p></div>
+        <div class="fact"><b>Enhancement boundary</b><p>Primary content, component borders, static semantics, and selection work without JavaScript.</p></div>
+        <div class="fact"><b>Catalog-only controls</b><p>Reveal and response-token replay exist only to inspect the system; generated report pages never include them.</p></div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="qa">
+      <div class="section-head">
+        <span class="kicker">QA contract</span>
+        <div><h2>Prove the profile, not just the catalog</h2><p class="section-copy">Release evidence must cover materially different content, interaction modes, responsive widths, enhancement failure, and both report branches.</p></div>
+      </div>
+      <div class="profile-grid">
+        <article class="profile-card"><b>Content fixtures</b><p>Recommendation report, complete no-change report, long SKILL.md source, and process explanation.</p></article>
+        <article class="profile-card"><b>Viewports</b><p>Desktop, tablet, and phone with zero page-level or component-level horizontal overflow.</p></article>
+        <article class="profile-card"><b>Interaction</b><p>Relative navigation, three modes, copy success/fallback, reveal, replay, spotlight, keyboard order, and visible focus.</p></article>
+        <article class="profile-card"><b>Resilience</b><p>Reduced motion, touch, no JavaScript, forced colors, print, long content, missing mask support, and clear console.</p></article>
+      </div>
+      <div class="fact-list">
+        <div class="fact"><b>Current evidence date</b><p>2026-07-23. Refresh after any token, component anatomy, effect, or profile change.</p></div>
+        <div class="fact"><b>Release checks</b><p>Run the renderer fixtures, <code>node scripts/validate-skills.mjs</code>, browser verification, and <code>git diff --check</code>.</p></div>
       </div>
     </section>
   </main>
 
-  <footer class="page-footer"><span>Refactor Writing</span><span>Design-system catalog / revision 1</span></footer>
+  <footer class="page-footer"><span>Refactor Writing</span><span>Design-system catalog / revision 8</span></footer>
   <script src="./artifact.js"></script>
 </body>
 </html>

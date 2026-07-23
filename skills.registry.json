@@ -177,6 +177,8 @@
         "assets/report/artifact.css",
         "assets/report/artifact.js",
         "assets/report/design-system.html",
+        "assets/report/report.html",
+        "references/hero-dotted-wave-reference.png",
         "references/report-design-system.md",
         "scripts/render-report.mjs"
       ]

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { createHash } from "node:crypto";
-import { copyFile, mkdir, readFile, writeFile } from "node:fs/promises";
+import { copyFile, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -71,6 +71,18 @@ const escapeHtml = (value) => String(value ?? "")
   .replaceAll('"', "&quot;")
   .replaceAll("'", "&#039;");
 
+function copyIcon(attributes = "") {
+  return `<svg class="icon icon--sm"${attributes ? ` ${attributes}` : ""} viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="8" y="8" width="12" height="12" rx="1"></rect><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"></path></svg>`;
+}
+
+function checkIcon(attributes = "") {
+  return `<svg class="icon icon--sm"${attributes ? ` ${attributes}` : ""} viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m5 12 4 4L19 6"></path></svg>`;
+}
+
+function copyButton(label, target) {
+  return `<button class="copy-button" type="button" data-copy-target="${target}">${copyIcon("data-copy-icon")}${checkIcon("data-check-icon hidden")} ${escapeHtml(label)}</button>`;
+}
+
 function requireString(object, key, context = "input") {
   if (typeof object?.[key] !== "string" || !object[key].trim()) {
     throw new Error(`${context}.${key} must be a non-empty string`);
@@ -130,22 +142,23 @@ function validate(data, outputDir, allowInsideSource) {
 function page({ title, current, brand, body }) {
   const nav = [["report.html", "Report", "report"], ["skill.html", "SKILL.md", "skill"], ["how-it-works.html", "How it works", "method"], ["design-system.html", "System", "system"]]
     .map(([href, label, key]) => `<a href="./${href}"${current === key ? ' aria-current="page"' : ""}>${label}</a>`).join("");
+  const themes = ["dark", "mid", "light"].map((theme) => `<button class="theme-option" type="button" data-theme-option="${theme}" aria-pressed="${theme === "light"}">${theme[0].toUpperCase()}${theme.slice(1)}</button>`).join("");
   return `<!doctype html>
 <html lang="en" class="no-js">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light">
+  <meta name="color-scheme" content="light dark">
   <link rel="icon" href="data:,">
   <title>${escapeHtml(title)}</title>
-  <script>document.documentElement.classList.replace("no-js", "js")</script>
+  <script>(()=>{let t="light";try{const s=localStorage.getItem("refactor-writing-theme");if(["dark","mid","light"].includes(s))t=s}catch{}document.documentElement.dataset.theme=t;document.documentElement.classList.replace("no-js","js")})()</script>
   <link rel="stylesheet" href="./artifact.css">
 </head>
 <body>
   <header class="topbar">
     <a class="brand" href="./report.html">${escapeHtml(brand)}</a>
     <nav aria-label="Artifact navigation">${nav}</nav>
-    <button class="motion-toggle" type="button" data-motion-toggle aria-pressed="false">Motion off</button>
+    <div class="theme-switcher" role="group" aria-label="Color mode">${themes}</div>
   </header>
   ${body}
   <footer class="page-footer"><span>${escapeHtml(brand)}</span><span>Self-contained writing refactor artifact</span></footer>
@@ -182,11 +195,11 @@ function renderReport(data) {
       <p>${escapeHtml(data.scope)}</p>
       <div class="meta-line"><span>${data.findings.length} retained finding${data.findings.length === 1 ? "" : "s"}</span><span>${escapeHtml(data.skillStatus)}</span><span>Source: ${escapeHtml(data.sourcePath)}</span></div>
     </header>
-    <section class="verdict reveal"><span class="eyebrow">Verdict</span><h2>${escapeHtml(data.verdict)}</h2></section>
+    <section class="verdict reveal"><div class="verdict-content"><span class="eyebrow">Verdict</span><h2>${escapeHtml(data.verdict)}</h2></div></section>
     <section class="section reveal"><div class="section-head"><span class="kicker">Protected meaning</span><div><h2>What the revision must keep intact</h2><p class="section-copy">These constraints were recorded before candidate changes were judged.</p></div></div>${list(data.protectedMeaning, "No protected meaning recorded")}</section>
     <section class="section" id="findings"><div class="section-head reveal"><span class="kicker">Evidence-backed changes</span><div><h2>${data.findings.length ? "Only consequential changes survived" : "No candidate change earned its cost"}</h2><p class="section-copy">Original and proposal remain adjacent; highlights identify only the targeted language.</p></div></div>${findings || '<p class="section-copy reveal">Every candidate was cosmetic, derivative, unsupported, or meaning-reducing.</p>'}</section>
     <section class="section reveal" id="final-output"><div class="section-head"><span class="kicker">Copy-ready output</span><div><h2>${escapeHtml(data.finalOutput.heading)}</h2><p class="section-copy">One clean document with no report annotations.</p></div></div>
-      <div class="document-shell"><div class="document-toolbar"><span>${escapeHtml(data.finalOutput.heading)}</span><div class="copy-group"><span class="copy-status" aria-live="polite"></span><button class="copy-button" type="button" data-copy-target="#finalCopy">Copy document</button></div></div><noscript><p class="noscript-note">JavaScript is off. The complete document remains selectable below.</p></noscript><pre class="output-document" id="finalCopy" tabindex="0">${escapeHtml(data.finalOutput.content)}</pre></div>
+      <div class="document-shell"><div class="document-toolbar"><span>${escapeHtml(data.finalOutput.heading)}</span><div class="copy-group"><span class="copy-status" aria-live="polite"></span>${copyButton("Copy document", "#finalCopy")}</div></div><noscript><p class="noscript-note">JavaScript is off. The complete document remains selectable below.</p></noscript><pre class="output-document" id="finalCopy" tabindex="0">${escapeHtml(data.finalOutput.content)}</pre></div>
     </section>
   </main>`;
   return page({ title: `${data.title} — Report`, current: "report", brand: data.title, body });
@@ -195,7 +208,7 @@ function renderReport(data) {
 function renderSkill(data, skillSource, skillPath, skillHash) {
   const body = `<main>
     <header class="hero reveal is-visible"><span class="eyebrow">Exact active skill source</span><h1>SKILL.md used for this invocation</h1><p>The source is embedded without rewriting so the report can be traced to the exact operating instructions.</p><div class="meta-line"><span>Status: ${escapeHtml(data.skillStatus)}</span><span>Path: ${escapeHtml(skillPath)}</span><span>SHA-256: ${skillHash}</span></div></header>
-    <section class="section reveal"><div class="document-shell"><div class="document-toolbar"><span>Exact SKILL.md</span><div class="copy-group"><span class="copy-status" aria-live="polite"></span><button class="copy-button" type="button" data-copy-target="#skillCopy">Copy SKILL.md</button></div></div><noscript><p class="noscript-note">JavaScript is off. The full skill source remains selectable below.</p></noscript><pre class="skill-document" id="skillCopy" tabindex="0">${escapeHtml(skillSource)}</pre></div><p class="source-note">Current, candidate, structurally valid, installed, and accepted describe different states. This page reports the status supplied for this invocation.</p></section>
+    <section class="section reveal"><div class="document-shell"><div class="document-toolbar"><span>Exact SKILL.md</span><div class="copy-group"><span class="copy-status" aria-live="polite"></span>${copyButton("Copy SKILL.md", "#skillCopy")}</div></div><noscript><p class="noscript-note">JavaScript is off. The full skill source remains selectable below.</p></noscript><pre class="skill-document" id="skillCopy" tabindex="0">${escapeHtml(skillSource)}</pre></div><p class="source-note">Current, candidate, structurally valid, installed, and accepted describe different states. This page reports the status supplied for this invocation.</p></section>
   </main>`;
   return page({ title: `${data.title} — SKILL.md`, current: "skill", brand: data.title, body });
 }
@@ -221,18 +234,60 @@ function renderMethod(data) {
 
 async function verifySystemSources() {
   const css = await readFile(path.join(assetDir, "artifact.css"), "utf8");
+  const script = await readFile(path.join(assetDir, "artifact.js"), "utf8");
   const catalog = await readFile(path.join(assetDir, "design-system.html"), "utf8");
-  const requiredTokens = ["--paper", "--surface", "--ink", "--muted", "--line", "--line-strong", "--accent", "--success", "--mark", "--editorial-grid", "--editorial-gap"];
-  const requiredCatalogSections = ["foundations", "type", "layout", "components", "states", "deviations", "implementation"];
+  const preview = await readFile(path.join(assetDir, "report.html"), "utf8");
+  const requiredTokens = [
+    "--paper", "--surface", "--ink", "--muted", "--line", "--line-strong",
+    "--accent", "--accent-soft", "--success", "--mark", "--mark-ink", "--topbar",
+    "--control-hover", "--focus", "--verdict-bg", "--verdict-ink", "--verdict-muted",
+    "--verdict-signal-a", "--verdict-signal-b", "--verdict-signal-grid",
+    "--hero-particle",
+    "--editorial-grid", "--editorial-gap", "--motion-reveal-duration",
+    "--motion-reveal-distance", "--motion-spotlight-duration",
+    "--motion-particle-loop", "--motion-particle-fps", "--motion-verdict-loop",
+    "--motion-verdict-micro-loop",
+    "--spotlight-card-size"
+  ];
+  const requiredCatalogSections = [
+    "foundations", "type", "layout", "iconography", "primitives",
+    "motion-effects", "components", "patterns", "states", "deviations",
+    "implementation", "qa"
+  ];
   for (const token of requiredTokens) {
     if (!css.includes(`${token}:`)) throw new Error(`artifact.css is missing required system token ${token}`);
   }
   for (const id of requiredCatalogSections) {
     if (!catalog.includes(`id="${id}"`)) throw new Error(`design-system.html is missing required catalog section #${id}`);
   }
-  for (const productionClass of ["section-head", "finding", "comparison", "proof-grid", "document-shell", "method-step"]) {
+  for (const theme of ["dark", "mid", "light"]) {
+    if (!catalog.includes(`data-theme-option="${theme}"`)) throw new Error(`design-system.html is missing the ${theme} theme control`);
+  }
+  if (!css.includes(".hero-particle-wave")) throw new Error("artifact.css is missing the procedural Hero particle field");
+  if (css.includes("hero-dotted-wave.png")) throw new Error("artifact.css still references the retired Hero raster");
+  for (const contract of [".verdict::before", ".verdict::after", "@keyframes verdict-signal-drift", "@keyframes verdict-micro-drift"]) {
+    if (!css.includes(contract)) throw new Error(`artifact.css is missing revision 8 Verdict signal-field contract ${contract}`);
+  }
+  for (const contract of [".section > .pattern-grid", "container-type: inline-size", "@container (max-width: 440px)", "grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr)"]) {
+    if (!css.includes(contract)) throw new Error(`artifact.css is missing revision 8 Pattern layout contract ${contract}`);
+  }
+  for (const productionClass of ["hero", "section-head", "finding", "comparison", "proof-grid", "document-shell", "method-step", "verdict", "icon"]) {
     if (!catalog.includes(`class="${productionClass}`) && !catalog.includes(` ${productionClass}`)) {
       throw new Error(`design-system.html is missing production component .${productionClass}`);
+    }
+  }
+  for (const contract of ["REVEAL_VIEWPORT_OFFSET", "PARTICLE_WAVE_COLUMNS", "startParticleMotion", "refactor-writing-theme", "storedTheme", "data-particle-wave", "data-replay-reveal", "data-replay-motion-tokens", "data-spotlight", "data-theme-option"]) {
+    if (!script.includes(contract)) throw new Error(`artifact.js is missing revision 8 behavior ${contract}`);
+  }
+  for (const catalogContract of ["data-particle-wave-host", "data-replay-reveal", "data-replay-motion-tokens", "data-copy-icon", "RW-16", "catalog-index", "icon-card--blueprint", "motion-token-board", "material-verdict-sample", "Verdict signal field"]) {
+    if (!catalog.includes(catalogContract)) throw new Error(`design-system.html is missing revision 8 catalog contract ${catalogContract}`);
+  }
+  for (const previewContract of ['./artifact.css', './artifact.js', 'aria-current="page"', 'class="verdict reveal"', 'class="finding reveal"', 'class="document-shell"', 'data-copy-icon']) {
+    if (!preview.includes(previewContract)) throw new Error(`report.html preview is missing ${previewContract}`);
+  }
+  for (const legacyWaveMarker of ["verdict-wave", "verdict-wave-row"]) {
+    if (catalog.includes(legacyWaveMarker) || preview.includes(legacyWaveMarker)) {
+      throw new Error(`revision 8 must not ship retired Verdict wave markup: ${legacyWaveMarker}`);
     }
   }
 }
@@ -241,6 +296,9 @@ async function verifyRelativeLinks(outputDir) {
   const files = ["report.html", "skill.html", "how-it-works.html", "design-system.html"];
   for (const file of files) {
     const html = await readFile(path.join(outputDir, file), "utf8");
+    for (const legacyWaveMarker of ["verdict-wave", "verdict-wave-row"]) {
+      if (html.includes(legacyWaveMarker)) throw new Error(`${file} contains retired Verdict wave markup: ${legacyWaveMarker}`);
+    }
     const links = [...html.matchAll(/(?:href|src)="([^"]+)"/g)].map((match) => match[1]);
     for (const link of links) {
       if (link.startsWith("data:") || link.startsWith("#")) continue;
@@ -274,6 +332,7 @@ async function main() {
   await verifySystemSources();
 
   await mkdir(outputDir, { recursive: true });
+  await rm(path.join(outputDir, "hero-dotted-wave.png"), { force: true });
   await Promise.all([
     copyFile(path.join(assetDir, "artifact.css"), path.join(outputDir, "artifact.css")),
     copyFile(path.join(assetDir, "artifact.js"), path.join(outputDir, "artifact.js")),
