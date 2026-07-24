@@ -28,7 +28,7 @@
 
   <main>
     <header class="hero reveal is-visible">
-      <span class="eyebrow">System catalog / revision 9</span>
+      <span class="eyebrow">System catalog / revision 10</span>
       <h1>Evidence-first editorial reporting</h1>
       <p>A live reference for the foundations, tokens, primitives, effects, components, patterns, states, and implementation rules used by every generated writing-refactor artifact.</p>
       <div class="meta-line">
@@ -160,13 +160,47 @@ Status: reviewed — not applied</pre></div>
     <section class="section reveal" id="layout">
       <div class="section-head">
         <span class="kicker">Layout, shape, and density</span>
-        <div><h2>One editorial grid, flat materials</h2><p class="section-copy">Every wide composition shares the same label rail and reading-column anchor. Closed content surfaces remain square, flat, and bounded by one-pixel rules.</p></div>
+        <div><h2>One measured page frame</h2><p class="section-copy">The page shell, split-rail section header, and content spans use one documented geometry. Prose stays in the reading column; dense specimens and comparisons may use the full frame.</p></div>
       </div>
-      <div class="alignment-demo">
-        <span class="finding-index">Label rail / 190px minimum</span>
-        <div><h3>Reading column</h3><p>Section copy, comparisons, proof, and documents begin here. The structure collapses to one column at 1024px; phone compositions stack at 700px.</p></div>
+      <figure class="page-layout-specimen catalog-wide">
+        <figcaption>
+          <div><span class="specimen-label">Production page anatomy</span><h3>Split-rail editorial section header</h3></div>
+          <p>The small uppercase text is the <b>section kicker</b>. Its desktop position is the <b>editorial label rail</b>; together with the heading and support copy, it forms the split-rail section header.</p>
+        </figcaption>
+        <div class="layout-width-rule" aria-hidden="true"><span>1120px page maximum</span></div>
+        <div class="layout-page-frame">
+          <div class="layout-gutter layout-gutter--start"><span>24px minimum gutter</span></div>
+          <div class="layout-content-frame">
+            <div class="layout-topbar-demo"><span>Topbar</span><b>62px minimum block</b></div>
+            <div class="layout-hero-demo">
+              <span>Hero leading space</span><b>70–144px</b>
+              <i></i>
+              <span>Hero trailing space</span><b>56–104px</b>
+            </div>
+            <div class="layout-section-demo">
+              <div class="layout-section-space"><span>54–96px section space</span></div>
+              <div class="layout-section-grid">
+                <div class="layout-rail-demo"><span>Section kicker</span><b>190px minimum rail</b></div>
+                <div class="layout-gap-demo"><span>40px gap</span></div>
+                <div class="layout-reading-demo"><span>Heading + support</span><b>760px prose measure</b><i></i><i></i><i></i></div>
+              </div>
+              <div class="layout-span-demo"><span>Dense specimen / comparison</span><b>Full 1120px content frame</b></div>
+              <div class="layout-section-space layout-section-space--end"><span>54–96px section space</span></div>
+            </div>
+          </div>
+          <div class="layout-gutter layout-gutter--end"><span>24px minimum gutter</span></div>
+        </div>
+        <div class="layout-breakpoints">
+          <div><b>Wide / above 1024px</b><span>Rail + 40px gap + flexible reading column</span></div>
+          <div><b>Compact / 1024px and below</b><span>Kicker stacks above heading; every owner becomes one column</span></div>
+          <div><b>Phone / 700px and below</b><span>14px page gutter; catalog grids and comparisons stack</span></div>
+        </div>
+      </figure>
+      <div class="alignment-demo catalog-wide">
+        <span class="finding-index">Content ownership rule</span>
+        <div><h3>Reading column or full frame—never an accidental half-state</h3><p>Prose and small fact groups begin on the reading-column anchor. Dense token boards, primitive grids, diagrams, comparisons, and documents span the full content frame. Both modes collapse cleanly at 1024px.</p></div>
       </div>
-      <div class="shape-grid">
+      <div class="shape-grid catalog-wide">
         <article class="shape-card"><b>Content surface</b><span data-shape-sample="content"></span><p>0 radius, 1px boundary, no shadow. Used for cards, comparisons, and documents.</p></article>
         <article class="shape-card"><b>Interactive control</b><span data-shape-sample="control"></span><p>7px radius distinguishes controls without softening editorial content.</p></article>
         <article class="shape-card"><b>Quiet rule</b><span class="border-line"></span><p>Separates related facts, proof items, and ordinary sections.</p></article>
@@ -179,7 +213,7 @@ Status: reviewed — not applied</pre></div>
         <span class="kicker">Iconography</span>
         <div><h2>Two marks, fully specified</h2><p class="section-copy">Copy and Check are a deliberately small functional set. The enlarged drawings expose their shared geometry; the production ramp proves how that geometry survives at interface sizes.</p></div>
       </div>
-      <div class="icon-grid">
+      <div class="icon-grid catalog-wide">
         <article class="icon-card icon-card--blueprint">
           <div class="icon-specimen icon-specimen--blueprint" aria-label="Enlarged construction drawing for the Copy icon">
             <span class="icon-axis icon-axis--x" aria-hidden="true"></span>
@@ -242,7 +276,7 @@ Status: reviewed — not applied</pre></div>
         <span class="kicker">Primitives / atoms</span>
         <div><h2>Small roles with explicit boundaries</h2><p class="section-copy">These are the lowest-level reusable elements. Each specimen uses the production selector or semantic element.</p></div>
       </div>
-      <div class="primitive-grid">
+      <div class="primitive-grid catalog-wide">
         <article class="primitive-card" data-contract-kind="primitive" data-selector="a">
           <div class="primitive-specimen"><a href="#primitives">Inline evidence link</a></div><b>Inline link</b>
           <dl class="contract-summary"><div><dt>Selector</dt><dd><code>a</code></dd></div><div><dt>Tokens</dt><dd><code>--accent</code>, <code>--focus</code></dd></div><div><dt>States</dt><dd>Default, hover, focus, current page.</dd></div><div><dt>Responsive</dt><dd>Wraps with its text; never widens the page.</dd></div><div><dt>Accessibility</dt><dd>Underline and focus ring keep meaning independent of color.</dd></div><div><dt>Fallback</dt><dd>Same-folder and anchor navigation work without JavaScript.</dd></div><div><dt>Valid</dt><dd>Evidence anchors and local page navigation.</dd></div><div><dt>Invalid</dt><dd>Color-only current state or absolute artifact paths.</dd></div></dl>
@@ -605,7 +639,7 @@ The maintainer retains the final publication decision.</pre>
     </section>
   </main>
 
-  <footer class="page-footer"><span>Refactor Writing</span><span>Design-system catalog / revision 9</span></footer>
+  <footer class="page-footer"><span>Refactor Writing</span><span>Design-system catalog / revision 10</span></footer>
   <script src="./artifact.js"></script>
 </body>
 </html>

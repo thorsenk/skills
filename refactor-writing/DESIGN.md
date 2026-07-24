@@ -1,7 +1,7 @@
 # Refactor Writing Report Implementation Guide
 
 System ID: `refactor-writing-report`
-Revision: `9`
+Revision: `10`
 Maturity: Operational Design System
 Supported profile: Portable static HTML report
 
@@ -17,6 +17,12 @@ for agents changing the renderer or its assets.
   material only; never copy or load it at runtime.
 - Use `main`, `.page-footer`, `.topbar`, and `.hero` for the page shell.
 - Use `.section` and `.section-head` for ordinary content groups.
+- Call the uppercase contextual label the **section kicker**, its desktop
+  column the **editorial label rail**, and the complete kicker/heading
+  composition the **split-rail editorial section header**.
+- Keep prose and compact support content on the reading-column span. Apply
+  `.catalog-wide` to dense catalog grids, diagrams, or token instruments that
+  need the full page frame.
 - Use `.finding` and `.method-step` when a component spans the label rail and
   reading column.
 - Use `.document-shell` for exact selectable source or final output.
@@ -29,6 +35,9 @@ for agents changing the renderer or its assets.
 - Wide layouts use `--editorial-grid` and `--editorial-gap`.
 - Section headings, findings, comparisons, proof groups, and method steps share
   the same reading-column anchor.
+- Every direct section child deliberately chooses a reading-column or
+  full-frame span. Never confine a dense multi-column specimen to the reading
+  column, and never widen prose merely to fill space.
 - At and below `1024px`, the editorial grid becomes one column.
 - At and below `700px`, comparisons and fact lists become one column.
 - Keep `110px` scroll margin on catalog sections so anchor navigation clears

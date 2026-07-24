@@ -102,6 +102,22 @@ test("multi-finding invocation renders a complete portable artifact", async () =
   const skillPage = await readFile(path.join(outputDir, "skill.html"), "utf8");
   assert.match(skillPage, new RegExp(`SHA-256: ${expectedHash}`));
   assert.ok(skillPage.includes(skillSource.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;")));
+
+  const catalog = await readFile(path.join(outputDir, "design-system.html"), "utf8");
+  assert.match(catalog, /class="page-layout-specimen catalog-wide"/);
+  assert.match(catalog, /Split-rail editorial section header/);
+  assert.match(catalog, /1120px page maximum/);
+  assert.match(catalog, /24px minimum gutter/);
+  assert.match(catalog, /190px minimum rail/);
+  assert.match(catalog, /40px gap/);
+  assert.match(catalog, /760px prose measure/);
+  assert.match(catalog, /54–96px section space/);
+  assert.match(catalog, /class="primitive-grid catalog-wide"/);
+
+  const css = await readFile(path.join(outputDir, "artifact.css"), "utf8");
+  assert.match(css, /\.section > \.catalog-wide\s*\{\s*grid-column: 1 \/ -1;/);
+  assert.match(css, /\.primitive-grid\s*\{\s*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\);/);
+  assert.match(css, /@media \(max-width: 1024px\)[\s\S]*\.primitive-grid\s*\{\s*grid-template-columns: repeat\(2, minmax\(0, 1fr\)\);/);
 });
 
 test("no-change invocation returns the complete unchanged source without findings", async () => {

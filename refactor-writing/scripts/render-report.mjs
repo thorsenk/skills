@@ -374,10 +374,10 @@ async function verifySystemSources() {
   if (!css.includes(".hero-particle-wave")) throw new Error("artifact.css is missing the procedural Hero particle field");
   if (css.includes("hero-dotted-wave.png")) throw new Error("artifact.css still references the retired Hero raster");
   for (const contract of [".verdict::before", ".verdict::after", "@keyframes verdict-signal-drift", "@keyframes verdict-micro-drift"]) {
-    if (!css.includes(contract)) throw new Error(`artifact.css is missing revision 9 Verdict signal-field contract ${contract}`);
+    if (!css.includes(contract)) throw new Error(`artifact.css is missing revision 10 Verdict signal-field contract ${contract}`);
   }
   for (const contract of [".section > .pattern-grid", "container-type: inline-size", "@container (max-width: 440px)", "grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr)"]) {
-    if (!css.includes(contract)) throw new Error(`artifact.css is missing revision 9 Pattern layout contract ${contract}`);
+    if (!css.includes(contract)) throw new Error(`artifact.css is missing revision 10 Pattern layout contract ${contract}`);
   }
   for (const productionClass of ["hero", "section-head", "finding", "comparison", "proof-grid", "document-shell", "method-step", "verdict", "icon"]) {
     if (!catalog.includes(`class="${productionClass}`) && !catalog.includes(` ${productionClass}`)) {
@@ -385,14 +385,14 @@ async function verifySystemSources() {
     }
   }
   for (const contract of ["REVEAL_VIEWPORT_OFFSET", "PARTICLE_WAVE_COLUMNS", "startParticleMotion", "refactor-writing-theme", "storedTheme", "data-particle-wave", "data-replay-reveal", "data-replay-motion-tokens", "data-spotlight", "data-theme-option"]) {
-    if (!script.includes(contract)) throw new Error(`artifact.js is missing revision 9 behavior ${contract}`);
+    if (!script.includes(contract)) throw new Error(`artifact.js is missing revision 10 behavior ${contract}`);
   }
-  for (const catalogContract of ["data-particle-wave-host", "data-replay-reveal", "data-replay-motion-tokens", "data-copy-icon", "RW-16", "catalog-index", "icon-card--blueprint", "motion-token-board", "material-verdict-sample", "Verdict signal field", "contract-summary"]) {
-    if (!catalog.includes(catalogContract)) throw new Error(`design-system.html is missing revision 9 catalog contract ${catalogContract}`);
+  for (const catalogContract of ["data-particle-wave-host", "data-replay-reveal", "data-replay-motion-tokens", "data-copy-icon", "RW-16", "catalog-index", "icon-card--blueprint", "motion-token-board", "material-verdict-sample", "Verdict signal field", "contract-summary", "page-layout-specimen", "Split-rail editorial section header", "primitive-grid catalog-wide"]) {
+    if (!catalog.includes(catalogContract)) throw new Error(`design-system.html is missing revision 10 catalog contract ${catalogContract}`);
   }
   for (const kind of ["primitive", "component", "pattern"]) {
     if (!catalog.includes(`data-contract-kind="${kind}"`)) {
-      throw new Error(`design-system.html is missing revision 9 ${kind} contracts`);
+      throw new Error(`design-system.html is missing revision 10 ${kind} contracts`);
     }
   }
   for (const previewContract of ['./artifact.css', './artifact.js', 'aria-current="page"', 'class="verdict reveal"', 'class="finding reveal"', 'class="document-shell"', 'data-copy-icon']) {
@@ -400,7 +400,7 @@ async function verifySystemSources() {
   }
   for (const legacyWaveMarker of ["verdict-wave", "verdict-wave-row"]) {
     if (catalog.includes(legacyWaveMarker) || preview.includes(legacyWaveMarker)) {
-      throw new Error(`revision 9 must not ship retired Verdict wave markup: ${legacyWaveMarker}`);
+      throw new Error(`revision 10 must not ship retired Verdict wave markup: ${legacyWaveMarker}`);
     }
   }
 }

@@ -1,7 +1,7 @@
 # Refactor Writing Report System Specification
 
 System ID: `refactor-writing-report`
-Revision: `9`
+Revision: `10`
 Maturity: Operational Design System
 Supported Delivery Profile: Portable static HTML report
 
@@ -148,6 +148,23 @@ The rail collapses at `1024px`; comparisons, fact lists, token grids, and
 catalog grids collapse to one column where specified at `700px`. Components
 use compact internal spacing and visible rules. Repeated information is
 separated with borders before adding another surface.
+
+The uppercase contextual label is the **section kicker**. At wide widths it
+occupies the **editorial label rail**. The kicker plus the adjacent heading and
+optional support copy form the **split-rail editorial section header**.
+
+Every direct section child declares one of two content spans:
+
+- **Reading-column span:** explanatory prose, compact fact groups, and local
+  supporting content begin on the shared reading-column anchor.
+- **Full-frame span:** dense token boards, primitive and icon grids, diagrams,
+  comparisons, findings, method paths, and exact documents use both editorial
+  columns. The catalog adapter applies `.catalog-wide` to an inspectable
+  specimen that needs this span.
+
+Do not leave a dense multi-column specimen confined to the reading column, and
+do not widen ordinary prose to consume empty space. At `1024px` and below both
+spans become the same single column.
 
 Catalog anchor targets use a `110px` scroll margin so their label and heading
 remain visible below the wrapped sticky Topbar at every supported width.
@@ -580,7 +597,8 @@ Before release:
 8. Confirm Copy and Check are the only interface icons, use the shared SVG
    geometry, remain paired with visible text, and require no external asset.
 9. Check page-level and component-level overflow, narrow comparison stacking,
-   catalog grid collapse, document wrapping, and major print breaks.
+   catalog grid collapse, the measured page-layout specimen, full-frame catalog
+   spans, document wrapping, and major print breaks.
 10. Confirm every cataloged token, primitive, component, pattern, state, and
     effect maps to the specification and uses a real production specimen.
 11. Run `node scripts/validate-skills.mjs` and `git diff --check` from the
